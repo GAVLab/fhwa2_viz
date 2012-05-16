@@ -10,3 +10,12 @@
 *.lai
 *.la
 *.a
+
+# common build folders
+bin
+build
+lib
+installed
+patched
+rospack*
+msg_gen

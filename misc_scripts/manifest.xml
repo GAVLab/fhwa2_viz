@@ -1,0 +1,15 @@
+<package>
+  <description brief="misc_scripts">
+
+     misc_scripts
+
+  </description>
+  <author>Gavlab</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/misc_scripts</url>
+  <depend package="tf" />
+
+</package>
+
+

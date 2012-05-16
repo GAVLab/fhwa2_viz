@@ -1,0 +1,19 @@
+<package>
+  <description brief="fhwa2_description">
+
+     fhwa2_description
+
+  </description>
+  <author>Gavlab</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/fhwa2_description</url>
+  <depend package="tf"/>
+  <depend package="urdf"/>
+  <depend package="rospy"/>
+  <depend package="roscpp"/>
+  <depend package="roslib"/>
+
+</package>
+
+
