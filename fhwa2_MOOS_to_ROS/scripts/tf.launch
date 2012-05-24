@@ -1,6 +1,0 @@
-<launch>
-	<arg name="pi/2" value="1.5707963267948966" />
-
-	<node pkg="tf" type="static_transform_publisher" name="angel_eye_tf" args="0 0 0 0 0 0 base_footprint camera_link 100">
-
-<launch>
