@@ -29,13 +29,12 @@ class ALOG2RVIZ(MOOSCommClient):
         self.odometry_variables = ['zLat','zLong','zLatStdDev','zLongStdDev']
         # self.fingerprint_variables = ['zGyroX_gXbow440','zGyroY_gXbow440','zGyroZ_gXbow440',
         #                               'zAccelX_gXbow440','zAccelY_gXbow440','zAccelZ_gXbow440']
-        # self.misc_variables = ['zCourse','zHorizSpeed']
+        # self.misc_variables = [,'zHorizSpeed']
         self.desired_variables = self.odometry_variables # will expand later
 
         # Odom init
         self.odom_msgs = {}
         self.odom_msgs_count = {}
-        self.odom_offset = {} # accounts for origin in UTM being located off yonder
         self.LatLong_holder = {} # must have both meas to convert to UTM
         self.new_LatLong = True
         self.first_odom = True
@@ -58,7 +57,6 @@ class ALOG2RVIZ(MOOSCommClient):
             self.handle_msg(message)
         return True
 
-    
     def handle_msg(self, msg):
         if msg.IsDouble():
             var_type = "Double"
@@ -84,18 +82,6 @@ class ALOG2RVIZ(MOOSCommClient):
         # Need to include covariance info from here throughout
         time = int(time*1000.0)/1000.0 #rounding to 3 decimal places so that the msg will groove...
 
-        # remove this later when able to center to current position in rViz
-        if self.first_odom: # deal with large coordinates by zeroing to first location measurment
-            if name == "zLat":
-                self.odom_offset['lat'] = float(value)
-            elif name == "zLong":
-                self.odom_offset['lon'] = float(value)
-            if len(self.odom_offset) == 2:
-                (E_offset, N_offset) = LL2UTM.convert(self.odom_offset['lat'],self.odom_offset['lon'])
-                self.odom_offset = {}
-                self.odom_offset['E'] = E_offset
-                self.odom_offset['N'] = N_offset
-                self.first_odom = False
         # this function should only receive msgs with name 'zLat' & 'zLong'
         # So missing info should be there
         if name not in self.LatLong_holder: 
@@ -140,8 +126,8 @@ class ALOG2RVIZ(MOOSCommClient):
         self.odom_msgs[time].header.stamp = rospy.Time(time)
         self.odom_msgs[time].header.frame_id = "odom"
         # when NE_holder reaches this function, it should have all the necessary info
-        self.odom_msgs[time].pose.pose.position.x = NE_holder['E'] - self.odom_offset['E'] # return later and put at true position 
-        self.odom_msgs[time].pose.pose.position.y = NE_holder['N'] - self.odom_offset['N'] # return later and put at tru position
+        self.odom_msgs[time].pose.pose.position.x = NE_holder['E']
+        self.odom_msgs[time].pose.pose.position.y = NE_holder['N']
         self.odom_msgs[time].pose.pose.position.z = 0 # constrain to xy axis for top-down view (this may not need to be stated)
 
         self.odom_msgs[time].pose.covariance[0] = NE_holder['Nsd']
