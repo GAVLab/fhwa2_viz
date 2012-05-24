@@ -41,12 +41,10 @@ class ALOG2RVIZ(MOOSCommClient):
         self.first_odom = True
         self.odom_publisher = rospy.Publisher("/novatel/odom", Odometry)
 
-        # Error ellipse init
-        rospy.Subscriber("/novatel/odom", Odometry, self.do_error_ellipse)
-        self.ErrEll_publisher = rospy.Publisher('/novatel/error_ellipse', Marker)
+        # Error ellipse, Vehicle model - init
+        rospy.Subscriber("/novatel/odom", Odometry, self.pub_at_position)
+        self.curpos_publisher = rospy.Publisher('/novatel/error_ellipse', Marker)
 
-        # Make Camera follow car with a tf
-        # rospy.Subscriber("/novatel/odom", Odometry, self.cameraFollow_tf)
 
     def onConnect(self):
         print("In onConnect")
@@ -137,7 +135,6 @@ class ALOG2RVIZ(MOOSCommClient):
     
     def package_odom_var(self, NE_holder):
         time = NE_holder['time']
-        # round to 3 dec
         # Assume that the odom msg for this time step doesn't yet exist, create it
         self.odom_msgs[time] = Odometry()
         self.odom_msgs[time].header.stamp = rospy.Time(time)
@@ -153,42 +150,31 @@ class ALOG2RVIZ(MOOSCommClient):
 
         # Send to positions display function
         self.odom_publisher.publish(self.odom_msgs[time]) # ship it! # this action moved to do_current position
-        # self.do_positioning(time)
 
-        # send to error ellipse function
-        self.do_error_ellipse(time)
+        # send to error ellipse & vehicle model function
+        self.pub_at_position(time)
 
         # tell camera tf where the look
-        # self.cameraFollow_tf(self, time)
+        self.cameraFollow_tf(time)
 
         del self.odom_msgs[time]
 
-    # def do_positioning(self,time):
-    #     marker = Marker()
-    #     pub = self.odom_publisher
-    #     msg = self.odom_msgs[time]
 
-    #     # only change
-    #     marker.header = msg.header
-
-    #     marker.type = Marker.SQUARE
-
-    #     del marker, pub, msg
-
-    def do_error_ellipse(self, time):
+    def pub_at_position(self, time):
         """ Handles necessary information for displaying error ellipses
         """
         marker = Marker()
-        pub = self.ErrEll_publisher
+        pub = self.curpos_publisher
         msg = self.odom_msgs[time]
-
         marker.header = msg.header
-        marker.ns = "Error_Ellipses"
         marker.id = 0 # enumerate subsequent markers here
-        marker.type = Marker.CYLINDER
         marker.action = Marker.MODIFY # can be ADD, REMOVE, or MODIFY
         marker.pose = msg.pose.pose
-        print(msg)
+        marker.lifetime = rospy.Duration() # will last forever unless modified
+
+        # Error Ellipse
+        marker.ns = "Error_Ellipses"
+        marker.type = Marker.CYLINDER     
         marker.scale.x = sqrt(msg.pose.covariance[0])
         marker.scale.y = sqrt(msg.pose.covariance[7])
         marker.scale.z = 0.000001
@@ -196,22 +182,35 @@ class ALOG2RVIZ(MOOSCommClient):
         marker.color.g = 1.0
         marker.color.b = 0.0
         marker.color.a = 0.6 # transparency
-        marker.lifetime = rospy.Duration(1.0)*10
-        
+                
         pub.publish(marker)
-        print(marker)
+        
+        # Vehicle Model
+        marker.ns = "vehicle_model"
+        marker.type = Marker.MESH_RESOURCE
+        marker.action = Marker.MODIFY
+        marker.scale.x = 0.001
+        marker.scale.y = 0.001
+        marker.scale.z = 0.001
+        marker.color.r = 1
+        marker.color.g = 1
+        marker.color.b = 1
+        marker.color.a = 1
+        marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/2004_Infiniti_G35_sedan.dae"
+        marker.mesh_use_embedded_materials = False
 
-        del marker, pub, msg
+        pub.publish(marker)
 
-    # def cameraFollow_tf(self, time):
-    #     msg = self.odom_msgs[time]
-    #     br = tf.TransformBroadcaster()
 
-    #     br.sendTransform((msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z), # send zjj in case
-    #                      (msg.pose.pose.orientation.x, msg.pose.pose.orientation.y, msg.pose.pose.orientation.z, msg.pose.pose.orientation.w), # to current position given in msg
-    #                      msg.header.stamp,
-    #                      "angel", # child frame
-    #                      "/novatel/odom") #parent frame
+    def cameraFollow_tf(self, time):
+        msg = self.odom_msgs[time]
+        br = tf.TransformBroadcaster()
+
+        br.sendTransform((msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z), # send zjj in case
+                         (0, 0, 0, 1), # this is a unit quaternion
+                         msg.header.stamp,
+                         "base_footprint", # child frame
+                         "odom") #parent frame
 
 
 #############################################################
