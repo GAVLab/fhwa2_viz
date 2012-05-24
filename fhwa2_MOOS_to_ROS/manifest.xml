@@ -1,0 +1,22 @@
+<package>
+  
+  <description brief="fhwa2_MOOS_to_ROS">
+
+     fhwa2_MOOS_to_ROS
+
+  </description>
+  <author>Gavlab</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/fhwa2_MOOS_to_ROS</url>
+  <depend package="MOOS"/>
+  <depend package="pyMOOS"/>
+  <depend package="roscpp"/>
+  <depend package="rospy"/>
+  <depend package="nav_msgs"/>
+  <depend package="tf"/>
+  <depend package="visualization_msgs"/>
+
+</package>
+
+
