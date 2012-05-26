@@ -3,7 +3,7 @@ import sys
 from time import sleep
 from pprint import pprint
 import copy
-from math import sqrt
+from math import sqrt, pi, radians, degrees
 
 import LL2UTM # Coordinate system-related
 
@@ -13,9 +13,11 @@ import rospy
 from nav_msgs.msg import Odometry # this will need to be repeated for other message types?
 from visualization_msgs.msg import Marker # had to add module to manifest
 import tf
+from tf.transformations import quaternion_from_euler as qfe
 
 #MOOS Imports
 from pymoos.MOOSCommClient import MOOSCommClient
+course = None
 
 ###########################################################################
 
@@ -26,7 +28,7 @@ class ALOG2RVIZ(MOOSCommClient):
         self.SetOnConnectCallBack(self.onConnect)
         self.SetOnMailCallBack(self.onMail)
 
-        self.odometry_variables = ['zLat','zLong','zLatStdDev','zLongStdDev']
+        self.odometry_variables = ['zLat','zLong','zLatStdDev','zLongStdDev','zCourse']
         # self.fingerprint_variables = ['zGyroX_gXbow440','zGyroY_gXbow440','zGyroZ_gXbow440',
         #                               'zAccelX_gXbow440','zAccelY_gXbow440','zAccelZ_gXbow440']
         # self.misc_variables = [,'zHorizSpeed']
@@ -39,6 +41,9 @@ class ALOG2RVIZ(MOOSCommClient):
         self.new_LatLong = True
         self.first_odom = True
         self.odom_publisher = rospy.Publisher("/novatel/odom", Odometry)
+
+        self.course = []
+        self._deg2rad = pi/180
 
         # Error ellipse, Vehicle model - init
         rospy.Subscriber("/novatel/odom", Odometry, self.pub_at_position)
@@ -73,6 +78,8 @@ class ALOG2RVIZ(MOOSCommClient):
             #send to appropriate variable handler
             if name in self.odometry_variables:
                 self.handle_odom_var(name, var_type, value, time)
+                if name == 'zCourse': # debugging for odom arrow orientation
+                    self.course.append(msg.GetDouble())
             # elif #..... other types of msgs to be done later
         else:
             rospy.logwarn("Unhandled msg: %(name)s of type %(var_type)s carries value %(value)s" %locals())
@@ -82,38 +89,43 @@ class ALOG2RVIZ(MOOSCommClient):
         # Need to include covariance info from here throughout
         time = int(time*1000.0)/1000.0 #rounding to 3 decimal places so that the msg will groove...
 
-        # this function should only receive msgs with name 'zLat' & 'zLong'
+        # this function should only receive msgs with name 'zLat' & 'zLong' & 'zCourse'
         # So missing info should be there
         if name not in self.LatLong_holder: 
             self.LatLong_holder[name] = dict([['var_type', var_type],
                                               ['value', float(value)],
                                               ['time', time]])#need to make sure time stamp is the same        
         # Problems might arise here if time steps and info flow doesn't match up
-        if ('zLat' in self.LatLong_holder) and ('zLong' in self.LatLong_holder) and ('zLatStdDev' in self.LatLong_holder) and ('zLongStdDev' in self.LatLong_holder): # time step has all required infos
+        all_present = True # Now determine if there's any msgs missing
+        for var_name in self.odometry_variables:
+            if var_name not in self.LatLong_holder:
+                all_present = False
+        if all_present: # time step has all required infos
             time_lat = self.LatLong_holder['zLat']['time']
             time_lon = self.LatLong_holder['zLong']['time']
-            if time_lat != time_lon:
-                rospy.logwarn("Lat/Long mismatch:: time steps aren't being handled properly")
-
-            # Position
+            time_crs = self.LatLong_holder['zCourse']['time']
+            if (time_lat != time_lon) or (time_lat != time_crs):
+                rospy.logwarn("Lat/Long/Course mismatch:: time steps aren't being handled properly")
+            
+            # Position Conversions - !!! Currently most assuredly incorrect !!!
             (Easting, Northing) = LL2UTM.convert(self.LatLong_holder['zLat']['value'], 
                                                  self.LatLong_holder['zLong']['value'])
             
-            # Covariances
+            # Covariances - !!! Currently most assuredly incorrect !!!
             LatStdDev_temp = self.LatLong_holder['zLat']['value'] + self.LatLong_holder['zLatStdDev']['value']
             LongStdDev_temp = self.LatLong_holder['zLong']['value'] - self.LatLong_holder['zLongStdDev']['value'] # Longitude will always be negative in UTM zone 16
             (EastingStdDev_temp, NorthingStdDev_temp) = LL2UTM.convert(LatStdDev_temp, LongStdDev_temp)
             EastingStdDev = abs(EastingStdDev_temp - Easting)
             NorthingStdDev = abs(NorthingStdDev_temp - Northing)
-
-            # Consolidate into packaging dictionary
+            
+            # Consolidate into packaging dictionary & send off
             self.NE_holder = {}
             self.NE_holder['N'] = Northing
             self.NE_holder['E'] = Easting
             self.NE_holder['Nsd'] = NorthingStdDev
             self.NE_holder['Esd'] = EastingStdDev
+            self.NE_holder['crs'] = radians(self.LatLong_holder['zCourse']['value']) # Will orient odom arrows to velocity direction
             self.NE_holder['time'] = self.LatLong_holder['zLong']['time']
-
             self.package_odom_var(self.NE_holder) # Send to shipping function
             self.LatLong_holder = {} # clear holder for location at next time step
             del self.NE_holder
@@ -129,20 +141,20 @@ class ALOG2RVIZ(MOOSCommClient):
         self.odom_msgs[time].pose.pose.position.x = NE_holder['E']
         self.odom_msgs[time].pose.pose.position.y = NE_holder['N']
         self.odom_msgs[time].pose.pose.position.z = 0 # constrain to xy axis for top-down view (this may not need to be stated)
-
+        quat = qfe(-pi, -pi, -NE_holder['crs']-pi/2)
+        self.odom_msgs[time].pose.pose.orientation.x = quat[0]
+        self.odom_msgs[time].pose.pose.orientation.y = quat[1]
+        self.odom_msgs[time].pose.pose.orientation.z = quat[2]
+        self.odom_msgs[time].pose.pose.orientation.w = quat[3]
         self.odom_msgs[time].pose.covariance[0] = NE_holder['Nsd']
         self.odom_msgs[time].pose.covariance[7] = NE_holder['Esd']
         self.odom_msgs[time].pose.covariance[14] = 0 # constrain to xy axis for top-down view (this may not need to be stated)
-
         # Send to positions display function
         self.odom_publisher.publish(self.odom_msgs[time]) # ship it! # this action moved to do_current position
-
         # send to error ellipse & vehicle model function
         self.pub_at_position(time)
-
         # tell camera tf where the look
         self.cameraFollow_tf(time)
-
         del self.odom_msgs[time]
 
 
@@ -167,8 +179,7 @@ class ALOG2RVIZ(MOOSCommClient):
         marker.color.r = 0.0
         marker.color.g = 1.0
         marker.color.b = 0.0
-        marker.color.a = 0.6 # transparency
-                
+        marker.color.a = 0.6 # transparency            
         pub.publish(marker)
         
         # Vehicle Model
@@ -184,7 +195,6 @@ class ALOG2RVIZ(MOOSCommClient):
         marker.color.a = 1
         marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/2004_Infiniti_G35_sedan.dae"
         marker.mesh_use_embedded_materials = False
-
         pub.publish(marker)
 
 
@@ -223,6 +233,8 @@ def main():
    
     #spin
     rospy.spin()
+    global course
+    course = app.course
 
 if __name__ == '__main__':
     main()
