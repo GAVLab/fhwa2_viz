@@ -42,10 +42,7 @@ class ALOG2RVIZ(MOOSCommClient):
         self.first_odom = True
         self.odom_publisher = rospy.Publisher("/novatel/odom", Odometry)
 
-        self.course = []
-        self._deg2rad = pi/180
-
-        # Error ellipse, Vehicle model - init
+       # Error ellipse, Vehicle model - init
         rospy.Subscriber("/novatel/odom", Odometry, self.pub_at_position)
         self.curpos_publisher = rospy.Publisher('/novatel/error_ellipse', Marker)
 
@@ -78,8 +75,6 @@ class ALOG2RVIZ(MOOSCommClient):
             #send to appropriate variable handler
             if name in self.odometry_variables:
                 self.handle_odom_var(name, var_type, value, time)
-                if name == 'zCourse': # debugging for odom arrow orientation
-                    self.course.append(msg.GetDouble())
             # elif #..... other types of msgs to be done later
         else:
             rospy.logwarn("Unhandled msg: %(name)s of type %(var_type)s carries value %(value)s" %locals())
@@ -179,21 +174,20 @@ class ALOG2RVIZ(MOOSCommClient):
         marker.color.r = 0.0
         marker.color.g = 1.0
         marker.color.b = 0.0
-        marker.color.a = 0.6 # transparency            
+        marker.color.a = 0.5 # transparency            
         pub.publish(marker)
         
         # Vehicle Model
         marker.ns = "vehicle_model"
         marker.type = Marker.MESH_RESOURCE
-        marker.action = Marker.MODIFY
-        marker.scale.x = 0.001
-        marker.scale.y = 0.001
-        marker.scale.z = 0.001
-        marker.color.r = 1
-        marker.color.g = 1
-        marker.color.b = 1
-        marker.color.a = 1
-        marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/2004_Infiniti_G35_sedan.dae"
+        marker.scale.x = 0.0254 # artifact of sketchup export
+        marker.scale.y = 0.0254 # artifact of sketchup export
+        marker.scale.z = 0.0254 # artifact of sketchup export
+        marker.color.r = .5
+        marker.color.g = .5
+        marker.color.b = .5
+        marker.color.a = .7
+        marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/infiniti.dae"
         marker.mesh_use_embedded_materials = False
         pub.publish(marker)
 
@@ -233,8 +227,6 @@ def main():
    
     #spin
     rospy.spin()
-    global course
-    course = app.course
-
+    
 if __name__ == '__main__':
     main()
