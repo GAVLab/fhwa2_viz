@@ -42,9 +42,26 @@ class ALOG2RVIZ(MOOSCommClient):
         self.first_odom = True
         self.odom_publisher = rospy.Publisher("/novatel/odom", Odometry)
 
-       # Error ellipse, Vehicle model - init
+        # Error ellipse, Vehicle model - init
         rospy.Subscriber("/novatel/odom", Odometry, self.pub_at_position)
         self.curpos_publisher = rospy.Publisher('/novatel/error_ellipse', Marker)
+
+        # Map track
+        self.map_publisher = rospy.Publisher('/track_survey', Marker, latch=True)
+        marker = Marker()
+        marker.header.frame_id = '/odom'
+        marker.id = 0 # enumerate subsequent markers here
+        marker.action = Marker.ADD # can be ADD, REMOVE, or MODIFY
+        marker.lifetime = rospy.Duration() # will last forever unless modified
+        marker.ns = "track_survey"
+        marker.type = Marker.MESH_RESOURCE
+        marker.color.r = 1
+        marker.color.g = 1
+        marker.color.b = 1
+        marker.color.a = 1
+        marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_10_linesOnly_stripesOnly.dae"
+        marker.mesh_use_embedded_materials = False
+        self.map_publisher.publish(marker)
 
 
     def onConnect(self):
@@ -113,6 +130,9 @@ class ALOG2RVIZ(MOOSCommClient):
             EastingStdDev = abs(EastingStdDev_temp - Easting)
             NorthingStdDev = abs(NorthingStdDev_temp - Northing)
             
+            print('EastingStdDev: %(EastingStdDev)f      EastingStdDev_temp: %(EastingStdDev_temp)f' %locals())
+            print('NorthingStdDev %(NorthingStdDev)f      NorthingStdDev_temp: %(NorthingStdDev_temp)f' %locals())
+
             # Consolidate into packaging dictionary & send off
             self.NE_holder = {}
             self.NE_holder['N'] = Northing

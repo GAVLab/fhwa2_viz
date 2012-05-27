@@ -1,0 +1,4 @@
+<launch>
+	<node pkg="MOOS" type="MOOSDB" name="MOOSDB" />
+	<node pkg="MOOS" type="uPlayBack" name="uPlayBack" output="screen" />
+</launch>
