@@ -64,9 +64,7 @@ class ALOG2RVIZ(MOOSCommClient):
                 lat = float(ring[pt][0])
                 lon = float(ring[pt][1])
                 (east, nrth) = LL2UTM.convert(lat, lon) # convert to UTM
-                print('Stripes')
-                print(east, nrth)
-
+               
                 marker = Marker()
                 marker.header.frame_id = 'odom'
                 marker.id = NCAT_id # enumerate subsequent markers here
@@ -76,17 +74,20 @@ class ALOG2RVIZ(MOOSCommClient):
                 marker.type = Marker.CUBE
                 marker.pose.position.x = east
                 marker.pose.position.y = nrth
-                marker.color.r = 0
-                marker.color.g = 1
-                marker.color.b = 1
-                marker.color.a = 1
-                marker.scale.x = 10
-                marker.scale.y = 10
-                marker.scale.z = 10
-                marker.mesh_use_embedded_materials = False
+                marker.color.r = 1
+                marker.color.g = 0
+                marker.color.b = 0
+                marker.color.a = 0.9
+                marker.scale.x = 0.25
+                marker.scale.y = 0.25
+                marker.scale.z = 0.5
+                # marker.mesh_use_embedded_materials = False
                 self.map_publisher.publish(marker)
-                
+                print('Stripes')
+                print(marker)
                 NCAT_id += 1
+
+        del marker
 
         # Centers of the lanes
         for ring in lanes:
@@ -94,9 +95,7 @@ class ALOG2RVIZ(MOOSCommClient):
                 lat = float(ring[pt][0])
                 lon = float(ring[pt][1])
                 (east, nrth) = LL2UTM.convert(lat, lon) # convert to UTM
-                print('Lane Centers')
-                print(east, nrth)
-
+                
                 marker = Marker()
                 marker.header.frame_id = 'odom'
                 marker.id = NCAT_id # enumerate subsequent markers here
@@ -107,15 +106,16 @@ class ALOG2RVIZ(MOOSCommClient):
                 marker.pose.position.x = east
                 marker.pose.position.y = nrth
                 marker.color.r = 0
-                marker.color.g = 0
-                marker.color.b = 1
-                marker.color.a = .5
-                marker.scale.x = 10
-                marker.scale.y = 10
-                marker.scale.z = 10
-                marker.mesh_use_embedded_materials = False
+                marker.color.g = 1
+                marker.color.b = 0
+                marker.color.a = 0.5
+                marker.scale.x = 0.25
+                marker.scale.y = 0.25
+                marker.scale.z = 0.25
+                # marker.mesh_use_embedded_materials = False
                 self.map_publisher.publish(marker)
-                
+                print('Lane Centers')
+                print(marker)
                 NCAT_id += 1
 
 
@@ -243,8 +243,8 @@ class ALOG2RVIZ(MOOSCommClient):
         marker.type = Marker.CYLINDER     
         marker.scale.x = sqrt(msg.pose.covariance[0]) *10
         marker.scale.y = sqrt(msg.pose.covariance[7]) *10
-        marker.scale.z = 0.5
-        marker.color.r = 1.0
+        marker.scale.z = 0.00000001
+        marker.color.r = 0.0
         marker.color.g = 0.0
         marker.color.b = 1.0
         marker.color.a = 1.0 # transparency            
@@ -260,7 +260,7 @@ class ALOG2RVIZ(MOOSCommClient):
         marker.color.g = .5
         marker.color.b = .5
         marker.color.a = .5
-        marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/infiniti.dae"
+        marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae"
         marker.mesh_use_embedded_materials = False
         pub.publish(marker)
 

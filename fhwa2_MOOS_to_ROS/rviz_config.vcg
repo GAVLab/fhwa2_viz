@@ -1,0 +1,73 @@
+Background\ ColorB=0
+Background\ ColorG=0
+Background\ ColorR=0
+Camera\ Config=17.4976 18.7385 10.1576 -0.195
+Camera\ Type=rviz::FixedOrientationOrthoViewController
+Fixed\ Frame=/odom
+Grid.Alpha=0.5
+Grid.Cell\ Size=10
+Grid.ColorB=0.5
+Grid.ColorG=0.5
+Grid.ColorR=0.5
+Grid.Enabled=1
+Grid.Line\ Style=0
+Grid.Line\ Width=0.03
+Grid.Normal\ Cell\ Count=0
+Grid.OffsetX=0
+Grid.OffsetY=0
+Grid.OffsetZ=0
+Grid.Plane=0
+Grid.Plane\ Cell\ Count=9
+Grid.Reference\ Frame=/base_footprint
+Marker.Enabled=1
+Marker.Error_Ellipses=1
+Marker.Marker\ Topic=/novatel/current_position
+Marker.Queue\ Size=100
+Marker.vehicle_model=1
+Marker2.Enabled=1
+Marker2.Marker\ Topic=/map/NCAT_survey
+Marker2.Queue\ Size=100
+Marker2.lane_centers=1
+Marker2.stripes=1
+Odometry.Angle\ Tolerance=0.1
+Odometry.ColorB=1
+Odometry.ColorG=1
+Odometry.ColorR=1
+Odometry.Enabled=1
+Odometry.Keep=100
+Odometry.Length=2.5
+Odometry.Position\ Tolerance=0.1
+Odometry.Topic=/novatel/odom
+Property\ Grid\ Splitter=763,114
+Property\ Grid\ State=expanded=.Global Options,Odometry.Enabled,Grid.Enabled,TF.Enabled,Marker.Enabled,Marker2.Enabled,Marker2.Namespaces;splitterratio=0.5
+QMainWindow=000000ff00000000fd0000000300000000000001c2000003bffc0200000001fb000000100044006900730070006c006100790073010000001d000003bf000000ee00ffffff0000000100000131000003bffc0200000003fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000001d000001180000006700fffffffb0000000a00560069006500770073010000013b000001a4000000bb00fffffffb0000001200530065006c0065006300740069006f006e01000002e5000000f70000006700ffffff000000030000073f0000003efc0100000001fb0000000800540069006d006501000000000000073f000002bf00ffffff00000440000003bf00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+TF.Enabled=0
+TF.Frame\ Timeout=15
+TF.Marker\ Scale=1
+TF.Show\ Arrows=0
+TF.Show\ Axes=0
+TF.Show\ Names=0
+TF.Update\ Interval=0
+Target\ Frame=/base_footprint
+Tool\ 2D\ Nav\ GoalTopic=/move_base_simple/goal
+Tool\ 2D\ Pose\ EstimateTopic=initialpose
+[Display0]
+ClassName=rviz::OdometryDisplay
+Name=Odometry
+[Display1]
+ClassName=rviz::GridDisplay
+Name=Grid
+[Display2]
+ClassName=rviz::TFDisplay
+Name=TF
+[Display3]
+ClassName=rviz::MarkerDisplay
+Name=Marker
+[Display4]
+ClassName=rviz::MarkerDisplay
+Name=Marker2
+[Window]
+Height=1056
+Width=1855
+X=61
+Y=-4
