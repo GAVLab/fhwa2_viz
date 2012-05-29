@@ -6,6 +6,7 @@ import copy
 from math import sqrt, pi, radians, degrees
 
 import LL2UTM # Coordinate system-related
+from survey import survey
 
 #ROS Imports
 import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
@@ -47,25 +48,74 @@ class ALOG2RVIZ(MOOSCommClient):
         self.curpos_publisher = rospy.Publisher('/novatel/error_ellipse', Marker)
 
         # Map track
-        self.map_publisher = rospy.Publisher('/track_survey', Marker, latch=True)
-        marker = Marker()
-        marker.header.frame_id = '/odom'
-        marker.id = 0 # enumerate subsequent markers here
-        marker.action = Marker.ADD # can be ADD, REMOVE, or MODIFY
-        marker.lifetime = rospy.Duration() # will last forever unless modified
-        marker.ns = "track_survey"
-        marker.type = Marker.MESH_RESOURCE
-        marker.color.r = 1
-        marker.color.g = 1
-        marker.color.b = 1
-        marker.color.a = 1
-        # Debugging
-        marker.scale.x = 100
-        marker.scale.y = 100
-        marker.scale.z = 100
-        marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_10_linesOnly_stripesOnly.dae"
-        marker.mesh_use_embedded_materials = False
-        self.map_publisher.publish(marker)
+        self.map_publisher = rospy.Publisher('/map/NCAT_survey', Marker, latch=True)
+        self.create_NCAT_map()
+
+
+    def create_NCAT_map(self):
+        (stripe_inner, lane_inner, stripe_middle, lane_outer, stripe_outer) = survey()
+        stripes = [stripe_inner, stripe_middle, stripe_outer]
+        lanes = [lane_inner, lane_outer]
+
+        NCAT_id = 0
+        # Stripes
+        for ring in stripes:
+            for pt in ring:
+                lat = float(ring[pt][0])
+                lon = float(ring[pt][1])
+                (east, nrth) = LL2UTM.convert(lat, lon) # convert to UTM
+                print(east, nrth)
+
+                marker = Marker()
+                marker.header.frame_id = 'odom'
+                marker.id = NCAT_id # enumerate subsequent markers here
+                marker.action = Marker.ADD # can be ADD, REMOVE, or MODIFY
+                marker.lifetime = rospy.Duration() # will last forever unless modified
+                marker.ns = "stripes"
+                marker.type = Marker.CUBE
+                marker.pose.position.x = east
+                marker.pose.position.y = nrth
+                marker.color.r = 0
+                marker.color.g = 1
+                marker.color.b = 1
+                marker.color.a = 1
+                marker.scale.x = 10
+                marker.scale.y = 10
+                marker.scale.z = 10
+                marker.mesh_use_embedded_materials = False
+                self.map_publisher.publish(marker)
+                
+                NCAT_id += 1
+
+        # Centers of the lanes
+        for ring in lanes:
+            for pt in ring:
+                lat = float(ring[pt][0])
+                lon = float(ring[pt][1])
+                (east, nrth) = LL2UTM.convert(lat, lon) # convert to UTM
+                print(east, nrth)
+
+                marker = Marker()
+                marker.header.frame_id = 'odom'
+                marker.id = NCAT_id # enumerate subsequent markers here
+                marker.action = Marker.ADD # can be ADD, REMOVE, or MODIFY
+                marker.lifetime = rospy.Duration() # will last forever unless modified
+                marker.ns = "lane_centers"
+                marker.type = Marker.SPHERE
+                marker.pose.position.x = east
+                marker.pose.position.y = nrth
+                marker.color.r = .3
+                marker.color.g = .3
+                marker.color.b = .3
+                marker.color.a = .5
+                marker.scale.x = 10
+                marker.scale.y = 10
+                marker.scale.z = 10
+                marker.mesh_use_embedded_materials = False
+                self.map_publisher.publish(marker)
+                
+                NCAT_id += 1
+
 
 
     def onConnect(self):
