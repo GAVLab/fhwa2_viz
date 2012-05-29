@@ -45,7 +45,7 @@ class ALOG2RVIZ(MOOSCommClient):
 
         # Error ellipse, Vehicle model - init
         rospy.Subscriber("/novatel/odom", Odometry, self.pub_at_position)
-        self.curpos_publisher = rospy.Publisher('/novatel/error_ellipse', Marker)
+        self.curpos_publisher = rospy.Publisher('/novatel/current_position', Marker)
 
         # Map track
         self.map_publisher = rospy.Publisher('/map/NCAT_survey', Marker, latch=True)
@@ -64,6 +64,7 @@ class ALOG2RVIZ(MOOSCommClient):
                 lat = float(ring[pt][0])
                 lon = float(ring[pt][1])
                 (east, nrth) = LL2UTM.convert(lat, lon) # convert to UTM
+                print('Stripes')
                 print(east, nrth)
 
                 marker = Marker()
@@ -93,6 +94,7 @@ class ALOG2RVIZ(MOOSCommClient):
                 lat = float(ring[pt][0])
                 lon = float(ring[pt][1])
                 (east, nrth) = LL2UTM.convert(lat, lon) # convert to UTM
+                print('Lane Centers')
                 print(east, nrth)
 
                 marker = Marker()
@@ -104,9 +106,9 @@ class ALOG2RVIZ(MOOSCommClient):
                 marker.type = Marker.SPHERE
                 marker.pose.position.x = east
                 marker.pose.position.y = nrth
-                marker.color.r = .3
-                marker.color.g = .3
-                marker.color.b = .3
+                marker.color.r = 0
+                marker.color.g = 0
+                marker.color.b = 1
                 marker.color.a = .5
                 marker.scale.x = 10
                 marker.scale.y = 10
@@ -173,19 +175,16 @@ class ALOG2RVIZ(MOOSCommClient):
             if (time_lat != time_lon) or (time_lat != time_crs):
                 rospy.logwarn("Lat/Long/Course mismatch:: time steps aren't being handled properly")
             
-            # Position Conversions - !!! Currently most assuredly incorrect !!!
+            # Position Conversions
             (Easting, Northing) = LL2UTM.convert(self.LatLong_holder['zLat']['value'], 
                                                  self.LatLong_holder['zLong']['value'])
             
-            # Covariances - !!! Currently most assuredly incorrect !!!
-            LatStdDev_temp = self.LatLong_holder['zLat']['value'] + self.LatLong_holder['zLatStdDev']['value']
-            LongStdDev_temp = self.LatLong_holder['zLong']['value'] - self.LatLong_holder['zLongStdDev']['value'] # Longitude will always be negative in UTM zone 16
-            (EastingStdDev_temp, NorthingStdDev_temp) = LL2UTM.convert(LatStdDev_temp, LongStdDev_temp)
-            EastingStdDev = abs(EastingStdDev_temp - Easting)
-            NorthingStdDev = abs(NorthingStdDev_temp - Northing)
-            
-            print('EastingStdDev: %(EastingStdDev)f      EastingStdDev_temp: %(EastingStdDev_temp)f' %locals())
-            print('NorthingStdDev %(NorthingStdDev)f      NorthingStdDev_temp: %(NorthingStdDev_temp)f' %locals())
+            # Covariances - Lat/Lon Std Dev are output in meters already
+            NorthingStdDev = self.LatLong_holder['zLatStdDev']['value']
+            EastingStdDev = self.LatLong_holder['zLongStdDev']['value']
+                        
+            print('EastingStdDev: %(EastingStdDev)f' %locals())
+            print('NorthingStdDev %(NorthingStdDev)f' %locals())
 
             # Consolidate into packaging dictionary & send off
             self.NE_holder = {}
@@ -242,13 +241,13 @@ class ALOG2RVIZ(MOOSCommClient):
         # Error Ellipse
         marker.ns = "Error_Ellipses"
         marker.type = Marker.CYLINDER     
-        marker.scale.x = sqrt(msg.pose.covariance[0])
-        marker.scale.y = sqrt(msg.pose.covariance[7])
-        marker.scale.z = 0.000001
-        marker.color.r = 0.0
-        marker.color.g = 1.0
-        marker.color.b = 0.0
-        marker.color.a = 0.5 # transparency            
+        marker.scale.x = sqrt(msg.pose.covariance[0]) *10
+        marker.scale.y = sqrt(msg.pose.covariance[7]) *10
+        marker.scale.z = 0.5
+        marker.color.r = 1.0
+        marker.color.g = 0.0
+        marker.color.b = 1.0
+        marker.color.a = 1.0 # transparency            
         pub.publish(marker)
         
         # Vehicle Model
@@ -260,7 +259,7 @@ class ALOG2RVIZ(MOOSCommClient):
         marker.color.r = .5
         marker.color.g = .5
         marker.color.b = .5
-        marker.color.a = .7
+        marker.color.a = .5
         marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/infiniti.dae"
         marker.mesh_use_embedded_materials = False
         pub.publish(marker)
