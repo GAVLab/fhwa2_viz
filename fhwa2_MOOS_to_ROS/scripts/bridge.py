@@ -56,7 +56,7 @@ class ALOG2RVIZ(MOOSCommClient):
         (stripe_inner, lane_inner, stripe_middle, lane_outer, stripe_outer) = survey()
         stripes = [stripe_inner, stripe_middle, stripe_outer]
         lanes = [lane_inner, lane_outer]
-
+        self.map_marker_array        
         NCAT_id = 0
         # Stripes
         for ring in stripes:
@@ -80,7 +80,7 @@ class ALOG2RVIZ(MOOSCommClient):
                 marker.color.a = 0.9
                 marker.scale.x = 0.25
                 marker.scale.y = 0.25
-                marker.scale.z = 0.5
+                marker.scale.z = 0.75
                 # marker.mesh_use_embedded_materials = False
                 self.map_publisher.publish(marker)
                 print('Stripes')
