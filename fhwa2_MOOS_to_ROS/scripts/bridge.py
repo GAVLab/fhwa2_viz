@@ -59,6 +59,10 @@ class ALOG2RVIZ(MOOSCommClient):
         marker.color.g = 1
         marker.color.b = 1
         marker.color.a = 1
+        # Debugging
+        marker.scale.x = 100
+        marker.scale.y = 100
+        marker.scale.z = 100
         marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_10_linesOnly_stripesOnly.dae"
         marker.mesh_use_embedded_materials = False
         self.map_publisher.publish(marker)
