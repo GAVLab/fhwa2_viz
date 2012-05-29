@@ -1,8 +1,8 @@
 Background\ ColorB=0
 Background\ ColorG=0
 Background\ ColorR=0
-Camera\ Config=0.540399 2.03542 34.7855 0 0 0
-Camera\ Type=rviz::OrbitViewController
+Camera\ Config=4.34329 0 0 0
+Camera\ Type=rviz::FixedOrientationOrthoViewController
 Fixed\ Frame=/odom
 Grid.Alpha=0.5
 Grid.Cell\ Size=10
@@ -20,11 +20,18 @@ Grid.Plane=0
 Grid.Plane\ Cell\ Count=9
 Grid.Reference\ Frame=/base_footprint
 Marker.Enabled=1
+Marker.Error_Ellipses=1
 Marker.Marker\ Topic=/novatel/current_position
 Marker.Queue\ Size=100
-Marker2.Enabled=1
-Marker2.Marker\ Topic=/map/NCAT_survey
-Marker2.Queue\ Size=10000
+Marker.vehicle_model=1
+MarkerArray.Enabled=1
+MarkerArray.Marker\ Array\ Topic=/map/survey_lanes
+MarkerArray.Queue\ Size=5000
+MarkerArray.lane_centers=1
+MarkerArray2.Enabled=1
+MarkerArray2.Marker\ Array\ Topic=/map/survey_stripes
+MarkerArray2.Queue\ Size=5000
+MarkerArray2.stripes=1
 Odometry.Angle\ Tolerance=0.1
 Odometry.ColorB=1
 Odometry.ColorG=0
@@ -40,10 +47,9 @@ Path.ColorG=1
 Path.ColorR=0.1
 Path.Enabled=1
 Path.Topic=
-Property\ Grid\ Splitter=610,114
-Property\ Grid\ State=expanded=.Global Options,Odometry.Enabled,Grid.Enabled,Marker.Enabled,Marker2.Enabled;splitterratio=0.5
-QMainWindow=000000ff00000000fd0000000300000000000001c200000326fc0200000001fb000000100044006900730070006c006100790073010000001d00000326000000ee00ffffff000000010000013100000326fc0200000003fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000001d000000d70000006700fffffffb0000000a0056006900650077007301000000fa0000016c000000bb00fffffffb0000001200530065006c0065006300740069006f006e010000026c000000d70000006700ffffff00000003000005ee0000003efc0100000001fb0000000800540069006d00650100000000000005ee000002bf00ffffff000002ef0000032600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
-TF.All\ Enabled=1
+Property\ Grid\ Splitter=639,114
+Property\ Grid\ State=expanded=.Global Options,Odometry.Enabled,Grid.Enabled,Grid.Status,Path.Enabled,Path.Status,Marker.Enabled,MarkerArray.Enabled,MarkerArray2.Enabled;splitterratio=0.5
+QMainWindow=000000ff00000000fd0000000300000000000001c200000343fc0200000001fb000000100044006900730070006c006100790073010000001d00000343000000ee00ffffff000000010000013100000343fc0200000003fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000001d000000f40000006700fffffffb0000000a0056006900650077007301000001170000016c000000bb00fffffffb0000001200530065006c0065006300740069006f006e0100000289000000d70000006700ffffff00000003000005f00000003efc0100000001fb0000000800540069006d00650100000000000005f0000002bf00ffffff000002f10000034300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
 TF.Enabled=0
 TF.Frame\ Timeout=15
 TF.Marker\ Scale=1
@@ -70,10 +76,13 @@ Name=TF
 ClassName=rviz::MarkerDisplay
 Name=Marker
 [Display5]
-ClassName=rviz::MarkerDisplay
-Name=Marker2
+ClassName=rviz::MarkerArrayDisplay
+Name=MarkerArray
+[Display6]
+ClassName=rviz::MarkerArrayDisplay
+Name=MarkerArray2
 [Window]
-Height=932
-Width=1520
-X=60
-Y=78
+Height=961
+Width=1522
+X=62
+Y=50

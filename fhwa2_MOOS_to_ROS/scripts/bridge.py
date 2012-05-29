@@ -12,7 +12,7 @@ from survey import survey
 import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
 import rospy
 from nav_msgs.msg import Odometry # this will need to be repeated for other message types?
-from visualization_msgs.msg import Marker # had to add module to manifest
+from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest
 import tf
 from tf.transformations import quaternion_from_euler as qfe
 
@@ -29,13 +29,19 @@ class ALOG2RVIZ(MOOSCommClient):
         self.SetOnConnectCallBack(self.onConnect)
         self.SetOnMailCallBack(self.onMail)
 
+        # Map track
+        self.map_stripe_publisher = rospy.Publisher('/map/survey_stripes', MarkerArray, latch=True)
+        self.map_lane_publisher = rospy.Publisher('/map/survey_lanes', MarkerArray, latch=True)
+        self.create_NCAT_map()
+        self.map_stripe_publisher.publish(self.map_stripe_array)
+        self.map_lane_publisher.publish(self.map_lane_array)
+
+        # Odom init
         self.odometry_variables = ['zLat','zLong','zLatStdDev','zLongStdDev','zCourse']
         # self.fingerprint_variables = ['zGyroX_gXbow440','zGyroY_gXbow440','zGyroZ_gXbow440',
         #                               'zAccelX_gXbow440','zAccelY_gXbow440','zAccelZ_gXbow440']
         # self.misc_variables = [,'zHorizSpeed']
         self.desired_variables = self.odometry_variables # will expand later
-
-        # Odom init
         self.odom_msgs = {}
         self.odom_msgs_count = {}
         self.LatLong_holder = {} # must have both meas to convert to UTM
@@ -47,24 +53,22 @@ class ALOG2RVIZ(MOOSCommClient):
         rospy.Subscriber("/novatel/odom", Odometry, self.pub_at_position)
         self.curpos_publisher = rospy.Publisher('/novatel/current_position', Marker)
 
-        # Map track
-        self.map_publisher = rospy.Publisher('/map/NCAT_survey', Marker, latch=True)
-        self.create_NCAT_map()
-
 
     def create_NCAT_map(self):
         (stripe_inner, lane_inner, stripe_middle, lane_outer, stripe_outer) = survey()
         stripes = [stripe_inner, stripe_middle, stripe_outer]
         lanes = [lane_inner, lane_outer]
-        self.map_marker_array        
+        self.map_stripe_array = MarkerArray()
+        self.map_lane_array = MarkerArray()
         NCAT_id = 0
+        
         # Stripes
         for ring in stripes:
             for pt in ring:
                 lat = float(ring[pt][0])
                 lon = float(ring[pt][1])
                 (east, nrth) = LL2UTM.convert(lat, lon) # convert to UTM
-               
+                
                 marker = Marker()
                 marker.header.frame_id = 'odom'
                 marker.id = NCAT_id # enumerate subsequent markers here
@@ -81,13 +85,13 @@ class ALOG2RVIZ(MOOSCommClient):
                 marker.scale.x = 0.25
                 marker.scale.y = 0.25
                 marker.scale.z = 0.75
-                # marker.mesh_use_embedded_materials = False
-                self.map_publisher.publish(marker)
+                marker.mesh_use_embedded_materials = False
+
+                self.map_stripe_array.markers.append(marker)
+                
                 print('Stripes')
                 print(marker)
                 NCAT_id += 1
-
-        del marker
 
         # Centers of the lanes
         for ring in lanes:
@@ -109,17 +113,17 @@ class ALOG2RVIZ(MOOSCommClient):
                 marker.color.g = 1
                 marker.color.b = 0
                 marker.color.a = 0.5
-                marker.scale.x = 0.25
-                marker.scale.y = 0.25
-                marker.scale.z = 0.25
-                # marker.mesh_use_embedded_materials = False
-                self.map_publisher.publish(marker)
+                marker.scale.x = 0.2
+                marker.scale.y = 0.2
+                marker.scale.z = 0.2
+                marker.mesh_use_embedded_materials = False
+                
+                self.map_lane_array.markers.append(marker)
+                
                 print('Lane Centers')
                 print(marker)
                 NCAT_id += 1
-
-
-
+                
     def onConnect(self):
         print("In onConnect")
         for var in self.odometry_variables: # expand later
