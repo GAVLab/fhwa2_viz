@@ -35,6 +35,7 @@ class ALOG2RVIZ(MOOSCommClient):
         self.create_NCAT_map()
         self.map_stripe_publisher.publish(self.map_stripe_array)
         self.map_lane_publisher.publish(self.map_lane_array)
+        print('Map has been published')
 
         # Odom init
         self.odometry_variables = ['zLat','zLong','zLatStdDev','zLongStdDev','zCourse']
@@ -81,7 +82,7 @@ class ALOG2RVIZ(MOOSCommClient):
                 marker.color.r = 1
                 marker.color.g = 0
                 marker.color.b = 0
-                marker.color.a = 0.9
+                marker.color.a = 1.0
                 marker.scale.x = 0.25
                 marker.scale.y = 0.25
                 marker.scale.z = 0.75
@@ -112,7 +113,7 @@ class ALOG2RVIZ(MOOSCommClient):
                 marker.color.r = 0
                 marker.color.g = 1
                 marker.color.b = 0
-                marker.color.a = 0.5
+                marker.color.a = 1.0
                 marker.scale.x = 0.2
                 marker.scale.y = 0.2
                 marker.scale.z = 0.2
@@ -247,7 +248,7 @@ class ALOG2RVIZ(MOOSCommClient):
         marker.type = Marker.CYLINDER     
         marker.scale.x = sqrt(msg.pose.covariance[0]) *10
         marker.scale.y = sqrt(msg.pose.covariance[7]) *10
-        marker.scale.z = 0.00000001
+        marker.scale.z = 0.000001
         marker.color.r = 0.0
         marker.color.g = 0.0
         marker.color.b = 1.0
