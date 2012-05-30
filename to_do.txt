@@ -1,0 +1,39 @@
+TO DO LIST
+
+-Google Earth image of the track
+	-display when zoomed out to point where not grainy
+
+-Determine other track display methods
+	-Blender mesh? ==> Determine if collada didn't display b/c it was a plane only
+
+-**Robustify code**
+	-to read track data, lat/lon survey files currently have to be in same directory
+		-convert into UTM files
+		-make the code work if data is in a separate survey data file
+	-break into modules
+	-make 
+
+- ensure that error ellipses are being oriented properly
+
+-enable multiple position & covariance inputs
+	-go with decimal lat/lon coord sys for now
+		-determine coord sys for other data sets
+	-when told which position solution "best"
+		-do meat of display thereby
+			-car model
+			-dominant odom arrows
+		-indicate which is best
+		-determine input method for "best" solution 
+	-determine how to compare
+		-legend/color system?
+		-sizing
+
+-for devel purposes, acquire multiple datasets
+	- ~100Hz
+	- could just add white noise to 
+
+-start a separate demo folder in repository
+
+-simulating on-line operation: 
+	-learn pMOOSBridge simple
+	-implement

@@ -3,10 +3,12 @@ import sys
 from time import sleep
 from pprint import pprint
 import copy
-from math import sqrt, pi, radians, degrees
 
-import LL2UTM # Coordinate system-related
-from survey import survey
+# from survey import survey
+
+# Bridge module imports
+import randmcnally
+import mailroom
 
 #ROS Imports
 import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
@@ -14,7 +16,6 @@ import rospy
 from nav_msgs.msg import Odometry # this will need to be repeated for other message types?
 from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest
 import tf
-from tf.transformations import quaternion_from_euler as qfe
 
 #MOOS Imports
 from pymoos.MOOSCommClient import MOOSCommClient
@@ -32,7 +33,8 @@ class ALOG2RVIZ(MOOSCommClient):
         # Map track
         self.map_stripe_publisher = rospy.Publisher('/map/survey_stripes', MarkerArray, latch=True)
         self.map_lane_publisher = rospy.Publisher('/map/survey_lanes', MarkerArray, latch=True)
-        self.create_NCAT_map()
+        # self.create_NCAT_map()
+        randmcnally.create_map(self)
         self.map_stripe_publisher.publish(self.map_stripe_array)
         self.map_lane_publisher.publish(self.map_lane_array)
         print('Map has been published')
@@ -51,237 +53,23 @@ class ALOG2RVIZ(MOOSCommClient):
         self.odom_publisher = rospy.Publisher("/novatel/odom", Odometry)
 
         # Error ellipse, Vehicle model - init
-        rospy.Subscriber("/novatel/odom", Odometry, self.pub_at_position)
+        rospy.Subscriber("/novatel/odom", Odometry, mailroom.pub_at_position)
         self.curpos_publisher = rospy.Publisher('/novatel/current_position', Marker)
 
 
-    def create_NCAT_map(self):
-        (stripe_inner, lane_inner, stripe_middle, lane_outer, stripe_outer) = survey()
-        stripes = [stripe_inner, stripe_middle, stripe_outer]
-        lanes = [lane_inner, lane_outer]
-        self.map_stripe_array = MarkerArray()
-        self.map_lane_array = MarkerArray()
-        NCAT_id = 0
-        
-        # Stripes
-        for ring in stripes:
-            for pt in ring:
-                lat = float(ring[pt][0])
-                lon = float(ring[pt][1])
-                (east, nrth) = LL2UTM.convert(lat, lon) # convert to UTM
-                
-                marker = Marker()
-                marker.header.frame_id = 'odom'
-                marker.id = NCAT_id # enumerate subsequent markers here
-                marker.action = Marker.ADD # can be ADD, REMOVE, or MODIFY
-                marker.lifetime = rospy.Duration() # will last forever unless modified
-                marker.ns = "stripes"
-                marker.type = Marker.CUBE
-                marker.pose.position.x = east
-                marker.pose.position.y = nrth
-                marker.color.r = 1
-                marker.color.g = 0
-                marker.color.b = 0
-                marker.color.a = 1.0
-                marker.scale.x = 0.25
-                marker.scale.y = 0.25
-                marker.scale.z = 0.75
-                marker.mesh_use_embedded_materials = False
-
-                self.map_stripe_array.markers.append(marker)
-                
-                print('Stripes')
-                print(marker)
-                NCAT_id += 1
-
-        # Centers of the lanes
-        for ring in lanes:
-            for pt in ring:
-                lat = float(ring[pt][0])
-                lon = float(ring[pt][1])
-                (east, nrth) = LL2UTM.convert(lat, lon) # convert to UTM
-                
-                marker = Marker()
-                marker.header.frame_id = 'odom'
-                marker.id = NCAT_id # enumerate subsequent markers here
-                marker.action = Marker.ADD # can be ADD, REMOVE, or MODIFY
-                marker.lifetime = rospy.Duration() # will last forever unless modified
-                marker.ns = "lane_centers"
-                marker.type = Marker.SPHERE
-                marker.pose.position.x = east
-                marker.pose.position.y = nrth
-                marker.color.r = 0
-                marker.color.g = 1
-                marker.color.b = 0
-                marker.color.a = 1.0
-                marker.scale.x = 0.2
-                marker.scale.y = 0.2
-                marker.scale.z = 0.2
-                marker.mesh_use_embedded_materials = False
-                
-                self.map_lane_array.markers.append(marker)
-                
-                print('Lane Centers')
-                print(marker)
-                NCAT_id += 1
-                
     def onConnect(self):
         print("In onConnect")
         for var in self.odometry_variables: # expand later
             self.Register(var) #defined in MOOSCommClient.py
 
+
     def onMail(self):
         print("In onMail")
         messages = self.FetchRecentMail()
         for message in messages:
-            self.handle_msg(message)
+            mailroom.handle_msg(self, message)
         return True
 
-    def handle_msg(self, msg):
-        if msg.IsDouble():
-            var_type = "Double"
-            value = str(msg.GetDouble()) #store all values as strings until handled specifically
-        elif msg.IsString():
-            var_type = "String"
-            value = msg.GetString()
-        else:
-            rospy.logwarn('wtf? Unknown variable type')
-
-        time = msg.GetTime()
-        name = msg.GetKey() # type of measurement "z______"
-        if name in self.desired_variables: # where desired messages are scooped
-            #send to appropriate variable handler
-            if name in self.odometry_variables:
-                self.handle_odom_var(name, var_type, value, time)
-            # elif #..... other types of msgs to be done later
-        else:
-            rospy.logwarn("Unhandled msg: %(name)s of type %(var_type)s carries value %(value)s" %locals())
-
-    
-    def handle_odom_var(self, name, var_type, value, time):
-        # Need to include covariance info from here throughout
-        time = int(time*1000.0)/1000.0 #rounding to 3 decimal places so that the msg will groove...
-
-        # this function should only receive msgs with name 'zLat' & 'zLong' & 'zCourse'
-        # So missing info should be there
-        if name not in self.LatLong_holder: 
-            self.LatLong_holder[name] = dict([['var_type', var_type],
-                                              ['value', float(value)],
-                                              ['time', time]])#need to make sure time stamp is the same        
-        # Problems might arise here if time steps and info flow doesn't match up
-        all_present = True # Now determine if there's any msgs missing
-        for var_name in self.odometry_variables:
-            if var_name not in self.LatLong_holder:
-                all_present = False
-        if all_present: # time step has all required infos
-            time_lat = self.LatLong_holder['zLat']['time']
-            time_lon = self.LatLong_holder['zLong']['time']
-            time_crs = self.LatLong_holder['zCourse']['time']
-            if (time_lat != time_lon) or (time_lat != time_crs):
-                rospy.logwarn("Lat/Long/Course mismatch:: time steps aren't being handled properly")
-            
-            # Position Conversions
-            (Easting, Northing) = LL2UTM.convert(self.LatLong_holder['zLat']['value'], 
-                                                 self.LatLong_holder['zLong']['value'])
-            
-            # Covariances - Lat/Lon Std Dev are output in meters already
-            NorthingStdDev = self.LatLong_holder['zLatStdDev']['value']
-            EastingStdDev = self.LatLong_holder['zLongStdDev']['value']
-                        
-            print('EastingStdDev: %(EastingStdDev)f' %locals())
-            print('NorthingStdDev %(NorthingStdDev)f' %locals())
-
-            # Consolidate into packaging dictionary & send off
-            self.NE_holder = {}
-            self.NE_holder['N'] = Northing
-            self.NE_holder['E'] = Easting
-            self.NE_holder['Nsd'] = NorthingStdDev
-            self.NE_holder['Esd'] = EastingStdDev
-            self.NE_holder['crs'] = radians(self.LatLong_holder['zCourse']['value']) # Will orient odom arrows to velocity direction
-            self.NE_holder['time'] = self.LatLong_holder['zLong']['time']
-            self.package_odom_var(self.NE_holder) # Send to shipping function
-            self.LatLong_holder = {} # clear holder for location at next time step
-            del self.NE_holder
-
-    
-    def package_odom_var(self, NE_holder):
-        time = NE_holder['time']
-        # Assume that the odom msg for this time step doesn't yet exist, create it
-        self.odom_msgs[time] = Odometry()
-        self.odom_msgs[time].header.stamp = rospy.Time(time)
-        self.odom_msgs[time].header.frame_id = "odom"
-        # when NE_holder reaches this function, it should have all the necessary info
-        self.odom_msgs[time].pose.pose.position.x = NE_holder['E']
-        self.odom_msgs[time].pose.pose.position.y = NE_holder['N']
-        self.odom_msgs[time].pose.pose.position.z = 0 # constrain to xy axis for top-down view (this may not need to be stated)
-        quat = qfe(-pi, -pi, -NE_holder['crs']-pi/2)
-        self.odom_msgs[time].pose.pose.orientation.x = quat[0]
-        self.odom_msgs[time].pose.pose.orientation.y = quat[1]
-        self.odom_msgs[time].pose.pose.orientation.z = quat[2]
-        self.odom_msgs[time].pose.pose.orientation.w = quat[3]
-        self.odom_msgs[time].pose.covariance[0] = NE_holder['Nsd']
-        self.odom_msgs[time].pose.covariance[7] = NE_holder['Esd']
-        self.odom_msgs[time].pose.covariance[14] = 0 # constrain to xy axis for top-down view (this may not need to be stated)
-        # Send to positions display function
-        self.odom_publisher.publish(self.odom_msgs[time]) # ship it! # this action moved to do_current position
-        # send to error ellipse & vehicle model function
-        self.pub_at_position(time)
-        # tell camera tf where the look
-        self.cameraFollow_tf(time)
-        del self.odom_msgs[time]
-
-
-    def pub_at_position(self, time):
-        """ Handles necessary information for displaying error ellipses
-        """
-        marker = Marker()
-        pub = self.curpos_publisher
-        msg = self.odom_msgs[time]
-        marker.header = msg.header
-        marker.id = 0 # enumerate subsequent markers here
-        marker.action = Marker.MODIFY # can be ADD, REMOVE, or MODIFY
-        marker.pose = msg.pose.pose
-        marker.lifetime = rospy.Duration() # will last forever unless modified
-
-        # Error Ellipse
-        marker.ns = "Error_Ellipses"
-        marker.type = Marker.CYLINDER     
-        marker.scale.x = sqrt(msg.pose.covariance[0]) *10
-        marker.scale.y = sqrt(msg.pose.covariance[7]) *10
-        marker.scale.z = 0.000001
-        marker.color.r = 0.0
-        marker.color.g = 0.0
-        marker.color.b = 1.0
-        marker.color.a = 1.0 # transparency            
-        pub.publish(marker)
-        
-        # Vehicle Model
-        marker.ns = "vehicle_model"
-        marker.type = Marker.MESH_RESOURCE
-        marker.scale.x = 0.0254 # artifact of sketchup export
-        marker.scale.y = 0.0254 # artifact of sketchup export
-        marker.scale.z = 0.0254 # artifact of sketchup export
-        marker.color.r = .5
-        marker.color.g = .5
-        marker.color.b = .5
-        marker.color.a = .5
-        marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae"
-        marker.mesh_use_embedded_materials = False
-        pub.publish(marker)
-
-
-    def cameraFollow_tf(self, time):
-        msg = self.odom_msgs[time]
-        br = tf.TransformBroadcaster()
-
-        br.sendTransform((msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z), # send zjj in case
-                         (0, 0, 0, 1), # this is a unit quaternion
-                         msg.header.stamp,
-                         "base_footprint", # child frame
-                         "odom") #parent frame
-
-
-#############################################################
 
 def main():
     #setup ROS node

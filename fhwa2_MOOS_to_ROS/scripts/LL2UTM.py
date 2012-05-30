@@ -11,7 +11,14 @@
 ##########################################################################################
 
 def convert(Lat, Long):
-	"""Converts decimal degree latitude & longitude to UTM Northing & Easting
+	"""
+	Converts decimal degree latitude & longitude to UTM Northing & Easting
+
+	Adaptation of code from http://mahi.ucsd.edu/class233/data/Basic/LatLongUTMconversion.py
+	Author: Robert Cofield
+ 	20 May, 2012
+	Only works for UTM Zone 16 (any letter designation), Northern Hemisphere
+ 	must stay in same letter designation.
 	"""
 
 	from math import pi, sin, cos, tan, sqrt

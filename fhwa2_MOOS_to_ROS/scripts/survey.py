@@ -1,8 +1,9 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
 """
 Created on Mon May 28 15:36:16 2012
+Robert Cofield
 
-@author: Robert cofield
+This file converts raw lat/lon data to 
 """
 def survey():
 
