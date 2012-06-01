@@ -1,0 +1,52 @@
+/* 	mission file
+	Simulates the GUI running online in the G
+	Author: Robert Cofield
+	Created 5/31/2012 
+	To run this file, enter <pAntler mission.moos> in commandline */
+
+ServerHost = localhost // simulated vehicle is on this computer
+ServerPort = 9100 // port 9000 being used for direct alog ==> rviz bridging
+Simulator = false
+Community = simG_comm
+
+
+ProcessConfig = MOOSDB
+{
+
+}
+/*  pMOOSBridge configuration block for simulating the Infiniti G car PC sending out messages.
+	This pMOOSBridge will use directed UDP to send relevant messages to the gui community's pMOOSBridge */
+
+
+ProcessConfig = pMOOSBridge
+{
+	SHARE = 
+	[zLat, zLong, zLatStdDev, zLongStdDev, zCourse]->demo_comm@localhost:9100[zLat1, zLong1, zLatStdDev1, zLongStdDev1, zCourse1]
+}
+
+
+
+
+
+
+
+/* 	pMOOSBridge configuration block for simulating the demo laptop's gui community (containing MOOS 	to Ros Bridge) receiving messages from the pMOOSBridge in the Infiniti G community
+	Author: Robert Cofield */
+
+// Community = demo_comm
+// ProcessConfig = pMOOSBridge
+// {
+// 	UDPListen = 9100
+// }
+
+
+ProcessConfig = Antler
+{
+	ExecutablePath = /rgc0003rosws/vehMOOSsim/mission
+	////these processes will already be started by the roslaunch file
+	Run = MOOSDB 		@	NewConsole = true
+	Run = pMOOSBridge 	@	NewConsole = true
+	Run = uMS			@ 	NewConsole = true
+	Run = uPlayBack		@	Newconsole = true
+	 // 0.2 second delay
+}

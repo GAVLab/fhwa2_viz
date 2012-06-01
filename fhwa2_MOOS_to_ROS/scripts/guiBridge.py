@@ -23,8 +23,8 @@ course = None
 
 ###########################################################################
 
-class GUIDB2RVIZ(MOOSCommClient):
-    """Takes moos messages from an alog file and displays the data in rViz"""
+class MOOS2RVIZ(MOOSCommClient):
+    """Takes moos messages from an onboard moos db and displays the data in rViz"""
     def __init__(self):
         MOOSCommClient.__init__(self)
         self.SetOnConnectCallBack(self.onConnect)
@@ -73,11 +73,11 @@ class GUIDB2RVIZ(MOOSCommClient):
 
 def main():
     #setup ROS node
-    rospy.init_node('guidb2rviz')
+    rospy.init_node('moos2rviz')
 
     #Setup MOOS App
-    app = GUIDB2RVIZ()
-    app.Run("127.0.0.1", 9000, "guidb2rviz")
+    app = MOOS2RVIZ()
+    app.Run("127.0.0.1", 9000, "moos2rviz")
     for x in range(10): # allow 1 second to connect to MOOSDB
         sleep(0.1)
         if app.IsConnected():

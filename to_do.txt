@@ -35,5 +35,10 @@ TO DO LIST
 -start a separate demo folder in repository
 
 -simulating on-line operation: 
-	-learn pMOOSBridge simple
-	-implement
+	-learn pMOOSBridge
+	-simulate car system as another MOOSDB
+		-run alog file in vehSimDB
+		-msgs cross over via pMOOSBridge
+		-enter bridgeDB
+
+	- got halfway working with pMOOSBridge, now need ros to meet halfway with the pMOOSBridge
