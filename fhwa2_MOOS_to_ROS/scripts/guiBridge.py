@@ -1,10 +1,8 @@
 #!/usr/bin/env python
-import sys
+import sys, os
 from time import sleep
 from pprint import pprint
 import copy
-
-# from survey import survey
 
 # Bridge module imports
 import randmcnally
@@ -77,7 +75,7 @@ def main():
 
     #Setup MOOS App
     app = MOOS2RVIZ()
-    app.Run("127.0.0.1", 9000, "moos2rviz")
+    app.Run("192.168.1.116", 9000, "moos2rviz") # change this to G comp (where MOOSDB is)
     for x in range(10): # allow 1 second to connect to MOOSDB
         sleep(0.1)
         if app.IsConnected():
@@ -95,4 +93,6 @@ def main():
     rospy.spin()
     
 if __name__ == '__main__':
+    curr = os.getcwd()
     main()
+    os.chdir(curr)

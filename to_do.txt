@@ -10,8 +10,8 @@ TO DO LIST
 	-to read track data, lat/lon survey files currently have to be in same directory
 		-convert into UTM files
 		-make the code work if data is in a separate survey data file
-	-break into modules
-	-make 
+	-file operations
+	-loop randmcnally.survey() rather than script out long-form
 
 - ensure that error ellipses are being oriented properly
 
@@ -26,19 +26,7 @@ TO DO LIST
 		-determine input method for "best" solution 
 	-determine how to compare
 		-legend/color system?
-		-sizing
-
--for devel purposes, acquire multiple datasets
-	- ~100Hz
-	- could just add white noise to 
-
--start a separate demo folder in repository
-
--simulating on-line operation: 
-	-learn pMOOSBridge
-	-simulate car system as another MOOSDB
-		-run alog file in vehSimDB
-		-msgs cross over via pMOOSBridge
-		-enter bridgeDB
-
-	- got halfway working with pMOOSBridge, now need ros to meet halfway with the pMOOSBridge
+		-sizing?
+	-for devel purposes, acquire multiple datasets
+		- ~100Hz
+		- could just add white noise to 
