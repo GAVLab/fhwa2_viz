@@ -249,4 +249,26 @@ def create_map(self):
             print('Lane Centers')
             print(marker)
             NCAT_id += 1
-                
+
+
+
+##################################################################################
+
+def create_map_mesh(self):
+    from visualization_msgs.msg import Marker
+    import rospy
+
+    marker = Marker()
+    pub = self.track_mesh_publisher
+
+    marker.header.frame_id = 'odom' # publish in static frame
+    marker.id = 0
+    marker.action = Marker.ADD
+    marker.lifetime = rospy.Duration() # immortal unless changed
+    marker.ns = "track_mesh"
+    marker.type = Marker.MESH_RESOURCE
+    marker.mesh_use_embedded_materials = False
+    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_03_stripe_planes_colored_01_boxed.dae"
+
+    print(marker)
+    self.map_mesh_marker = marker

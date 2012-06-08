@@ -5,6 +5,7 @@ TO DO LIST
 
 -Determine other track display methods
 	-Blender mesh? ==> Determine if collada didn't display b/c it was a plane only
+	-now have framework in place, config file saved, just need to get into non-planar form?
 
 -**Robustify code**
 	-to read track data, lat/lon survey files currently have to be in same directory
@@ -12,6 +13,7 @@ TO DO LIST
 		-make the code work if data is in a separate survey data file
 	-file operations
 	-loop randmcnally.survey() rather than script out long-form
+	-file operation at vehicle mesh file in  pub_at_position()
 
 - ensure that error ellipses are being oriented properly
 
@@ -30,3 +32,9 @@ TO DO LIST
 	-for devel purposes, acquire multiple datasets
 		- ~100Hz
 		- could just add white noise to 
+
+-setup launch file to automatically load fhwa2 rviz configuration file
+
+- pub_at_position() input error message??
+
+-get color working on G mesh model

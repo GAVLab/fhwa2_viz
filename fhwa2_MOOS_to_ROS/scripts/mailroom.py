@@ -27,9 +27,13 @@ def handle_msg(self, msg):
     else:
         rospy.logwarn("Unhandled msg: %(name)s of type %(var_type)s carries value %(value)s" %locals())
 
-from randmcnally import ll2utm  
-from math import radians  
+#############################################################################################
+
 def handle_odom_var(self, name, var_type, value, time):
+    import rospy
+    from randmcnally import ll2utm  
+    from math import radians  
+
     # Need to include covariance info from here throughout
     time = int(time*1000.0)/1000.0 #rounding to 3 decimal places so that the msg will groove...
 
@@ -74,16 +78,21 @@ def handle_odom_var(self, name, var_type, value, time):
         self.LatLong_holder = {} # clear holder for location at next time step
         del self.NE_holder
 
+#########################################################################################
 
-import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
-import rospy
-from nav_msgs.msg import Odometry # this will need to be repeated for other message types?
-from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest
-import tf
-from tf.transformations import quaternion_from_euler as qfe
-from math import sqrt, pi, degrees
-import bridge_tf
 def package_odom_var(self, NE_holder):
+    """
+    Puts odom var (from UTM N & E) into a ros message.
+    """
+    import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
+    import rospy
+    from nav_msgs.msg import Odometry # this will need to be repeated for other message types?
+    from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest
+    import tf
+    from tf.transformations import quaternion_from_euler as qfe
+    from math import sqrt, pi, degrees
+    import bridge_tf
+
     time = NE_holder['time']
     # Assume that the odom msg for this time step doesn't yet exist, create it
     self.odom_msgs[time] = Odometry()
@@ -111,7 +120,11 @@ def package_odom_var(self, NE_holder):
 
 
 def pub_at_position(self, time):
-    """ Handles necessary information for displaying error ellipses and vehicle model at current position
+    from visualization_msgs.msg import Marker
+    import rospy
+    from math import sqrt
+    """ 
+    Handles necessary information for displaying error ellipses and vehicle model at current position
     """
     marker = Marker()
     pub = self.curpos_publisher
@@ -144,6 +157,6 @@ def pub_at_position(self, time):
     marker.color.g = .5
     marker.color.b = .5
     marker.color.a = .5
-    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae"
+    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae" #robustify here
     marker.mesh_use_embedded_materials = False
     pub.publish(marker)

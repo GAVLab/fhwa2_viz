@@ -28,7 +28,7 @@ class MOOS2RVIZ(MOOSCommClient):
         self.SetOnConnectCallBack(self.onConnect)
         self.SetOnMailCallBack(self.onMail)
 
-        # Map track
+        # Map track as Marker array
         self.map_stripe_publisher = rospy.Publisher('/map/survey_stripes', MarkerArray, latch=True)
         self.map_lane_publisher = rospy.Publisher('/map/survey_lanes', MarkerArray, latch=True)
         # self.create_NCAT_map()
@@ -37,11 +37,14 @@ class MOOS2RVIZ(MOOSCommClient):
         self.map_lane_publisher.publish(self.map_lane_array)
         print('Map has been published')
 
+        # Publish track mesh
+        self.track_mesh_publisher = rospy.Publisher('/map/mesh', Marker, latch=True)
+        randmcnally.create_map_mesh(self)
+        self.track_mesh_publisher.publish(self.map_mesh_marker)
+        print('Map mesh has been published')
+
         # Odom init
         self.odometry_variables = ['zLat','zLong','zLatStdDev','zLongStdDev','zCourse']
-        # self.fingerprint_variables = ['zGyroX_gXbow440','zGyroY_gXbow440','zGyroZ_gXbow440',
-        #                               'zAccelX_gXbow440','zAccelY_gXbow440','zAccelZ_gXbow440']
-        # self.misc_variables = [,'zHorizSpeed']
         self.desired_variables = self.odometry_variables # will expand later
         self.odom_msgs = {}
         self.odom_msgs_count = {}
@@ -75,7 +78,7 @@ def main():
 
     #Setup MOOS App
     app = MOOS2RVIZ()
-    app.Run("192.168.1.116", 9000, "moos2rviz") # change this to G comp (where MOOSDB is)
+    app.Run("192.168.1.139", 9000, "moos2rviz") # change this to G comp (where MOOSDB is) currently BlackOak
     for x in range(10): # allow 1 second to connect to MOOSDB
         sleep(0.1)
         if app.IsConnected():

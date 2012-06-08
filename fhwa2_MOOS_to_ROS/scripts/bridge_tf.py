@@ -7,6 +7,7 @@ Created 5/30/12 by Robert Cofield
 
 import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
 import tf
+
 def cameraFollow_tf(self, time):
         msg = self.odom_msgs[time]
         br = tf.TransformBroadcaster()
