@@ -122,7 +122,7 @@ def package_odom_var(self, NE_holder):
 def pub_at_position(self, time):
     from visualization_msgs.msg import Marker
     import rospy
-    from math import sqrt
+    from math import
     """ 
     Handles necessary information for displaying error ellipses and vehicle model at current position
     """
