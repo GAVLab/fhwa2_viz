@@ -184,15 +184,18 @@
 	"buffers":
 	[
 		{
+			"contents": "",
 			"file": "scripts/guiBridge.py",
+			"file_size": -1,
+			"file_write_time": -1,
 			"settings":
 			{
-				"buffer_size": 3329,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/to_do.txt",
+			"file": "to_do.txt",
 			"settings":
 			{
 				"buffer_size": 1321,
@@ -200,26 +203,35 @@
 			}
 		},
 		{
+			"contents": "",
 			"file": "scripts/randmcnally.py",
+			"file_size": -1,
+			"file_write_time": -1,
 			"settings":
 			{
-				"buffer_size": 9509,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
 		{
+			"contents": "",
 			"file": "scripts/bridge_tf.py",
+			"file_size": -1,
+			"file_write_time": -1,
 			"settings":
 			{
-				"buffer_size": 621,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
 		{
+			"contents": "",
 			"file": "scripts/mailroom.py",
+			"file_size": -1,
+			"file_write_time": -1,
 			"settings":
 			{
-				"buffer_size": 7173,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		}
@@ -446,15 +458,15 @@
 					"file": "scripts/guiBridge.py",
 					"settings":
 					{
-						"buffer_size": 3329,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1124,
-								1124
+								0,
+								0
 							]
 						],
 						"settings":
@@ -465,14 +477,14 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 720.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/to_do.txt",
+					"file": "to_do.txt",
 					"settings":
 					{
 						"buffer_size": 1321,
@@ -500,7 +512,7 @@
 			]
 		},
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -508,15 +520,15 @@
 					"file": "scripts/randmcnally.py",
 					"settings":
 					{
-						"buffer_size": 9509,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7686,
-								7686
+								0,
+								0
 							]
 						],
 						"settings":
@@ -527,7 +539,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2456.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -537,15 +549,15 @@
 					"file": "scripts/bridge_tf.py",
 					"settings":
 					{
-						"buffer_size": 621,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								175,
-								175
+								0,
+								0
 							]
 						],
 						"settings":
@@ -564,15 +576,15 @@
 					"file": "scripts/mailroom.py",
 					"settings":
 					{
-						"buffer_size": 7173,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								471,
-								471
+								0,
+								0
 							]
 						],
 						"settings":
