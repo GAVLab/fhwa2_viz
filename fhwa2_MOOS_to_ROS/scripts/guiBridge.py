@@ -16,8 +16,11 @@ from visualization_msgs.msg import Marker, MarkerArray # had to add module to ma
 import tf
 
 #MOOS Imports
-from pymoos.MOOSCommClient import MOOSCommClient
-course = None
+sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/python') # location of one file named MOOSCommClient.py (other located in bin)
+# from pymoos.MOOSCommClient import MOOSCommClient
+sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/lib')
+import MOOSCommClient
+
 
 ###########################################################################
 
@@ -44,8 +47,8 @@ class MOOS2RVIZ(MOOSCommClient):
         print('Map mesh has been published')
 
         # Odom init
-        self.odometry_variables = ['zLat','zLong','zLatStdDev','zLongStdDev','zCourse']
-        self.desired_variables = self.odometry_variables # will expand later
+        self.desired_variables = ['zLat','zLong','zLatStdDev','zLongStdDev','zCourse']
+        self.sensors = ['gNovatel', 'gPennSt', 'gSRI', 'gDSRC']
         self.odom_msgs = {}
         self.odom_msgs_count = {}
         self.LatLong_holder = {} # must have both meas to convert to UTM
@@ -57,12 +60,12 @@ class MOOS2RVIZ(MOOSCommClient):
         rospy.Subscriber("/novatel/odom", Odometry, mailroom.pub_at_position)
         self.curpos_publisher = rospy.Publisher('/novatel/current_position', Marker)
 
+    # These functions required in every MOOS App
 
-    def onConnect(self):
+    def onConnect(self): 
         print("In onConnect")
         for var in self.odometry_variables: # expand later
             self.Register(var) #defined in MOOSCommClient.py
-
 
     def onMail(self):
         print("In onMail")
@@ -78,7 +81,7 @@ def main():
 
     #Setup MOOS App
     app = MOOS2RVIZ()
-    app.Run("192.168.1.139", 9000, "moos2rviz") # change this to G comp (where MOOSDB is) currently BlackOak
+    app.Run("127.0.0.1", 9000, "moos2rviz") # change this to G comp (where MOOSDB is) currently BlackOak
     for x in range(10): # allow 1 second to connect to MOOSDB
         sleep(0.1)
         if app.IsConnected():

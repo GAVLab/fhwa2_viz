@@ -19,6 +19,7 @@ def handle_msg(self, msg):
 
     time = msg.GetTime()
     name = msg.GetKey() # type of measurement "z______"
+    sens = msg.Get
     if name in self.desired_variables: # where desired messages are scooped
         #send to appropriate variable handler
         if name in self.odometry_variables:
@@ -32,8 +33,7 @@ def handle_msg(self, msg):
 def handle_odom_var(self, name, var_type, value, time):
     import rospy
     from randmcnally import ll2utm  
-    from math import radians  
-
+    import math
     # Need to include covariance info from here throughout
     time = int(time*1000.0)/1000.0 #rounding to 3 decimal places so that the msg will groove...
 
@@ -72,7 +72,7 @@ def handle_odom_var(self, name, var_type, value, time):
         self.NE_holder['E'] = Easting
         self.NE_holder['Nsd'] = NorthingStdDev
         self.NE_holder['Esd'] = EastingStdDev
-        self.NE_holder['crs'] = radians(self.LatLong_holder['zCourse']['value']) # Will orient odom arrows to velocity direction
+        self.NE_holder['crs'] = math.radians(self.LatLong_holder['zCourse']['value']) # Will orient odom arrows to velocity direction
         self.NE_holder['time'] = self.LatLong_holder['zLong']['time']
         package_odom_var(self, self.NE_holder) # Send to shipping function
         self.LatLong_holder = {} # clear holder for location at next time step
@@ -110,19 +110,28 @@ def package_odom_var(self, NE_holder):
     self.odom_msgs[time].pose.covariance[0] = NE_holder['Nsd']
     self.odom_msgs[time].pose.covariance[7] = NE_holder['Esd']
     self.odom_msgs[time].pose.covariance[14] = 0 # constrain to xy axis for top-down view (this may not need to be stated)
+    
     # Send to positions display function
     self.odom_publisher.publish(self.odom_msgs[time]) # ship it! # this action moved to do_current position
+    
     # send to error ellipse & vehicle model function
     pub_at_position(self, time)
+    
     # tell camera tf where the look
     bridge_tf.cameraFollow_tf(self, time)
     del self.odom_msgs[time]
 
 
+def demarcateSource(self):
+    """
+    Makes odom msgs from each of the various sources look different on screen
+    """
+
+
+
 def pub_at_position(self, time):
     from visualization_msgs.msg import Marker
     import rospy
-    from math import
     """ 
     Handles necessary information for displaying error ellipses and vehicle model at current position
     """
