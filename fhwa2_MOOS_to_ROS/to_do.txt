@@ -1,3 +1,8 @@
 - make multiple sensor inputs display
+	-break up mailroom.pub_at_position() so that only vehicle mesh is published
+	-find way to publish indiv msgs
+	-stack up covar ellipses in mailroom.demarcateSource(...) so that not on top of one another
 
 - will need legend of some type
+
+- get track mesh from blender working

@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+# Robert Cofield, GAVLab
+# Python v2.7.3
+
+
 import sys, os
 from time import sleep
 from pprint import pprint
@@ -16,10 +20,10 @@ from visualization_msgs.msg import Marker, MarkerArray # had to add module to ma
 import tf
 
 #MOOS Imports
-sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/python') # location of one file named MOOSCommClient.py (other located in bin)
-# from pymoos.MOOSCommClient import MOOSCommClient
-sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/lib')
-import MOOSCommClient
+# sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/python') # location of one file named MOOSCommClient.py (other located in bin)
+from pymoos.MOOSCommClient import MOOSCommClient
+# sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/lib')
+# import MOOSCommClient
 
 
 ###########################################################################
@@ -47,24 +51,34 @@ class MOOS2RVIZ(MOOSCommClient):
         print('Map mesh has been published')
 
         # Odom init
-        self.desired_variables = ['zLat','zLong','zLatStdDev','zLongStdDev','zCourse']
-        self.sensors = ['gNovatel', 'gPennSt', 'gSRI', 'gDSRC']
+        self.desired_variables = ['zLat','zLong','zLatStdDev','zLongStdDev','zCourse'] # we want these measurments from each sensor, below
+        self.sensors = ['gNovatel', 'gPennSt', 'gSRI', 'gDSRC'] # the 4 sources which will need to be displayed simultaneously
         self.odom_msgs = {}
         self.odom_msgs_count = {}
-        self.LatLong_holder = {} # must have both meas to convert to UTM
+        self.LatLong_holder = {} # must have both meas to convert to UTM; may need to initialize sub dictionaries?
         self.new_LatLong = True
         self.first_odom = True
-        self.odom_publisher = rospy.Publisher("/novatel/odom", Odometry)
 
-        # Error ellipse, Vehicle model - init
-        rospy.Subscriber("/novatel/odom", Odometry, mailroom.pub_at_position)
+        self.odom_novatel_publisher = rospy.Publisher("/novatel/odom", Odometry) # this is the accepted (combined) position solution
+        self.odom_pennst_publisher = rospy.Publisher("/pennst/odom", Odometry) # component position solution
+        self.odom_sri_publisher = rospy.Publisher("/sri/odom", Odometry) # component position solution
+        self.odom_dsrc_publisher = rospy.Publisher("/dsrc/odom", Odometry) # component position solution
+
+        # odom & error ellipse colors - only sets the err ell colors, but these are in the config for the odom msgs
+        self.rgb_pennst = dict([['r', 0],    ['g', 0],  ['b',127]])
+        self.rgb_sri    = dict([['r', 170],  ['g', 0],  ['b',127]])
+        self.rgb_dsrc   = dict([['r', 170],  ['g', 0],  ['b',0]])
+
+        # Vehicle model - init
+        rospy.Subscriber("/novatel/odom", Odometry, mailroom.pub_at_position) # put the vehicle model at the accepted position solution
         self.curpos_publisher = rospy.Publisher('/novatel/current_position', Marker)
+
 
     # These functions required in every MOOS App
 
     def onConnect(self): 
         print("In onConnect")
-        for var in self.odometry_variables: # expand later
+        for var in self.desired_variables: # expand later
             self.Register(var) #defined in MOOSCommClient.py
 
     def onMail(self):

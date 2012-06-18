@@ -204,8 +204,8 @@ def create_map(self):
             marker.type = Marker.CUBE
             marker.pose.position.x = east
             marker.pose.position.y = nrth
-            marker.color.r = 1
-            marker.color.g = 0
+            marker.color.r = 255
+            marker.color.g = 255
             marker.color.b = 0
             marker.color.a = 1.0
             marker.scale.x = 0.25

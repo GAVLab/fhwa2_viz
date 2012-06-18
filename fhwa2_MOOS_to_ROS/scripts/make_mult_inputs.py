@@ -5,7 +5,8 @@ This script file is for producing *.alogs as dummy measurments in lieu of data f
 	DSRC
 	SRI 
 
-The data will be in one file
+The data will be in one file, all alogs should be stored on all machines in /home/__user_name__/alog_Files/
+
 """
 
 import os, sys
@@ -34,29 +35,31 @@ def main(msg):
 
 
 def spreadOut(msgs, wiggle):
-	noises = normal(msgs[0][3], wiggle, len(msgs))
-	for ind in range(len(msgs)):
-		value = float(msgs[ind][3])
-		value += noises[ind]
+	noises = normal(msgs[0][3], wiggle, (len(msgs)-1) )
+	for ind in [1,2,3]: # only modify values of 3 dummy msgs
+		value = noises[ind-1]
 		msgs[ind][3] = str(value)
+		if 'StdDev' in msgs[ind][1]: # cannot have a negative std dev
+			msgs[ind][3] = str(abs(value))
+
 
 ############################################################################
 
 if __name__ == '__main__':
 	
-	sys.path.append('/home/ozymandium/alog_manip/scripts') # alog_manip module
-	sys.path.append('/home/ozymandium/alog_manip/alogs') # fhwa2_Novatel.alog (file with only)
-	sys.path.append('/home/ozymandium/fhwa2_ws/fhwa2_viz/fhwa2_MOOS_to_ROS/scripts') # where this is
-	sys.path.append('/home/ozymandium/alog_Files') # location of alog files
+	sys.path.append('/home/gavlab/alog_manip/scripts') # alog_manip module
+	sys.path.append('/home/gavlab/alog_manip/alogs') # fhwa2_Novatel.alog (file with only)
+	sys.path.append('/home/gavlab/fhwa2_ws/fhwa2_viz/fhwa2_MOOS_to_ROS/scripts') # where this is
+	sys.path.append('/home/gavlab/alog_Files') # location of alog files
 
-	# os.chdir('/home/ozymandium/fhwa2_ws/fhwa2_viz/fhwa2_MOOS_to_ROS')
+	# os.chdir('/home/gavlab/fhwa2_ws/fhwa2_viz/fhwa2_MOOS_to_ROS')
 	import alog_manip
 
 	curdir = os.getcwd()
 	os.chdir('/')
 	
-	NovOnlyAlog = '/home/ozymandium/alog_Files/Long_onlyNovatel.alog'
-	ResultAlog = '/home/ozymandium/alog_Files/Long_novatel_plus3.alog'
+	NovOnlyAlog = '/home/gavlab/alog_Files/Long_onlyNovatel.alog'
+	ResultAlog = '/home/gavlab/alog_Files/Long_novatel_plus3.alog'
 	src = open(NovOnlyAlog, 'rU')
 	tgt = open(ResultAlog, 'w')
 	tgt.write('%% This file created to simulate 3 measurment sources varying from the Novatel\n')

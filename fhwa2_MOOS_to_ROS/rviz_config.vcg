@@ -1,7 +1,7 @@
 Background\ ColorB=0
 Background\ ColorG=0
 Background\ ColorR=0
-Camera\ Config=0.740398 4.72358 41.9007 0 0 0
+Camera\ Config=0.740398 4.72358 169.124 0 0 0
 Camera\ Type=rviz::OrbitViewController
 Fixed\ Frame=/odom
 Grid.Alpha=0.5
@@ -20,38 +20,63 @@ Grid.Plane=0
 Grid.Plane\ Cell\ Count=9
 Grid.Reference\ Frame=/base_footprint
 Marker.Enabled=1
-Marker.Error_Ellipses=1
 Marker.Marker\ Topic=/novatel/current_position
 Marker.Queue\ Size=100
-Marker.vehicle_model=1
-MarkerArray.Enabled=1
-MarkerArray.Marker\ Array\ Topic=/map/survey_lanes
-MarkerArray.Queue\ Size=1000
-MarkerArray.lane_centers=1
-MarkerArray2.Enabled=1
-MarkerArray2.Marker\ Array\ Topic=/map/survey_stripes
-MarkerArray2.Queue\ Size=2000
-MarkerArray2.stripes=1
-Odometry.Angle\ Tolerance=0.1
-Odometry.ColorB=1
-Odometry.ColorG=0
-Odometry.ColorR=0
-Odometry.Enabled=1
-Odometry.Keep=100
-Odometry.Length=2.5
-Odometry.Position\ Tolerance=0.1
-Odometry.Topic=/novatel/odom
+MarkerArray_Lanes.Enabled=1
+MarkerArray_Lanes.Marker\ Array\ Topic=/map/survey_lanes
+MarkerArray_Lanes.Queue\ Size=1000
+MarkerArray_Lanes.lane_centers=1
+MarkerArray_Stripes.Enabled=1
+MarkerArray_Stripes.Marker\ Array\ Topic=/map/survey_stripes
+MarkerArray_Stripes.Queue\ Size=2000
+MarkerArray_Stripes.stripes=1
+Odometry\ -\ DSRC.Angle\ Tolerance=0.1
+Odometry\ -\ DSRC.ColorB=0
+Odometry\ -\ DSRC.ColorG=0
+Odometry\ -\ DSRC.ColorR=0.666667
+Odometry\ -\ DSRC.Enabled=1
+Odometry\ -\ DSRC.Keep=100
+Odometry\ -\ DSRC.Length=1
+Odometry\ -\ DSRC.Position\ Tolerance=0.1
+Odometry\ -\ DSRC.Topic=/dsrc/odom
+Odometry\ -\ Novatel.Angle\ Tolerance=0.1
+Odometry\ -\ Novatel.ColorB=1
+Odometry\ -\ Novatel.ColorG=1
+Odometry\ -\ Novatel.ColorR=1
+Odometry\ -\ Novatel.Enabled=1
+Odometry\ -\ Novatel.Keep=100
+Odometry\ -\ Novatel.Length=2.5
+Odometry\ -\ Novatel.Position\ Tolerance=0.1
+Odometry\ -\ Novatel.Topic=/novatel/odom
+Odometry\ -\ PennSt.Angle\ Tolerance=0.1
+Odometry\ -\ PennSt.ColorB=0.498039
+Odometry\ -\ PennSt.ColorG=0
+Odometry\ -\ PennSt.ColorR=0
+Odometry\ -\ PennSt.Enabled=1
+Odometry\ -\ PennSt.Keep=100
+Odometry\ -\ PennSt.Length=1
+Odometry\ -\ PennSt.Position\ Tolerance=0.1
+Odometry\ -\ PennSt.Topic=/pennst/odom
+Odometry\ -\ SRI.Angle\ Tolerance=0.1
+Odometry\ -\ SRI.ColorB=0.498039
+Odometry\ -\ SRI.ColorG=0
+Odometry\ -\ SRI.ColorR=0.666667
+Odometry\ -\ SRI.Enabled=1
+Odometry\ -\ SRI.Keep=100
+Odometry\ -\ SRI.Length=1
+Odometry\ -\ SRI.Position\ Tolerance=0.1
+Odometry\ -\ SRI.Topic=/sri/odom
 Path.Alpha=1
 Path.ColorB=0
 Path.ColorG=1
 Path.ColorR=0.1
 Path.Enabled=1
 Path.Topic=
-Property\ Grid\ Splitter=610,114
-Property\ Grid\ State=expanded=.Global Options,Odometry.Enabled,Grid.Enabled,Marker.Enabled,MarkerArray.Enabled,MarkerArray.Namespaces,MarkerArray2.Enabled,MarkerArray2.Namespaces;splitterratio=0.5
-QMainWindow=000000ff00000000fd0000000300000000000001c200000326fc0200000001fb000000100044006900730070006c006100790073010000001d00000326000000ee00ffffff000000010000013100000326fc0200000003fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000001d000000d70000006700fffffffb0000000a0056006900650077007301000000fa0000016c000000bb00fffffffb0000001200530065006c0065006300740069006f006e010000026c000000d70000006700ffffff00000003000005ee0000003efc0100000001fb0000000800540069006d00650100000000000005ee000002bf00ffffff000002ef0000032600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+Property\ Grid\ Splitter=734,114
+Property\ Grid\ State=expanded=.Global Options,.Global Status,Odometry - Novatel.Enabled,Odometry - PennSt.Enabled,Odometry - SRI.Enabled,Odometry - DSRC.Enabled,Grid.Enabled,TF.Enabled,Marker.Enabled,MarkerArray_Lanes.Enabled,MarkerArray_Stripes.Enabled;splitterratio=0.5
+QMainWindow=000000ff00000000fd000000030000000000000291000003a2fc0200000001fb000000100044006900730070006c006100790073010000001d000003a2000000ee00ffffff0000000100000131000003a2fc0200000003fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000001d000001100000006700fffffffb0000000a00560069006500770073010000013300000197000000bb00fffffffb0000001200530065006c0065006300740069006f006e01000002d0000000ef0000006700ffffff000000030000073d0000003efc0100000001fb0000000800540069006d006501000000000000073d000002bf00ffffff0000036f000003a200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
 TF.All\ Enabled=1
-TF.Enabled=0
+TF.Enabled=1
 TF.Frame\ Timeout=15
 TF.Marker\ Scale=1
 TF.Show\ Arrows=1
@@ -63,27 +88,36 @@ Tool\ 2D\ Nav\ GoalTopic=/move_base_simple/goal
 Tool\ 2D\ Pose\ EstimateTopic=initialpose
 [Display0]
 ClassName=rviz::OdometryDisplay
-Name=Odometry
+Name=Odometry - Novatel
 [Display1]
+ClassName=rviz::OdometryDisplay
+Name=Odometry - PennSt
+[Display2]
+ClassName=rviz::OdometryDisplay
+Name=Odometry - SRI
+[Display3]
+ClassName=rviz::OdometryDisplay
+Name=Odometry - DSRC
+[Display4]
 ClassName=rviz::GridDisplay
 Name=Grid
-[Display2]
+[Display5]
 ClassName=rviz::PathDisplay
 Name=Path
-[Display3]
+[Display6]
 ClassName=rviz::TFDisplay
 Name=TF
-[Display4]
+[Display7]
 ClassName=rviz::MarkerDisplay
 Name=Marker
-[Display5]
+[Display8]
 ClassName=rviz::MarkerArrayDisplay
-Name=MarkerArray
-[Display6]
+Name=MarkerArray_Lanes
+[Display9]
 ClassName=rviz::MarkerArrayDisplay
-Name=MarkerArray2
+Name=MarkerArray_Stripes
 [Window]
-Height=932
-Width=1520
+Height=1056
+Width=1855
 X=60
-Y=78
+Y=-4
