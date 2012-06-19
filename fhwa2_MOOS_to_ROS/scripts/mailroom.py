@@ -10,6 +10,7 @@ Author: Robert Cofield
 """
 
 def handle_msg(self, msg):
+    print("In handle_msg")
     if msg.IsDouble():
         var_type = "Double"
         value = str(msg.GetDouble()) #store all values as strings until handled specifically
@@ -26,8 +27,7 @@ def handle_msg(self, msg):
     # if sens not in self.sensors:
     #     rospy.logwarn("mailroom.handle_msg :: unknown source/sensor: %(sens)s of yielding variable type %(name)s, carrying value %(value)s" %locals())
     if name in self.desired_variables: # where desired messages are scooped
-        #send to appropriate variable handler
-        handle_odom_var(self, name, var_type, sens, value, time)
+        gather_odom_var(self, name, var_type, sens, value, time)
         # elif #..... other types of msgs to be done later
     else:
         rospy.logwarn("mailroom.handle_msg :: Unhandled msg: %(name)s of type %(var_type)s carries value %(value)s" %locals())
@@ -36,13 +36,16 @@ def handle_msg(self, msg):
 #############################################################################################
 
 
-def handle_odom_var(self, name, var_type, sens, value, time):
+def gather_odom_var(self, name, var_type, sens, value, time):
     """
     This function will only invoke publishing when it can send off all necessary info for a single source at once
     """
     import rospy
     from randmcnally import ll2utm  
     import math
+    from pprint import pprint
+
+    print("In gather_odom_var")
     # Need to include covariance info from here throughout
     time = int(time*1000.0)/1000.0 #rounding to 3 decimal places so that the msg will groove...
 
@@ -54,31 +57,41 @@ def handle_odom_var(self, name, var_type, sens, value, time):
             self.LatLong_holder[sens][name] = dict([['var_type', var_type], #double/string
                                                     ['value', float(value)],
                                                     ['time', time]])#need to make sure time stamp is the same        
-    
-     # Now determine if there's any msgs missing
+
+    # Now determine if there's any msgs missing
     all_present = [True]*len(self.sensors)
     for sens_ind in range(len(self.sensors)):
-        for var_name in self.desired_variables:
-            if self.sensors[sens_ind] not in self.LatLong_holder:
-                all_present[sens_ind] = False
-            elif var_name not in self.LatLong_holder[self.sensors[sens_ind]]:
-                all_present[sens_ind] = False
+        if self.sensors[sens_ind] not in self.LatLong_holder: # don't even have any info from this sensor yet
+            all_present[sens_ind] = False
+        else: # see if we have all the info for this time step from this sensor
+            for var_name in self.desired_variables: # everything needed for each time step from each sensor
+                if var_name not in self.LatLong_holder[self.sensors[sens_ind]]: # no we don't
+                    all_present[sens_ind] = False
+                    break
+
+        if all_present[sens_ind]: # time step has all required infos
+            convert_odom_var(self, self.sensors[sens_ind]) # the second argument should be equivalent to 'sens'
+            self.LatLong_holder[self.sensors] = {}
+
+    print('LatLong_holder:')
+    pprint(self.LatLong_holder)
+    print('\n')
 
     # if all info present, send it down the line
-    for sens_ind in range(len(self.sensors)):
-        if all_present[sens_ind]: # time step has all required infos
-            sens_str = self.sensors[sens_ind]
-            convert_odom_var(self, sens_str) #
+    # for sens_ind in range(len(self.sensors)):
+        # if all_present[sens_ind]: # time step has all required infos
+        #     sens_str = self.sensors[sens_ind]
+        #     convert_odom_var(self, sens_str) #
 
 
 ###########################################################################################
-
+# msgs aren't getting past here - 6/19
 
 def convert_odom_var(self, sens_str):
     """
     Once all the information for a single odom msg from a single sensor(source) is built together, this function converts it to UTM in a special UTM holder and sends it to the publishing function: mailroom.package_odom_var()
     """
-
+    print("In convert_odom_var")
     time_lat = self.LatLong_holder[sens_str]['zLat']['time']
     time_lon = self.LatLong_holder[sens_str]['zLong']['time']
     time_crs = self.LatLong_holder[sens_str]['zCourse']['time']
@@ -108,7 +121,7 @@ def convert_odom_var(self, sens_str):
     
     package_odom_var(self, self.NE_holder) # Send to shipping function
     
-    self.LatLong_holder = {} # clear holder for location at next time step
+    # self.LatLong_holder = {} # clear holder for location at next time step
     del self.NE_holder
 
 
@@ -128,6 +141,7 @@ def package_odom_var(self, NE_holder):
     from math import sqrt, pi, degrees
     import bridge_tf
 
+    print("In package_odom_var")
     time = NE_holder['time']
     # Assume that the odom msg for this time step doesn't yet exist, create it
     # May need another way of differentiating between sources other than time - for dummy-generated sources, times will be the same
@@ -168,6 +182,7 @@ def demarcateSource(self, time, sensor):
     -publishes it with the appropriate publisher
     - input 'sensor' : string from one of self.sensors list
     """
+    print("In demarcateSource")
     msg = self.odom_msgs[time]
     
     marker = Marker() #error ellipse
@@ -221,6 +236,7 @@ def pub_at_position(self, time):
     Handles necessary information for displaying things at accepted (Novatel) position solution:
         -vehicle mesh only for now
     """
+    print("In pub_at_position")
     marker = Marker()
     pub = self.curpos_publisher
     msg = self.odom_msgs[time]
