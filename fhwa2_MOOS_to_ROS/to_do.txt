@@ -3,7 +3,10 @@
 	-find way to publish indiv msgs
 	-stack up covar ellipses in mailroom.demarcateSource(...) so that not on top of one another
 
+-robustify all the if/else stuff for the 4 sensor types
+
 - will need legend of some type
 
 - get track mesh from blender working
 	-box it 
+

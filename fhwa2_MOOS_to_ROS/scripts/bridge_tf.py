@@ -8,8 +8,9 @@ Created 5/30/12 by Robert Cofield
 import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
 import tf
 
-def cameraFollow_tf(self, time):
-        msg = self.odom_msgs[time]
+def cameraFollow_tf(self, odom_msg):
+        # msg = self.odom_msgs[time]
+        msg = odom_msg
         br = tf.TransformBroadcaster()
 
         br.sendTransform((msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z), # send zjj in case

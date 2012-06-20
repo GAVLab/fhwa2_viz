@@ -22,7 +22,7 @@ def main(msg):
 	msgs[3][2] = 'gDSRC'
 
 	if ((msg[1] == 'zLat') or (msg[1] == 'zLong')):
-		wiggle = 0.00005 # stdDev of gaussian noise added, in lat/lon decimal degrees ~.5m
+		wiggle = 0.000005 # stdDev of gaussian noise added, in lat/lon decimal degrees ~.5m
 	elif ((msg[1] == 'zLatStdDev') or (msg[1] == 'zLongStdDev')):
 		wiggle = .01 # stdDev of gaussian noise added, in m
 	elif msg[1] == 'zCourse':

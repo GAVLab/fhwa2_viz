@@ -53,25 +53,38 @@ class MOOS2RVIZ(MOOSCommClient):
         # Odom init
         self.desired_variables = ['zLat','zLong','zLatStdDev','zLongStdDev','zCourse'] # we want these measurments from each sensor, below
         self.sensors = ['gNovatel', 'gPennSt', 'gSRI', 'gDSRC'] # the 4 sources which will need to be displayed simultaneously
-        self.odom_msgs = {}
-        self.odom_msgs_count = {}
-        self.LatLong_holder = {} # must have both meas to convert to UTM; may need to initialize sub dictionaries?
-        self.new_LatLong = True
-        self.first_odom = True
+        # self.odom_msgs = {}
+        # self.odom_msgs_count = {}
+        # self.LatLong_holder = {} # must have both meas to convert to UTM; may need to initialize sub dictionaries?
+        # for sens_str in self.sensors:
+        #     self.LatLong_holder[sens_str] = {}
 
         self.odom_novatel_publisher = rospy.Publisher("/novatel/odom", Odometry) # this is the accepted (combined) position solution
         self.odom_pennst_publisher = rospy.Publisher("/pennst/odom", Odometry) # component position solution
         self.odom_sri_publisher = rospy.Publisher("/sri/odom", Odometry) # component position solution
         self.odom_dsrc_publisher = rospy.Publisher("/dsrc/odom", Odometry) # component position solution
 
+        # Error Ellipse Init
+        self.ell_novatel_publisher = rospy.Publisher("/novatel/error_ellipse", Marker)
+        self.ell_pennst_publisher = rospy.Publisher("/pennst/error_ellipse", Marker)
+        self.ell_sri_publisher = rospy.Publisher("/sri/error_ellipse", Marker)
+        self.ell_dsrc_publisher = rospy.Publisher("/dsrc/error_ellipse", Marker)
+
+        # !! Multiple source message holding - debug only - revise later !! #
+        self.gNovatel_holder = {}
+        self.gPennSt_holder = {}
+        self.gSRI_holder = {}
+        self.gDSRC_holder = {}
+
         # odom & error ellipse colors - only sets the err ell colors, but these are in the config for the odom msgs
-        self.rgb_pennst = dict([['r', 0],    ['g', 0],  ['b',127]])
-        self.rgb_sri    = dict([['r', 170],  ['g', 0],  ['b',127]])
-        self.rgb_dsrc   = dict([['r', 170],  ['g', 0],  ['b',0]])
+        self.rgb_novatel = dict([['r', 255],    ['g', 255],  ['b',255]])    #white
+        self.rgb_pennst = dict([['r', 0],    ['g', 0],  ['b',127]])         #blue
+        self.rgb_sri    = dict([['r', 170],  ['g', 0],  ['b',127]])         #purple
+        self.rgb_dsrc   = dict([['r', 170],  ['g', 0],  ['b',0]])           #red
 
         # Vehicle model - init
         rospy.Subscriber("/novatel/odom", Odometry, mailroom.pub_at_position) # put the vehicle model at the accepted position solution
-        self.curpos_publisher = rospy.Publisher('/novatel/current_position', Marker)
+        self.curpos_publisher = rospy.Publisher('/novatel/current_position', Marker) # even though this is at the same position as the novatel error ellipse, we want it to have a different name in case the integrated solution is different
 
 
     # These functions required in every MOOS App
