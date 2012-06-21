@@ -51,8 +51,8 @@ class MOOS2RVIZ(MOOSCommClient):
         print('Map mesh has been published')
 
         # Odom init
-        self.desired_variables = ['zLat','zLong','zLatStdDev','zLongStdDev','zCourse'] # we want these measurments from each sensor, below
-        self.sensors = ['gNovatel', 'gPennSt', 'gSRI', 'gDSRC'] # the 4 sources which will need to be displayed simultaneously
+        self.desired_variables = ('zLat','zLong','zLatStdDev','zLongStdDev','zCourse') # we want these measurments from each sensor, below
+        self.sensors = ('gNovatel', 'gPennSt', 'gSRI', 'gDSRC') # the 4 sources which will need to be displayed simultaneously
         # self.odom_msgs = {}
         # self.odom_msgs_count = {}
         # self.LatLong_holder = {} # must have both meas to convert to UTM; may need to initialize sub dictionaries?
@@ -77,10 +77,10 @@ class MOOS2RVIZ(MOOSCommClient):
         self.gDSRC_holder = {}
 
         # odom & error ellipse colors - only sets the err ell colors, but these are in the config for the odom msgs
-        self.rgb_novatel = dict([['r', 255],    ['g', 255],  ['b',255]])    #white
-        self.rgb_pennst = dict([['r', 0],    ['g', 0],  ['b',127]])         #blue
-        self.rgb_sri    = dict([['r', 170],  ['g', 0],  ['b',127]])         #purple
-        self.rgb_dsrc   = dict([['r', 170],  ['g', 0],  ['b',0]])           #red
+        self.rgb_novatel =  dict([['r', 255],   ['g', 255], ['b',255]])         #white
+        self.rgb_pennst =   dict([['r', 0],     ['g', 0],   ['b',127]])         #blue
+        self.rgb_sri    =   dict([['r', 170],   ['g', 0],   ['b',127]])         #purple
+        self.rgb_dsrc   =   dict([['r', 170],   ['g', 0],   ['b',0]])           #red
 
         # Vehicle model - init
         rospy.Subscriber("/novatel/odom", Odometry, mailroom.pub_at_position) # put the vehicle model at the accepted position solution
@@ -126,6 +126,6 @@ def main():
     rospy.spin()
     
 if __name__ == '__main__':
-    curr = os.getcwd()
+    # curr = os.getcwd()
     main()
-    os.chdir(curr)
+    # os.chdir(curr)

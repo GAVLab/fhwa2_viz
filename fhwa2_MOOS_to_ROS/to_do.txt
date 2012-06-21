@@ -10,3 +10,4 @@
 - get track mesh from blender working
 	-box it 
 
+-in mailroom.gather_odom_var(), use pop instead of a list then delete in a for loop

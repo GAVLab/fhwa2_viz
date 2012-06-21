@@ -13,7 +13,7 @@ def handle_msg( self, msg ):
     """
     takes a msg and passes usable info to gather_odom_var
     """
-    print("In handle_msg")
+    # print("In handle_msg")
     if msg.IsDouble():
         var_type = "Double"
         value = str(msg.GetDouble()) #store all values as strings until handled specifically
@@ -44,48 +44,12 @@ def gather_odom_var( self, name, var_type, sens, value, time ):
     This function will only invoke publishing when it can send off all necessary info for a single source at once
     """
     import rospy
-    from pprint import pprint
+    # from pprint import pprint
 
-    print("\n\nIn gather_odom_var")
+    # print("\n\nIn gather_odom_var")
     # Need to include covariance info from here throughout'
 
     time = int(time*1000.0)/1000.0 #rounding to 3 decimal places so that the msg will groove...
-    # # debug attempt:
-    # time = rospy.Time(time)
-
-
-    ###################################################################################################
-    # # this function should only receive msgs with name 'zLat' & 'zLong' & 'zCourse'
-    # # So missing info should be there
-    # if sens not in self.LatLong_holder: # hold lat/long for each sensor
-    #     self.LatLong_holder[sens] = {}
-    #     if name not in self.LatLong_holder[sens]: 
-    #         self.LatLong_holder[sens][name] = dict([['var_type', var_type], #double/string
-    #                                                 ['value', float(value)],
-    #                                                 ['time', time]])#need to make sure time stamp is the same        
-
-    # # Now determine if there's any msgs missing
-    # all_present = [True]*len(self.sensors)
-    # for sens_ind in range(len(self.sensors)):
-    #     if self.sensors[sens_ind] not in self.LatLong_holder: # don't even have any info from this sensor yet
-    #         all_present[sens_ind] = False
-    #     else: # see if we have all the info for this time step from this sensor
-    #         for var_name in self.desired_variables: # everything needed for each time step from each sensor
-    #             if var_name not in self.LatLong_holder[self.sensors[sens_ind]]: # no we don't
-    #                 all_present[sens_ind] = False
-    #                 break
-
-    #     if all_present[sens_ind]: # time step has all required infos
-    #         convert_odom_var(self, self.sensors[sens_ind]) # the second argument should be equivalent to 'sens'
-    #         self.LatLong_holder[self.sensors] = {}
-
-    # print('LatLong_holder:')
-    # pprint(self.LatLong_holder)
-    # print('\n')
-
-    ###########################################################################################
-    # msgs aren't getting past here - 6/19
-    # debugging re-code
 
     # Determine which holder to use for this message
     # TIME STAMPS ARE CRITICAL HERE!!
@@ -119,18 +83,6 @@ def gather_odom_var( self, name, var_type, sens, value, time ):
             skateboard = holder[tstamp] # this will just roll the publishable group of msgs from sensor "holder" at time "tstamp" over to convert_odom_var; note that it doesn't contain the sensor/source "g_______"
             convert_odom_var(self, skateboard, sens, tstamp) # send it off
 
-
-
-            ## Debug stuff
-            print('Now we would publish stuff')
-            print("sensor string: %(sens)s \nholder:" %locals())
-            pprint(holder)
-            print("skateboard for %(sens)s" %locals())
-            print("\tat timestamp: %(tstamp)f" %locals())
-            pprint(skateboard)
-            #############
-
-
             # remember what we've sent so it can be cleaned
             tstamps_sent.append(tstamp)
     
@@ -138,7 +90,7 @@ def gather_odom_var( self, name, var_type, sens, value, time ):
     # clean up the holder of anything we already printed        
     for tstamp in tstamps_sent:
         del holder[tstamp] # don't need this time's msgs anymore
-        print("\n~deleted dict from timestamp %(tstamp)f" %locals())
+        # print("\n~deleted dict from timestamp %(tstamp)f" %locals())
 
 
 
@@ -150,50 +102,10 @@ def convert_odom_var( self, skateboard, sens, time ):
     """
     from randmcnally import ll2utm  
     from math import radians
-    from pprint import pprint
+    # from pprint import pprint
 
-    print("In convert_odom_var")
+    # print("In convert_odom_var")
     
-    #############################################################################
-    ### the following was used before making multi-input support, and did not prove to be an easy modification
-    # time_lat = self.LatLong_holder[sens_str]['zLat']['time']
-    # time_lon = self.LatLong_holder[sens_str]['zLong']['time']
-    # time_crs = self.LatLong_holder[sens_str]['zCourse']['time']
-    # if (time_lat != time_lon) or (time_lat != time_crs):
-    #     rospy.logwarn("Lat/Long/Course mismatch:: time steps aren't being handled properly")
-    
-    # # Position Conversions
-    # (Easting, Northing) = ll2utm(self.LatLong_holder[sens_str]['zLat']['value'], 
-    #                              self.LatLong_holder[sens_str]['zLong']['value'])
-    
-    # # Covariances - Lat/Lon Std Dev are output in meters already
-    # NorthingStdDev = self.LatLong_holder[sens_str]['zLatStdDev']['value']
-    # EastingStdDev = self.LatLong_holder[sens_str]['zLongStdDev']['value']
-                
-    # print('EastingStdDev: %(EastingStdDev)f' %locals())
-    # print('NorthingStdDev %(NorthingStdDev)f' %locals())
-
-    # # Consolidate into packaging dictionary & send off
-    # self.NE_holder = {}
-    # self.NE_holder['sens'] = sens_str
-    # self.NE_holder['N'] = Northing
-    # self.NE_holder['E'] = Easting
-    # self.NE_holder['Nsd'] = NorthingStdDev
-    # self.NE_holder['Esd'] = EastingStdDev
-    # self.NE_holder['crs'] = radians(self.LatLong_holder[sens_str]['zCourse']['value']) # Will orient odom arrows to velocity direction
-    # self.NE_holder['time'] = self.LatLong_holder[sens_str]['zLong']['time'] # could be any of the timestamps
-    
-    # package_odom_var(self, self.NE_holder) # Send to shipping function
-    
-    # # self.LatLong_holder = {} # clear holder for location at next time step
-    # del self.NE_holder
-
-
-
-    #########################################################################
-    ### debugging multi-input support:
-    #########################################################################
-
     UTMtoPub = dict([['time', time], ['sens', sens]]) # is time really necessary? Not using as dictionary index in self...
 
     # Convert to UTM
@@ -209,8 +121,8 @@ def convert_odom_var( self, skateboard, sens, time ):
 
     package_odom_var(self, UTMtoPub)
 
-    print("\nUTMtoPub:")
-    pprint(UTMtoPub)
+    # print("\nUTMtoPub:")
+    # pprint(UTMtoPub)
 
 
 #########################################################################################
@@ -229,9 +141,9 @@ def package_odom_var( self, UTMtoPub ):
     from tf.transformations import quaternion_from_euler as qfe
     from math import sqrt, pi, degrees
     import bridge_tf
-    from pprint import pprint
+    # from pprint import pprint
 
-    print("In package_odom_var")
+    # print("In package_odom_var")
 
     (odom_pub, ell_pub, r, g, b, stackup_elev, upd_veh) = demarcateSource( self, UTMtoPub['sens'] ) # get source-specific information
  
@@ -260,7 +172,7 @@ def package_odom_var( self, UTMtoPub ):
     ell_marker.action = Marker.MODIFY # can be ADD, REMOVE, or MODIFY
     ell_marker.pose = odom_msg.pose.pose # put at same place as its odom arrow
     ell_marker.lifetime = rospy.Duration() # will last forever unless modified
-    ell_marker.ns = "Error_Ellipses" + '___' + UTMtoPub['sens']
+    ell_marker.ns = ''.join(["Error_Ellipses", '___', UTMtoPub['sens']])
     ell_marker.type = Marker.CYLINDER     
     ell_marker.scale.x = sqrt(odom_msg.pose.covariance[0]) *10 # not visible unless scaled up
     ell_marker.scale.y = sqrt(odom_msg.pose.covariance[7]) *10 # not visible unless scaled up
@@ -268,7 +180,7 @@ def package_odom_var( self, UTMtoPub ):
     ell_marker.color.r = r
     ell_marker.color.g = g
     ell_marker.color.b = b
-    ell_marker.color.a = 0.5 # transparency - they're on top of one another, potentially
+    ell_marker.color.a = 0.95 # transparency - they're on top of one another, potentially
     ######################
 
     odom_pub.publish(odom_msg)
@@ -279,8 +191,8 @@ def package_odom_var( self, UTMtoPub ):
         pub_at_position(self, odom_msg)
         bridge_tf.cameraFollow_tf(self, odom_msg)
 
-    pprint(odom_msg)
-    print('\n')
+    # pprint(odom_msg)
+    # print('\n')
 
 
 
@@ -288,12 +200,12 @@ def package_odom_var( self, UTMtoPub ):
 
 def demarcateSource( self, sens ):
     """
-    Makes odom msgs from each of the various sources look different on screen
+    transmits information to make odom msgs from each of the various sources look different on screen
     -puts each source's odom arrow and covar ellipse together
     -publishes it with the appropriate publisher
     - input 'sensor' : string from one of self.sensors list
     """
-    print("In demarcateSource")
+    # print("In demarcateSource")
 
     if sens == 'gNovatel':
         odom_pub = self.odom_novatel_publisher
@@ -301,7 +213,7 @@ def demarcateSource( self, sens ):
         r = self.rgb_novatel['r']
         g = self.rgb_novatel['g']
         b = self.rgb_novatel['b']
-        stackup_elev = 0.3 # on top
+        stackup_elev = 0.01 # on top
         upd_veh = True
     elif sens == 'gPennSt':
         odom_pub = self.odom_pennst_publisher
@@ -309,7 +221,7 @@ def demarcateSource( self, sens ):
         r = self.rgb_pennst['r']
         g = self.rgb_pennst['g']
         b = self.rgb_pennst['b']
-        stackup_elev = 0.2
+        stackup_elev = 0
         upd_veh = False
     elif sens == 'gSRI':
         odom_pub = self.odom_sri_publisher
@@ -317,7 +229,7 @@ def demarcateSource( self, sens ):
         r = self.rgb_sri['r']
         g = self.rgb_sri['g']
         b = self.rgb_sri['b']
-        stackup_elev = 0.1
+        stackup_elev = 0
         upd_veh = False
     elif sens == 'gDSRC':
         odom_pub = self.odom_dsrc_publisher
@@ -325,7 +237,7 @@ def demarcateSource( self, sens ):
         r = self.rgb_dsrc['r']
         g = self.rgb_dsrc['g']
         b = self.rgb_dsrc['b']
-        stackup_elev = 0.0
+        stackup_elev = 0
         upd_veh = False
     else:
         rospy.logwarn('mailroom.demarcateSource :: unknown msg sensor/source, seriously??!! COME ON!')   
@@ -343,7 +255,7 @@ def pub_at_position( self, odom_msg ):
         -vehicle mesh only for now
         -this should only be invoked when the accepted (novatel) position is updated
     """
-    print("In pub_at_position")
+    # print("In pub_at_position")
     marker = Marker()
     pub = self.curpos_publisher
     # msg = self.odom_msgs[time]

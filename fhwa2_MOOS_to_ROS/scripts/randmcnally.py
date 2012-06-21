@@ -188,7 +188,23 @@ def create_map(self):
     self.map_lane_array = MarkerArray()
     NCAT_id = 0
     
+
     # Stripes
+    # marker = Marker()
+    # marker.header.frame_id = 'odom'
+    # marker.action = Marker.ADD # can be ADD, REMOVE, or MODIFY
+    # marker.lifetime = rospy.Duration() # will last forever unless modified
+    # marker.ns = "stripes"
+    # marker.type = Marker.CUBE
+    # marker.pose.position.z = -1.55 # zero is a novatel mount level
+    # marker.color.r = 255
+    # marker.color.g = 255
+    # marker.color.b = 0
+    # marker.color.a = 1.0
+    # marker.scale.x = 0.2
+    # marker.scale.y = 0.2
+    # marker.scale.z = 0.7
+    # marker.mesh_use_embedded_materials = False
     for ring in stripes:
         for pt in ring:
             lat = float(ring[pt][0])
@@ -204,22 +220,43 @@ def create_map(self):
             marker.type = Marker.CUBE
             marker.pose.position.x = east
             marker.pose.position.y = nrth
+            marker.pose.position.z = -1.55 # zero is a novatel mount level
             marker.color.r = 255
             marker.color.g = 255
             marker.color.b = 0
             marker.color.a = 1.0
-            marker.scale.x = 0.25
-            marker.scale.y = 0.25
-            marker.scale.z = 0.75
+            marker.scale.x = 0.2
+            marker.scale.y = 0.2
+            marker.scale.z = 0.7
             marker.mesh_use_embedded_materials = False
 
             self.map_stripe_array.markers.append(marker)
             
-            print('Stripes')
-            print(marker)
+            # print('Stripes')
+            # print(marker)
             NCAT_id += 1
+    print('Stripe Markers have been printed') 
+
+    del marker
+
 
     # Centers of the lanes
+    # marker = Marker()
+    # marker.header.frame_id = 'odom'
+    # marker.action = Marker.ADD # can be ADD, REMOVE, or MODIFY
+    # marker.lifetime = rospy.Duration() # will last forever unless modified
+    # marker.ns = "lane_centers"
+    # marker.type = Marker.SPHERE
+    # marker.pose.position.z = -1.55 # zero is a novatel mount level
+    # marker.color.r = 0
+    # marker.color.g = 1
+    # marker.color.b = 0
+    # marker.color.a = 1.0
+    # marker.scale.x = 0.2
+    # marker.scale.y = 0.2
+    # marker.scale.z = 0.2
+    # marker.mesh_use_embedded_materials = False
+
     for ring in lanes:
         for pt in ring:
             lat = float(ring[pt][0])
@@ -235,10 +272,11 @@ def create_map(self):
             marker.type = Marker.SPHERE
             marker.pose.position.x = east
             marker.pose.position.y = nrth
-            marker.color.r = 0
-            marker.color.g = 1
-            marker.color.b = 0
-            marker.color.a = 1.0
+            marker.pose.position.z = -1.55 # zero is a novatel mount level
+            marker.color.r = 127
+            marker.color.g = 127
+            marker.color.b = 127
+            marker.color.a = 0.5
             marker.scale.x = 0.2
             marker.scale.y = 0.2
             marker.scale.z = 0.2
@@ -246,9 +284,10 @@ def create_map(self):
             
             self.map_lane_array.markers.append(marker)
             
-            print('Lane Centers')
-            print(marker)
+            # print('Lane Centers')
+            # print(marker)
             NCAT_id += 1
+    print('Lane Center Markers have been printed')
 
 
 
@@ -270,5 +309,6 @@ def create_map_mesh(self):
     marker.mesh_use_embedded_materials = False
     marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_03_stripe_planes_colored_01_boxed.dae"
 
-    print(marker)
+    # print(marker)
+    # print("Map Mesh marker has been published")
     self.map_mesh_marker = marker
