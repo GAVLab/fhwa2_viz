@@ -42,13 +42,13 @@ class MOOS2RVIZ(MOOSCommClient):
         randmcnally.create_map(self)
         self.map_stripe_publisher.publish(self.map_stripe_array)
         self.map_lane_publisher.publish(self.map_lane_array)
-        print('Map has been published')
+        print('Map has been published - you should see the lane/stripe markers once running')
 
         # Publish track mesh
         self.track_mesh_publisher = rospy.Publisher('/map/mesh', Marker, latch=True)
         randmcnally.create_map_mesh(self)
         self.track_mesh_publisher.publish(self.map_mesh_marker)
-        print('Map mesh has been published')
+        print('Map mesh has been published - you should see it once running')
 
         # Odom init
         self.desired_variables = ('zLat','zLong','zLatStdDev','zLongStdDev','zCourse') # we want these measurments from each sensor, below
@@ -84,7 +84,7 @@ class MOOS2RVIZ(MOOSCommClient):
 
         # Vehicle model - init
         rospy.Subscriber("/novatel/odom", Odometry, mailroom.pub_at_position) # put the vehicle model at the accepted position solution
-        self.curpos_publisher = rospy.Publisher('/novatel/current_position', Marker) # even though this is at the same position as the novatel error ellipse, we want it to have a different name in case the integrated solution is different
+        self.curpos_publisher = rospy.Publisher('/novatel/current_position', MarkerArray) # even though this is at the same position as the novatel error ellipse, we want it to have a different name in case the integrated solution is different
 
 
     # These functions required in every MOOS App

@@ -263,7 +263,7 @@
 			"file": "scripts/guiBridge.py",
 			"settings":
 			{
-				"buffer_size": 5385,
+				"buffer_size": 5405,
 				"line_ending": "Unix"
 			}
 		},
@@ -271,7 +271,7 @@
 			"file": "scripts/mailroom.py",
 			"settings":
 			{
-				"buffer_size": 15860,
+				"buffer_size": 11656,
 				"line_ending": "Unix"
 			}
 		},
@@ -279,7 +279,7 @@
 			"file": "scripts/randmcnally.py",
 			"settings":
 			{
-				"buffer_size": 9513,
+				"buffer_size": 10984,
 				"line_ending": "Unix"
 			}
 		},
@@ -295,7 +295,7 @@
 			"file": "to_do.txt",
 			"settings":
 			{
-				"buffer_size": 381,
+				"buffer_size": 464,
 				"line_ending": "Unix"
 			}
 		},
@@ -303,7 +303,7 @@
 			"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/README.md",
 			"settings":
 			{
-				"buffer_size": 414,
+				"buffer_size": 1243,
 				"line_ending": "Unix"
 			}
 		},
@@ -319,7 +319,7 @@
 			"file": "/home/gavlab/alog_Files/Long_novatel_plus3.alog",
 			"settings":
 			{
-				"buffer_size": 770940,
+				"buffer_size": 771023,
 				"line_ending": "Unix"
 			}
 		},
@@ -507,6 +507,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"print",
 			"time",
 			"odom_msg",
 			"publisher",
@@ -592,7 +593,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -600,15 +601,15 @@
 					"file": "scripts/guiBridge.py",
 					"settings":
 					{
-						"buffer_size": 5385,
+						"buffer_size": 5405,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4041,
-								4041
+								3940,
+								3947
 							]
 						],
 						"settings":
@@ -619,7 +620,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 967.0,
+						"translation.y": 801.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -629,15 +630,15 @@
 					"file": "scripts/mailroom.py",
 					"settings":
 					{
-						"buffer_size": 15860,
+						"buffer_size": 11656,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1993,
-								1993
+								9338,
+								9338
 							]
 						],
 						"settings":
@@ -648,7 +649,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3780.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -658,15 +659,15 @@
 					"file": "scripts/randmcnally.py",
 					"settings":
 					{
-						"buffer_size": 9513,
+						"buffer_size": 10984,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								531,
-								531
+								1208,
+								1208
 							]
 						],
 						"settings":
@@ -677,7 +678,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2803.0,
+						"translation.y": 205.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -714,15 +715,15 @@
 					"file": "to_do.txt",
 					"settings":
 					{
-						"buffer_size": 381,
+						"buffer_size": 464,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								297,
-								297
+								379,
+								379
 							]
 						],
 						"settings":
@@ -741,20 +742,21 @@
 					"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/README.md",
 					"settings":
 					{
-						"buffer_size": 414,
+						"buffer_size": 1243,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								19,
-								19
+								1189,
+								1189
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -794,15 +796,15 @@
 					"file": "/home/gavlab/alog_Files/Long_novatel_plus3.alog",
 					"settings":
 					{
-						"buffer_size": 770940,
+						"buffer_size": 771023,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2163,
-								2163
+								0,
+								0
 							]
 						],
 						"settings":

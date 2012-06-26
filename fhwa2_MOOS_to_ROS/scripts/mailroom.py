@@ -133,7 +133,8 @@ def package_odom_var( self, UTMtoPub ):
     Puts odom var (from UTM N & E) into a ros message and sends to the publishing decider.
         -does all the ROS packaging common to all sources
     """
-    import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
+    import roslib
+    roslib.load_manifest('fhwa2_MOOS_to_ROS')
     import rospy
     from nav_msgs.msg import Odometry # this will need to be repeated for other message types?
     from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest
@@ -248,18 +249,20 @@ def demarcateSource( self, sens ):
 ####################################################################################
 
 def pub_at_position( self, odom_msg ):
-    from visualization_msgs.msg import Marker
+    from visualization_msgs.msg import Marker, MarkerArray
     import rospy
     """
     Handles necessary information for displaying things at ACCEPTED (NOVATEL) POSITION SOLUTION:
-        -vehicle mesh only for now
+        -vehicle mesh  & marker legend floating above
         -this should only be invoked when the accepted (novatel) position is updated
     """
+    curpos_array = MarkerArray()
+    ####################
+    ##### G35 Mesh #####
     # print("In pub_at_position")
     marker = Marker()
     pub = self.curpos_publisher
     # msg = self.odom_msgs[time]
-    
     marker.header = odom_msg.header
     marker.id = 0 # enumerate subsequent markers here
     marker.action = Marker.MODIFY # can be ADD, REMOVE, or MODIFY
@@ -276,4 +279,90 @@ def pub_at_position( self, odom_msg ):
     marker.color.a = .5
     marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae" #robustify here
     marker.mesh_use_embedded_materials = False
-    pub.publish(marker)
+    curpos_array.markers.append(marker)
+    # pub.publish(marker)
+    #####################
+
+    ##### Phantom legend #####
+    opacity = 1.0
+    
+    ## Novatel - Text
+    marker = Marker()
+    marker.header = odom_msg.header
+    marker.id = 1
+    marker.ns = 'Novatel_legend'
+    marker.type = Marker.TEXT_VIEW_FACING
+    marker.text = "Novatel\n*Integrated Solution*"
+    marker.action = Marker.MODIFY
+    marker.pose = odom_msg.pose.pose
+    marker.pose.position.z = 15 # elevate
+    marker.scale.x = 0.25
+    marker.scale.y = 0.25
+    marker.scale.z = 0.25
+    marker.color.r = self.rgb_novatel['r']
+    marker.color.g = self.rgb_novatel['g']
+    marker.color.b = self.rgb_novatel['b']
+    marker.color.a = opacity
+    curpos_array.markers.append(marker)
+    del marker
+
+    ## PennSt
+    marker = Marker()
+    marker.header = odom_msg.header
+    marker.id = 3
+    marker.ns = 'PennSt_legend'
+    marker.type = Marker.TEXT_VIEW_FACING
+    marker.text = "Penn St"
+    marker.action = Marker.MODIFY
+    marker.pose = odom_msg.pose.pose
+    # marker.pose.position.z += 14 # elevate
+    marker.scale.x = 0.25
+    marker.scale.y = 0.25
+    marker.scale.z = 0.25
+    marker.color.r = self.rgb_pennst['r']
+    marker.color.g = self.rgb_pennst['g']
+    marker.color.b = self.rgb_pennst['b']
+    marker.color.a = opacity
+    curpos_array.markers.append(marker)
+
+
+    # SRI
+    marker = Marker()
+    marker.header = odom_msg.header
+    marker.id = 3
+    marker.ns = 'SRI_legend'
+    marker.type = Marker.TEXT_VIEW_FACING
+    marker.text = "SRI"
+    marker.action = Marker.MODIFY
+    marker.pose = odom_msg.pose.pose
+    # marker.pose.position.z += 13 # elevate
+    marker.scale.x = 0.25
+    marker.scale.y = 0.25
+    marker.scale.z = 0.25
+    marker.color.r = self.rgb_sri['r']
+    marker.color.g = self.rgb_sri['g']
+    marker.color.b = self.rgb_sri['b']
+    marker.color.a = opacity
+    curpos_array.markers.append(marker)
+    
+    # DSRC
+    marker = Marker()
+    marker.header = odom_msg.header
+    marker.id = 4
+    marker.ns = 'DSRC_legend'
+    marker.type = Marker.TEXT_VIEW_FACING
+    marker.text = "DSRC"
+    marker.action = Marker.MODIFY
+    marker.pose = odom_msg.pose.pose
+    # marker.pose.position.z += 12 # elevate
+    marker.scale.x = 0.25
+    marker.scale.y = 0.25
+    marker.scale.z = 0.25
+    marker.color.r = self.rgb_dsrc['r']
+    marker.color.g = self.rgb_dsrc['g']
+    marker.color.b = self.rgb_dsrc['b']
+    marker.color.a = opacity
+    curpos_array.markers.append(marker)
+    ##########################
+
+    pub.publish(curpos_array)

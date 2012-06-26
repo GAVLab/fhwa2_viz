@@ -6,8 +6,12 @@
 -robustify all the if/else stuff for the 4 sensor types
 
 - will need legend of some type
+	-use phantom floating marker above the G
+	-turn G-Mesh into marker array in rviz
 
 - get track mesh from blender working
 	-box it 
 
 -in mailroom.gather_odom_var(), use pop instead of a list then delete in a for loop
+
+-clean up randmcnally's mapping functionality

@@ -5,7 +5,7 @@ This file contain modules related to coordinate systems, and specifically the NC
 Created 5/20/2012
 Author: Robert Cofield
 
-I know that my coding sucks. Thank you.
+I know that my coding sucks here. Thank you.
 """
 
 def survey():
@@ -188,23 +188,6 @@ def create_map(self):
     self.map_lane_array = MarkerArray()
     NCAT_id = 0
     
-
-    # Stripes
-    # marker = Marker()
-    # marker.header.frame_id = 'odom'
-    # marker.action = Marker.ADD # can be ADD, REMOVE, or MODIFY
-    # marker.lifetime = rospy.Duration() # will last forever unless modified
-    # marker.ns = "stripes"
-    # marker.type = Marker.CUBE
-    # marker.pose.position.z = -1.55 # zero is a novatel mount level
-    # marker.color.r = 255
-    # marker.color.g = 255
-    # marker.color.b = 0
-    # marker.color.a = 1.0
-    # marker.scale.x = 0.2
-    # marker.scale.y = 0.2
-    # marker.scale.z = 0.7
-    # marker.mesh_use_embedded_materials = False
     for ring in stripes:
         for pt in ring:
             lat = float(ring[pt][0])
@@ -236,26 +219,7 @@ def create_map(self):
             # print(marker)
             NCAT_id += 1
     print('Stripe Markers have been printed') 
-
     del marker
-
-
-    # Centers of the lanes
-    # marker = Marker()
-    # marker.header.frame_id = 'odom'
-    # marker.action = Marker.ADD # can be ADD, REMOVE, or MODIFY
-    # marker.lifetime = rospy.Duration() # will last forever unless modified
-    # marker.ns = "lane_centers"
-    # marker.type = Marker.SPHERE
-    # marker.pose.position.z = -1.55 # zero is a novatel mount level
-    # marker.color.r = 0
-    # marker.color.g = 1
-    # marker.color.b = 0
-    # marker.color.a = 1.0
-    # marker.scale.x = 0.2
-    # marker.scale.y = 0.2
-    # marker.scale.z = 0.2
-    # marker.mesh_use_embedded_materials = False
 
     for ring in lanes:
         for pt in ring:
@@ -300,6 +264,7 @@ def create_map_mesh(self):
     marker = Marker()
     pub = self.track_mesh_publisher
 
+    # leave the position at default (0,0,0) b/c it is created in blender at the UTM coords
     marker.header.frame_id = 'odom' # publish in static frame
     marker.id = 0
     marker.action = Marker.ADD
@@ -307,8 +272,13 @@ def create_map_mesh(self):
     marker.ns = "track_mesh"
     marker.type = Marker.MESH_RESOURCE
     marker.mesh_use_embedded_materials = False
+    # marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_03_stripe_planes_colored_01_boxed.dae"
     marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_03_stripe_planes_colored_01_boxed.dae"
 
+    marker.color.r = .5
+    marker.color.g = .5
+    marker.color.b = .5
+    marker.color.a = 1.0
+
     # print(marker)
-    # print("Map Mesh marker has been published")
     self.map_mesh_marker = marker
