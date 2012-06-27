@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"me",
+				"mesh_resource"
+			],
+			[
+				"Penn",
+				"PennSt"
+			],
+			[
+				"cup",
+				"curpos_array"
+			],
+			[
+				"M",
+				"MarkerArray"
+			],
+			[
+				"Marker",
+				"MarkerArray"
+			],
+			[
+				"rg",
+				"rgb_dsrc"
+			],
+			[
+				"rgb_",
+				"rgb_sri"
+			],
+			[
+				"rgb",
+				"rgb_novatel"
+			],
+			[
 				"upd",
 				"upd_veh"
 			],
@@ -263,7 +295,7 @@
 			"file": "scripts/guiBridge.py",
 			"settings":
 			{
-				"buffer_size": 5405,
+				"buffer_size": 5497,
 				"line_ending": "Unix"
 			}
 		},
@@ -271,7 +303,7 @@
 			"file": "scripts/mailroom.py",
 			"settings":
 			{
-				"buffer_size": 11656,
+				"buffer_size": 14299,
 				"line_ending": "Unix"
 			}
 		},
@@ -279,7 +311,7 @@
 			"file": "scripts/randmcnally.py",
 			"settings":
 			{
-				"buffer_size": 10984,
+				"buffer_size": 10059,
 				"line_ending": "Unix"
 			}
 		},
@@ -295,7 +327,7 @@
 			"file": "to_do.txt",
 			"settings":
 			{
-				"buffer_size": 464,
+				"buffer_size": 593,
 				"line_ending": "Unix"
 			}
 		},
@@ -316,10 +348,10 @@
 			}
 		},
 		{
-			"file": "/home/gavlab/alog_Files/Long_novatel_plus3.alog",
+			"file": "/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/build/pyMOOS_svn/src/pyMOOSMsg.cpp",
 			"settings":
 			{
-				"buffer_size": 771023,
+				"buffer_size": 2577,
 				"line_ending": "Unix"
 			}
 		},
@@ -332,10 +364,10 @@
 			}
 		},
 		{
-			"file": "/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/build/pyMOOS_svn/src/pyMOOSMsg.cpp",
+			"file": "/home/gavlab/alog_Files/Long_novatel_plus3.alog",
 			"settings":
 			{
-				"buffer_size": 2577,
+				"buffer_size": 771023,
 				"line_ending": "Unix"
 			}
 		}
@@ -507,6 +539,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"SPHERE",
 			"print",
 			"time",
 			"odom_msg",
@@ -577,6 +610,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"Marker.SPHERE",
 			"sens",
 			"UTMtoPub",
 			"gavlab",
@@ -601,15 +635,15 @@
 					"file": "scripts/guiBridge.py",
 					"settings":
 					{
-						"buffer_size": 5405,
+						"buffer_size": 5497,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3940,
-								3947
+								1783,
+								1783
 							]
 						],
 						"settings":
@@ -620,7 +654,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 801.0,
+						"translation.y": 451.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -630,15 +664,15 @@
 					"file": "scripts/mailroom.py",
 					"settings":
 					{
-						"buffer_size": 11656,
+						"buffer_size": 14299,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9338,
-								9338
+								12520,
+								12520
 							]
 						],
 						"settings":
@@ -649,7 +683,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3780.0,
+						"translation.y": 3994.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -659,15 +693,15 @@
 					"file": "scripts/randmcnally.py",
 					"settings":
 					{
-						"buffer_size": 10984,
+						"buffer_size": 10059,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1208,
-								1208
+								9901,
+								9901
 							]
 						],
 						"settings":
@@ -678,7 +712,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 205.0,
+						"translation.y": 3552.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -715,15 +749,15 @@
 					"file": "to_do.txt",
 					"settings":
 					{
-						"buffer_size": 464,
+						"buffer_size": 593,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								379,
-								379
+								412,
+								412
 							]
 						],
 						"settings":
@@ -790,29 +824,36 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 2,
+			"sheets":
+			[
 				{
 					"buffer": 7,
-					"file": "/home/gavlab/alog_Files/Long_novatel_plus3.alog",
+					"file": "/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/build/pyMOOS_svn/src/pyMOOSMsg.cpp",
 					"settings":
 					{
-						"buffer_size": 771023,
+						"buffer_size": 2577,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								2110,
+								2110
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 408.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -847,27 +888,26 @@
 				},
 				{
 					"buffer": 9,
-					"file": "/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/build/pyMOOS_svn/src/pyMOOSMsg.cpp",
+					"file": "/home/gavlab/alog_Files/Long_novatel_plus3.alog",
 					"settings":
 					{
-						"buffer_size": 2577,
+						"buffer_size": 771023,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2110,
-								2110
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 408.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -892,11 +932,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.598166765228,
 			1.0
 		],
 		"rows":
@@ -906,6 +953,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
 	"replace":
 	{
 		"height": 64.0

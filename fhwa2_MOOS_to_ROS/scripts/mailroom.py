@@ -3,7 +3,7 @@
 """
 This file contains modules which are at the core of MOOS ==> ROS communication
 
-The function flow structure is roughly a daisy-chain with respect to each message received
+The function flow structure is roughly a daisy-chain with respect to each message received; that is, I've tried to keep it so each message moves from the top function down..
 
 Created 5/30/2012
 Author: Robert Cofield
@@ -110,8 +110,8 @@ def convert_odom_var( self, skateboard, sens, time ):
 
     # Convert to UTM
     (Easting, Northing) = ll2utm(float(skateboard['zLat']['value']), float(skateboard['zLong']['value']))
-    UTMtoPub['N'] = Northing
-    UTMtoPub['E'] = Easting
+    UTMtoPub['N'] = Northing - self.UTMdatum['N']
+    UTMtoPub['E'] = Easting  - self.UTMdatum['E']
 
     # Covariances - Lat/Lon Std Dev are output in meters already
     UTMtoPub['Nsd'] = float(skateboard['zLatStdDev']['value'])
@@ -256,7 +256,7 @@ def pub_at_position( self, odom_msg ):
         -vehicle mesh  & marker legend floating above
         -this should only be invoked when the accepted (novatel) position is updated
     """
-    curpos_array = MarkerArray()
+    # curpos_array = MarkerArray()
     ####################
     ##### G35 Mesh #####
     # print("In pub_at_position")
@@ -279,43 +279,47 @@ def pub_at_position( self, odom_msg ):
     marker.color.a = .5
     marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae" #robustify here
     marker.mesh_use_embedded_materials = False
-    curpos_array.markers.append(marker)
-    # pub.publish(marker)
+    # curpos_array.markers.append(marker)
+    pub.publish(marker)
     #####################
 
     ##### Phantom legend #####
     opacity = 1.0
     
     ## Novatel - Text
+    pub = self.legend_novatel_publisher
     marker = Marker()
     marker.header = odom_msg.header
-    marker.id = 1
+    marker.id = 0
     marker.ns = 'Novatel_legend'
     marker.type = Marker.TEXT_VIEW_FACING
-    marker.text = "Novatel\n*Integrated Solution*"
+    marker.text = "Novatel (Integrated Solution)"
     marker.action = Marker.MODIFY
     marker.pose = odom_msg.pose.pose
-    marker.pose.position.z = 15 # elevate
+    marker.pose.position.z = 1.75 # elevate
     marker.scale.x = 0.25
     marker.scale.y = 0.25
-    marker.scale.z = 0.25
-    marker.color.r = self.rgb_novatel['r']
-    marker.color.g = self.rgb_novatel['g']
-    marker.color.b = self.rgb_novatel['b']
+    marker.scale.z = 0.3
+    marker.color.r = 0 #self.rgb_novatel['r']
+    marker.color.g = 0 #self.rgb_novatel['g']
+    marker.color.b = 0 #self.rgb_novatel['b']
     marker.color.a = opacity
-    curpos_array.markers.append(marker)
+    # curpos_array.markers.append(marker)
+    pub.publish(marker)
     del marker
 
     ## PennSt
+    pub = self.legend_pennst_publisher
     marker = Marker()
     marker.header = odom_msg.header
-    marker.id = 3
+    # marker.header.frame_id = 'odom'
+    marker.id = 0
     marker.ns = 'PennSt_legend'
     marker.type = Marker.TEXT_VIEW_FACING
     marker.text = "Penn St"
     marker.action = Marker.MODIFY
     marker.pose = odom_msg.pose.pose
-    # marker.pose.position.z += 14 # elevate
+    marker.pose.position.z = 1.5 # elevate
     marker.scale.x = 0.25
     marker.scale.y = 0.25
     marker.scale.z = 0.25
@@ -323,19 +327,22 @@ def pub_at_position( self, odom_msg ):
     marker.color.g = self.rgb_pennst['g']
     marker.color.b = self.rgb_pennst['b']
     marker.color.a = opacity
-    curpos_array.markers.append(marker)
-
+    # curpos_array.markers.append(marker)
+    pub.publish(marker)
+    del marker
 
     # SRI
+    pub = self.legend_sri_publisher
     marker = Marker()
     marker.header = odom_msg.header
-    marker.id = 3
+    # marker.header.frame_id = 'odom'
+    marker.id = 0
     marker.ns = 'SRI_legend'
     marker.type = Marker.TEXT_VIEW_FACING
     marker.text = "SRI"
     marker.action = Marker.MODIFY
     marker.pose = odom_msg.pose.pose
-    # marker.pose.position.z += 13 # elevate
+    marker.pose.position.z = 1.25 # elevate
     marker.scale.x = 0.25
     marker.scale.y = 0.25
     marker.scale.z = 0.25
@@ -343,18 +350,22 @@ def pub_at_position( self, odom_msg ):
     marker.color.g = self.rgb_sri['g']
     marker.color.b = self.rgb_sri['b']
     marker.color.a = opacity
-    curpos_array.markers.append(marker)
-    
+    # curpos_array.markers.append(marker)
+    pub.publish(marker)
+    del marker
+
     # DSRC
+    pub = self.legend_dsrc_publisher
     marker = Marker()
-    marker.header = odom_msg.header
-    marker.id = 4
+    # marker.header = odom_msg.header
+    marker.header.frame_id = 'odom'
+    marker.id = 0
     marker.ns = 'DSRC_legend'
     marker.type = Marker.TEXT_VIEW_FACING
     marker.text = "DSRC"
     marker.action = Marker.MODIFY
     marker.pose = odom_msg.pose.pose
-    # marker.pose.position.z += 12 # elevate
+    marker.pose.position.z = 1 # elevate
     marker.scale.x = 0.25
     marker.scale.y = 0.25
     marker.scale.z = 0.25
@@ -362,7 +373,9 @@ def pub_at_position( self, odom_msg ):
     marker.color.g = self.rgb_dsrc['g']
     marker.color.b = self.rgb_dsrc['b']
     marker.color.a = opacity
-    curpos_array.markers.append(marker)
+    # curpos_array.markers.append(marker)
+    pub.publish(marker)
+    del marker
     ##########################
 
-    pub.publish(curpos_array)
+    # pub.publish(curpos_array)

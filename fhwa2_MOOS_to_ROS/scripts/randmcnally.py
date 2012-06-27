@@ -193,7 +193,6 @@ def create_map(self):
             lat = float(ring[pt][0])
             lon = float(ring[pt][1])
             (east, nrth) = ll2utm(lat, lon) # convert to UTM
-            
             marker = Marker()
             marker.header.frame_id = 'odom'
             marker.id = NCAT_id # enumerate subsequent markers here
@@ -201,8 +200,8 @@ def create_map(self):
             marker.lifetime = rospy.Duration() # will last forever unless modified
             marker.ns = "stripes"
             marker.type = Marker.CUBE
-            marker.pose.position.x = east
-            marker.pose.position.y = nrth
+            marker.pose.position.x = east - self.UTMdatum['E']
+            marker.pose.position.y = nrth - self.UTMdatum['N']
             marker.pose.position.z = -1.55 # zero is a novatel mount level
             marker.color.r = 255
             marker.color.g = 255
@@ -212,7 +211,6 @@ def create_map(self):
             marker.scale.y = 0.2
             marker.scale.z = 0.7
             marker.mesh_use_embedded_materials = False
-
             self.map_stripe_array.markers.append(marker)
             
             # print('Stripes')
@@ -234,13 +232,13 @@ def create_map(self):
             marker.lifetime = rospy.Duration() # will last forever unless modified
             marker.ns = "lane_centers"
             marker.type = Marker.SPHERE
-            marker.pose.position.x = east
-            marker.pose.position.y = nrth
+            marker.pose.position.x = east - self.UTMdatum['E']
+            marker.pose.position.y = nrth - self.UTMdatum['N']
             marker.pose.position.z = -1.55 # zero is a novatel mount level
-            marker.color.r = 127
-            marker.color.g = 127
-            marker.color.b = 127
-            marker.color.a = 0.5
+            marker.color.r = 0
+            marker.color.g = 0
+            marker.color.b = 0
+            marker.color.a = 0.75
             marker.scale.x = 0.2
             marker.scale.y = 0.2
             marker.scale.z = 0.2
@@ -254,7 +252,6 @@ def create_map(self):
     print('Lane Center Markers have been printed')
 
 
-
 ##################################################################################
 
 def create_map_mesh(self):
@@ -262,23 +259,32 @@ def create_map_mesh(self):
     import rospy
 
     marker = Marker()
-    pub = self.track_mesh_publisher
-
+    # pub = self.track_mesh_publisher
     # leave the position at default (0,0,0) b/c it is created in blender at the UTM coords
     marker.header.frame_id = 'odom' # publish in static frame
+    # marker.header.stamp = rospy.Time.now
     marker.id = 0
     marker.action = Marker.ADD
     marker.lifetime = rospy.Duration() # immortal unless changed
     marker.ns = "track_mesh"
     marker.type = Marker.MESH_RESOURCE
     marker.mesh_use_embedded_materials = False
-    # marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_03_stripe_planes_colored_01_boxed.dae"
-    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_03_stripe_planes_colored_01_boxed.dae"
-
-    marker.color.r = .5
-    marker.color.g = .5
-    marker.color.b = .5
+    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_03_stripe_planes_colored_01.stl"
+    # marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/giant_cube_in_the_center.stl"
+    marker.pose.position.x = 0 - self.UTMdatum['E']
+    marker.pose.position.y = 0 - self.UTMdatum['N']
+    marker.pose.position.z = 0
+    marker.scale.x = 1
+    marker.scale.y = 1
+    marker.scale.z = 1
+    marker.color.r = 0
+    marker.color.g = 0
+    marker.color.b = 0
     marker.color.a = 1.0
+    self.track_mesh_publisher.publish(marker)
 
-    # print(marker)
-    self.map_mesh_marker = marker
+
+    ### try to publish a giant ass cube mesh at the NE corner for debugging
+    # marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/giant_cube_at_NE_end.dae"
+    # self.track_mesh_publisher.publish(marker)
+

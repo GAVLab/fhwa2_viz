@@ -3,6 +3,10 @@ fhwa2_viz
 
 Visualization stuff for the FHWA2 project in the GAVlab
 
+Datum is roughly center of track
+	E:   659 300  	m
+	N: 3 607 850   	m
+
 
 ##### Procedure for running latest version #####
 

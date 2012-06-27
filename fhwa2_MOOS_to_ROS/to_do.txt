@@ -1,17 +1,14 @@
-- make multiple sensor inputs display
-	-break up mailroom.pub_at_position() so that only vehicle mesh is published
-	-find way to publish indiv msgs
-	-stack up covar ellipses in mailroom.demarcateSource(...) so that not on top of one another
-
--robustify all the if/else stuff for the 4 sensor types
-
-- will need legend of some type
-	-use phantom floating marker above the G
-	-turn G-Mesh into marker array in rviz
+-better/prettier stacking of odom/err_ell markers
+	-make the novatel/integrated solution dominate
 
 - get track mesh from blender working
 	-box it 
 
 -in mailroom.gather_odom_var(), use pop instead of a list then delete in a for loop
 
+-G centered grid is at a weird elevation
+
 -clean up randmcnally's mapping functionality
+
+-subtract datum from all points
+	-redo meshing, then in randmcnally.create_map_mesh(), return publish position to (0,0,0)
