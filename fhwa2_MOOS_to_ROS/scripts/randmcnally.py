@@ -269,7 +269,7 @@ def create_map_mesh(self):
     marker.ns = "track_mesh"
     marker.type = Marker.MESH_RESOURCE
     marker.mesh_use_embedded_materials = False
-    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_03_stripe_planes_colored_01.stl"
+    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_03_stripe_planes_colored_01.stl" #ugly stripes, but they work
     # marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/giant_cube_in_the_center.stl"
     marker.pose.position.x = 0 - self.UTMdatum['E']
     marker.pose.position.y = 0 - self.UTMdatum['N']
