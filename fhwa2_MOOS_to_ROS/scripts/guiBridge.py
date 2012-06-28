@@ -83,7 +83,7 @@ class MOOS2RVIZ(MOOSCommClient):
         self.gDSRC_holder = {}
 
         # odom & error ellipse colors - only sets the err ell colors, but these are in the config for the odom msgs
-        self.rgb_novatel =  dict([['r', 0],     ['g', 0],   ['b',0]])         #black
+        self.rgb_novatel =  dict([['r', 0],     ['g', 150],   ['b',0]])         #black
         self.rgb_pennst =   dict([['r', 0],     ['g', 0],   ['b',127]])         #blue
         self.rgb_sri    =   dict([['r', 170],   ['g', 0],   ['b',127]])         #purple
         self.rgb_dsrc   =   dict([['r', 170],   ['g', 0],   ['b',0]])           #red

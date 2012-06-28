@@ -12,3 +12,5 @@
 
 -subtract datum from all points
 	-redo meshing, then in randmcnally.create_map_mesh(), return publish position to (0,0,0)
+
+-mesh colors will work in rviz if using URDF file

@@ -273,10 +273,10 @@ def pub_at_position( self, odom_msg ):
     marker.scale.x = 0.0254 # artifact of sketchup export
     marker.scale.y = 0.0254 # artifact of sketchup export
     marker.scale.z = 0.0254 # artifact of sketchup export
-    marker.color.r = .5
-    marker.color.g = .5
-    marker.color.b = .5
-    marker.color.a = .5
+    marker.color.r = .05
+    marker.color.g = .05
+    marker.color.b = .05
+    marker.color.a = .2
     marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae" #robustify here
     marker.mesh_use_embedded_materials = False
     # curpos_array.markers.append(marker)

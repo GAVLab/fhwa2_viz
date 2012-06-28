@@ -1,7 +1,7 @@
 Background\ ColorB=1
 Background\ ColorG=1
 Background\ ColorR=1
-Camera\ Config=0.324797 1.2504 25.4067 0 0 0
+Camera\ Config=0.465399 5.58541 10 0.310953 0.471436 -1.06087
 Camera\ Type=rviz::OrbitViewController
 DSRC\ -\ Err\ Ellipse.Enabled=1
 DSRC\ -\ Err\ Ellipse.Error_Ellipses___gDSRC=1
@@ -54,7 +54,7 @@ Novatel\ -\ Legend.Novatel_legend=1
 Novatel\ -\ Legend.Queue\ Size=100
 Novatel\ -\ Odom.Angle\ Tolerance=0.1
 Novatel\ -\ Odom.ColorB=0
-Novatel\ -\ Odom.ColorG=0
+Novatel\ -\ Odom.ColorG=0.588235
 Novatel\ -\ Odom.ColorR=0
 Novatel\ -\ Odom.Enabled=1
 Novatel\ -\ Odom.Keep=100
@@ -79,7 +79,7 @@ PennSt\ -\ Odom.Length=1
 PennSt\ -\ Odom.Position\ Tolerance=0.1
 PennSt\ -\ Odom.Topic=/pennst/odom
 Property\ Grid\ Splitter=763,114
-Property\ Grid\ State=expanded=.Global Options,.Global Status,DSRC - Legend.Enabled,G-Centric Grid.Enabled,Static Grid.Enabled,Static Grid.Offset,Track Mesh.Enabled;splitterratio=0.552941
+Property\ Grid\ State=expanded=.Global Options,.Global Status,Novatel - Odom.Enabled,DSRC - Legend.Enabled,G-Centric Grid.Enabled,Static Grid.Enabled,Static Grid.Offset,Track Mesh.Enabled;splitterratio=0.552941
 QMainWindow=000000ff00000000fd000000030000000000000265000003bffc0200000001fb000000100044006900730070006c006100790073010000001d000003bf000000ee00ffffff0000000100000131000003bffc0200000003fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000001d000001ca0000006700fffffffb0000000a0056006900650077007301000001ed00000134000000bb00fffffffb0000001200530065006c0065006300740069006f006e0100000327000000b50000006700ffffff000000030000073f0000003efc0100000001fb0000000800540069006d006501000000000000073f000002bf00ffffff0000039d000003bf00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
 SRI\ -\ Err\ Ellipse.Enabled=1
 SRI\ -\ Err\ Ellipse.Error_Ellipses___gSRI=1
