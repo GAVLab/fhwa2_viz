@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"gia",
+				"giant_cube_at_NE_end"
+			],
+			[
+				"UTM",
+				"UTMdatum"
+			],
+			[
+				"mesh",
+				"mesh_resource"
+			],
+			[
+				"no",
+				"novatel"
+			],
+			[
+				"Mar",
+				"Marker"
+			],
+			[
 				"me",
 				"mesh_resource"
 			],
@@ -58,10 +78,6 @@
 			[
 				"odom",
 				"odom_msg"
-			],
-			[
-				"UTM",
-				"UTMtoPub"
 			],
 			[
 				"UT",
@@ -295,7 +311,7 @@
 			"file": "scripts/guiBridge.py",
 			"settings":
 			{
-				"buffer_size": 5497,
+				"buffer_size": 6049,
 				"line_ending": "Unix"
 			}
 		},
@@ -303,7 +319,7 @@
 			"file": "scripts/mailroom.py",
 			"settings":
 			{
-				"buffer_size": 14299,
+				"buffer_size": 14841,
 				"line_ending": "Unix"
 			}
 		},
@@ -311,7 +327,7 @@
 			"file": "scripts/randmcnally.py",
 			"settings":
 			{
-				"buffer_size": 10059,
+				"buffer_size": 10574,
 				"line_ending": "Unix"
 			}
 		},
@@ -327,7 +343,7 @@
 			"file": "to_do.txt",
 			"settings":
 			{
-				"buffer_size": 593,
+				"buffer_size": 443,
 				"line_ending": "Unix"
 			}
 		},
@@ -335,7 +351,7 @@
 			"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/README.md",
 			"settings":
 			{
-				"buffer_size": 1243,
+				"buffer_size": 1314,
 				"line_ending": "Unix"
 			}
 		},
@@ -539,6 +555,8 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"publish",
+			"publisher",
 			"SPHERE",
 			"print",
 			"time",
@@ -605,7 +623,7 @@
 			"IsDouble"
 		],
 		"highlight": false,
-		"in_selection": false,
+		"in_selection": true,
 		"preserve_case": false,
 		"regex": false,
 		"replace_history":
@@ -635,15 +653,15 @@
 					"file": "scripts/guiBridge.py",
 					"settings":
 					{
-						"buffer_size": 5497,
+						"buffer_size": 6049,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1783,
-								1783
+								2596,
+								2596
 							]
 						],
 						"settings":
@@ -654,7 +672,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 451.0,
+						"translation.y": 1291.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -664,15 +682,15 @@
 					"file": "scripts/mailroom.py",
 					"settings":
 					{
-						"buffer_size": 14299,
+						"buffer_size": 14841,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12520,
-								12520
+								482,
+								482
 							]
 						],
 						"settings":
@@ -683,7 +701,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3994.0,
+						"translation.y": 3763.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -693,15 +711,15 @@
 					"file": "scripts/randmcnally.py",
 					"settings":
 					{
-						"buffer_size": 10059,
+						"buffer_size": 10574,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9901,
-								9901
+								10013,
+								10013
 							]
 						],
 						"settings":
@@ -712,7 +730,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3552.0,
+						"translation.y": 3462.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -749,15 +767,15 @@
 					"file": "to_do.txt",
 					"settings":
 					{
-						"buffer_size": 593,
+						"buffer_size": 443,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								412,
-								412
+								273,
+								273
 							]
 						],
 						"settings":
@@ -776,15 +794,15 @@
 					"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/README.md",
 					"settings":
 					{
-						"buffer_size": 1243,
+						"buffer_size": 1314,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1189,
-								1189
+								117,
+								117
 							]
 						],
 						"settings":
@@ -820,7 +838,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 861.0,
+						"translation.y": 45.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -898,8 +916,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								1244,
+								1244
 							]
 						],
 						"settings":
@@ -953,10 +971,6 @@
 		]
 	},
 	"menu_visible": true,
-	"output.exec":
-	{
-		"height": 100.0
-	},
 	"replace":
 	{
 		"height": 64.0
