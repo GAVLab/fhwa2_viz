@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"NCAT_",
+				"NCAT_UTM_Plane_03_stripe_planes_colored_01"
+			],
+			[
+				"me",
+				"mesh"
+			],
+			[
 				"gia",
 				"giant_cube_at_NE_end"
 			],
@@ -22,10 +30,6 @@
 			[
 				"Mar",
 				"Marker"
-			],
-			[
-				"me",
-				"mesh_resource"
 			],
 			[
 				"Penn",
@@ -311,7 +315,7 @@
 			"file": "scripts/guiBridge.py",
 			"settings":
 			{
-				"buffer_size": 6049,
+				"buffer_size": 6051,
 				"line_ending": "Unix"
 			}
 		},
@@ -319,15 +323,18 @@
 			"file": "scripts/mailroom.py",
 			"settings":
 			{
-				"buffer_size": 14841,
+				"buffer_size": 14844,
 				"line_ending": "Unix"
 			}
 		},
 		{
+			"contents": "#!/usr/bin/env python\n\"\"\"\nThis file contain modules related to coordinate systems, and specifically the NCAT track map.\n\nCreated 5/20/2012\nAuthor: Robert Cofield\n\nI know that my coding sucks here. Thank you.\n\"\"\"\n\ndef survey():\n    \"\"\"\n    This function must be in the same directory as the *.txt survey files.\n    \"\"\"\n\n    from csv import reader as rdr\n    import os\n\n    curr = os.getcwd()\n    # The ray Lat/Lon survey data is in a subfolder to this file's path, named 'survey'    \n    surveydir = os.path.dirname(__file__) + '/survey'\n    print(curr)\n    print(surveydir)\n\n    ### Reader Imports ###\n    os.chdir(surveydir)\n    stripe_inner_lat_rd = rdr(open(\"stripe_inner_lat.txt\"), delimiter=\" \")\n    stripe_inner_lon_rd = rdr(open(\"stripe_inner_lon.txt\"), delimiter=\" \")\n    lane_inner_lat_rd = rdr(open(\"lane_inner_lat.txt\"), delimiter=\" \")\n    lane_inner_lon_rd = rdr(open(\"lane_inner_lon.txt\"), delimiter=\" \")\n    stripe_middle_lat_rd = rdr(open(\"stripe_middle_lat.txt\"), delimiter=\" \")\n    stripe_middle_lon_rd = rdr(open(\"stripe_middle_lon.txt\"), delimiter=\" \")\n    lane_outer_lat_rd = rdr(open(\"lane_outer_lat.txt\"), delimiter=\" \")\n    lane_outer_lon_rd = rdr(open(\"lane_outer_lon.txt\"), delimiter=\" \")\n    stripe_outer_lat_rd = rdr(open(\"stripe_outer_lat.txt\"), delimiter=\" \")\n    stripe_outer_lon_rd = rdr(open(\"stripe_outer_lon.txt\"), delimiter=\" \")\n\n    ### Inner Stripe ###\n    stripe_inner_lat = []\n    for col in stripe_inner_lat_rd:\n        stripe_inner_lat.append(col)\n    del stripe_inner_lat[0][0]\n    stripe_inner_lat = stripe_inner_lat[0]\n    stripe_inner_lon = []\n    for col in stripe_inner_lon_rd:\n        stripe_inner_lon.append(col)\n    del stripe_inner_lon[0][0]\n    stripe_inner_lon = stripe_inner_lon[0]\n    stripe_inner = {}\n    for pt in range(len(stripe_inner_lon)):\n        stripe_inner[pt] = [stripe_inner_lat[pt], stripe_inner_lon[pt]]\n\n    ### Center - Inner Lane ###\n    lane_inner_lat = []\n    for col in lane_inner_lat_rd:\n        lane_inner_lat.append(col)\n    del lane_inner_lat[0][0]\n    lane_inner_lat = lane_inner_lat[0]\n    lane_inner_lon = []\n    for col in lane_inner_lon_rd:\n        lane_inner_lon.append(col)\n    del lane_inner_lon[0][0]\n    lane_inner_lon = lane_inner_lon[0]\n    lane_inner = {}\n    for pt in range(len(lane_inner_lon)):\n        lane_inner[pt] = [lane_inner_lat[pt], lane_inner_lon[pt]]\n\n    ### Center Stripe ###\n    stripe_middle_lat = []\n    for col in stripe_middle_lat_rd:\n        stripe_middle_lat.append(col)\n    del stripe_middle_lat[0][0]\n    stripe_middle_lat = stripe_middle_lat[0]\n    stripe_middle_lon = []\n    for col in stripe_middle_lon_rd:\n        stripe_middle_lon.append(col)\n    del stripe_middle_lon[0][0]\n    stripe_middle_lon = stripe_middle_lon[0]\n    stripe_middle = {}\n    for pt in range(len(stripe_middle_lon)):\n        stripe_middle[pt] = [stripe_middle_lat[pt], stripe_middle_lon[pt]]\n\n    ### Center - Outer Lane ###\n    lane_outer_lat = []\n    for col in lane_outer_lat_rd:\n        lane_outer_lat.append(col)\n    del lane_outer_lat[0][0]\n    lane_outer_lat = lane_outer_lat[0]\n    lane_outer_lon = []\n    for col in lane_outer_lon_rd:\n        lane_outer_lon.append(col)\n    del lane_outer_lon[0][0]\n    lane_outer_lon = lane_outer_lon[0]\n    lane_outer = {}\n    for pt in range(len(lane_outer_lon)):\n        lane_outer[pt] = [lane_outer_lat[pt], lane_outer_lon[pt]]\n\n    ### Outer Stripe ###\n    stripe_outer_lat = []\n    for col in stripe_outer_lat_rd:\n        stripe_outer_lat.append(col)\n    del stripe_outer_lat[0][0]\n    stripe_outer_lat = stripe_outer_lat[0]\n    stripe_outer_lon = []\n    for col in stripe_outer_lon_rd:\n        stripe_outer_lon.append(col)\n    del stripe_outer_lon[0][0]\n    stripe_outer_lon = stripe_outer_lon[0]\n    stripe_outer = {}\n    for pt in range(len(stripe_outer_lon)):\n        stripe_outer[pt] = [stripe_outer_lat[pt], stripe_outer_lon[pt]]\n\n    os.chdir(curr)\n    return (stripe_inner, lane_inner, stripe_middle, lane_outer, stripe_outer)\n\n\ndef ll2utm(Lat, Long):\n	\"\"\"\n	Converts decimal degree latitude & longitude to UTM Northing & Easting\n\n	Adaptation of code from http://mahi.ucsd.edu/class233/data/Basic/LatLongUTMconversion.py\n	Author: Robert Cofield\n 	20 May, 2012\n	Only works for UTM Zone 16 (any letter designation), Northern Hemisphere\n 	must stay in same letter designation.\n	\"\"\"\n\n	from math import pi, sin, cos, tan, sqrt\n\n	_deg2rad = pi / 180.0\n	_rad2deg = 180.0 / pi\n\n	# WGS-84 Ellipsoid yields these criteria:\n	a = 6378137\n	eccSquared = 0.00669438\n	k0 = 0.9996\n\n	ZoneNumber = 16\n\n	# Longitude must be between -180 & 179.9 (input in decimal degrees)\n	LongTemp = (Long+180)-int((Long+180)/360)*360-180 # -180.00 .. 179.9\n	LongRad = LongTemp * _deg2rad\n\n	LongOrigin = (ZoneNumber - 1)*6-180+3 # +3 puts origin in middle of zone\n	LongOriginRad = LongOrigin*_deg2rad\n\n	LatRad = Lat * _deg2rad\n\n	eccPrimeSquared = eccSquared/(1 - eccSquared)\n	N = a/sqrt(1-eccSquared*sin(LatRad)*sin(LatRad))\n	T = (tan(LatRad))**2\n	C = eccPrimeSquared*cos(LatRad)*cos(LatRad)\n	A = cos(LatRad)*(LongRad-LongOriginRad)\n	M = a*((1\n            - eccSquared/4\n            - 3*eccSquared*eccSquared/64\n            - 5*eccSquared*eccSquared*eccSquared/256)*LatRad \n           - (3*eccSquared/8\n              + 3*eccSquared*eccSquared/32\n              + 45*eccSquared*eccSquared*eccSquared/1024)*sin(2*LatRad)\n           + (15*eccSquared*eccSquared/256 + 45*eccSquared*eccSquared*eccSquared/1024)*sin(4*LatRad) \n           - (35*eccSquared*eccSquared*eccSquared/3072)*sin(6*LatRad))\n	Easting = (k0*N*(A+(1-T+C)*A*A*A/6\n                        + (5-18*T+T*T+72*C-58*eccPrimeSquared)*A*A*A*A*A/120)\n                  + 500000.0)\n	Northing = (k0*(M+N*tan(LatRad)*(A*A/2+(5-T+9*C+4*C*C)*A*A*A*A/24\n                                        + (61\n                                           -58*T\n                                           +T*T\n                                           +600*C\n                                           -330*eccPrimeSquared)*A*A*A*A*A*A/720)))\n	return (Easting, Northing)\n\n	# not quite sure what else to do here\n\n\ndef create_map(self):\n    \"\"\"\n    This function collects the survey data and puts it into marker arrays ready to be published in rviz\n    \"\"\"\n    from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest\n    import rospy\n\n    (stripe_inner, lane_inner, stripe_middle, lane_outer, stripe_outer) = survey()\n    stripes = [stripe_inner, stripe_middle, stripe_outer]\n    lanes = [lane_inner, lane_outer]\n    self.map_stripe_array = MarkerArray()\n    self.map_lane_array = MarkerArray()\n    NCAT_id = 0\n    \n    for ring in stripes:\n        for pt in ring:\n            lat = float(ring[pt][0])\n            lon = float(ring[pt][1])\n            (east, nrth) = ll2utm(lat, lon) # convert to UTM\n            marker = Marker()\n            marker.header.frame_id = 'odom'\n            marker.id = NCAT_id # enumerate subsequent markers here\n            marker.action = Marker.ADD # can be ADD, REMOVE, or MODIFY\n            marker.lifetime = rospy.Duration() # will last forever unless modified\n            marker.ns = \"stripes\"\n            marker.type = Marker.CUBE\n            marker.pose.position.x = east - self.UTMdatum['E']\n            marker.pose.position.y = nrth - self.UTMdatum['N']\n            marker.pose.position.z = -1.55 # zero is a novatel mount level\n            marker.color.r = 255\n            marker.color.g = 255\n            marker.color.b = 0\n            marker.color.a = 1.0\n            marker.scale.x = 0.2\n            marker.scale.y = 0.2\n            marker.scale.z = 0.7\n            marker.mesh_use_embedded_materials = False\n            self.map_stripe_array.markers.append(marker)\n            \n            # print('Stripes')\n            # print(marker)\n            NCAT_id += 1\n    print('Stripe Markers have been printed') \n    del marker\n\n    for ring in lanes:\n        for pt in ring:\n            lat = float(ring[pt][0])\n            lon = float(ring[pt][1])\n            (east, nrth) = ll2utm(lat, lon) # convert to UTM\n            \n            marker = Marker()\n            marker.header.frame_id = 'odom'\n            marker.id = NCAT_id # enumerate subsequent markers here\n            marker.action = Marker.ADD # can be ADD, REMOVE, or MODIFY\n            marker.lifetime = rospy.Duration() # will last forever unless modified\n            marker.ns = \"lane_centers\"\n            marker.type = Marker.SPHERE\n            marker.pose.position.x = east - self.UTMdatum['E']\n            marker.pose.position.y = nrth - self.UTMdatum['N']\n            marker.pose.position.z = -1.55 # zero is a novatel mount level\n            marker.color.r = 0\n            marker.color.g = 0\n            marker.color.b = 0\n            marker.color.a = 0.75\n            marker.scale.x = 0.2\n            marker.scale.y = 0.2\n            marker.scale.z = 0.2\n            marker.mesh_use_embedded_materials = False\n            \n            self.map_lane_array.markers.append(marker)\n            \n            # print('Lane Centers')\n            # print(marker)\n            NCAT_id += 1\n    print('Lane Center Markers have been printed')\n\n\n##################################################################################\n\ndef create_map_mesh(self):\n    from visualization_msgs.msg import Marker\n    import rospy\n\n    marker = Marker()\n    # pub = self.track_mesh_publisher\n    # leave the position at default (0,0,0) b/c it is created in blender at the UTM coords\n    marker.header.frame_id = 'odom' # publish in static frame\n    # marker.header.stamp = rospy.Time.now\n    marker.id = 0\n    marker.action = Marker.ADD\n    marker.lifetime = rospy.Duration() # immortal unless changed\n    marker.ns = \"track_mesh\"\n    marker.type = Marker.MESH_RESOURCE\n    marker.mesh_use_embedded_materials = False\n    marker.mesh_resource = \"package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_01_minimal.stl\" # wahoo\n    marker.pose.position.x = 0# - self.UTMdatum['E']\n    marker.pose.position.y = 0# - self.UTMdatum['N']\n    marker.pose.position.z = -1.57\n    marker.scale.x = 1\n    marker.scale.y = 1\n    marker.scale.z = 1\n    marker.color.r = 0.3\n    marker.color.g = 0.3\n    marker.color.b = 0.3\n    marker.color.a = 1.0\n    self.track_mesh_publisher.publish(marker)\n\n\n    ### try to publish a giant ass cube mesh at the NE corner for debugging\n    # marker.mesh_resource = \"package://fhwa2_MOOS_to_ROS/mesh/giant_cube_at_NE_end.dae\"\n    # self.track_mesh_publisher.publish(marker)\n\n",
 			"file": "scripts/randmcnally.py",
+			"file_size": 10830,
+			"file_write_time": 1340910274000000,
 			"settings":
 			{
-				"buffer_size": 10574,
+				"buffer_size": 10455,
 				"line_ending": "Unix"
 			}
 		},
@@ -343,7 +350,7 @@
 			"file": "to_do.txt",
 			"settings":
 			{
-				"buffer_size": 443,
+				"buffer_size": 494,
 				"line_ending": "Unix"
 			}
 		},
@@ -555,6 +562,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"\"",
 			"publish",
 			"publisher",
 			"SPHERE",
@@ -653,15 +661,15 @@
 					"file": "scripts/guiBridge.py",
 					"settings":
 					{
-						"buffer_size": 6049,
+						"buffer_size": 6051,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2596,
-								2596
+								4237,
+								4237
 							]
 						],
 						"settings":
@@ -672,7 +680,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1291.0,
+						"translation.y": 646.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -682,15 +690,15 @@
 					"file": "scripts/mailroom.py",
 					"settings":
 					{
-						"buffer_size": 14841,
+						"buffer_size": 14844,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								482,
-								482
+								11694,
+								11694
 							]
 						],
 						"settings":
@@ -701,7 +709,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3763.0,
+						"translation.y": 3748.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -711,15 +719,15 @@
 					"file": "scripts/randmcnally.py",
 					"settings":
 					{
-						"buffer_size": 10574,
+						"buffer_size": 10455,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10013,
-								10013
+								9787,
+								9787
 							]
 						],
 						"settings":
@@ -730,7 +738,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3462.0,
+						"translation.y": 3522.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -767,15 +775,15 @@
 					"file": "to_do.txt",
 					"settings":
 					{
-						"buffer_size": 443,
+						"buffer_size": 494,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								273,
-								273
+								485,
+								485
 							]
 						],
 						"settings":

@@ -259,20 +259,14 @@ def create_map_mesh(self):
     import rospy
 
     marker = Marker()
-    # pub = self.track_mesh_publisher
-    # leave the position at default (0,0,0) b/c it is created in blender at the UTM coords
     marker.header.frame_id = 'odom' # publish in static frame
-    # marker.header.stamp = rospy.Time.now
     marker.id = 0
     marker.action = Marker.ADD
     marker.lifetime = rospy.Duration() # immortal unless changed
-    marker.ns = "track_mesh"
+    marker.ns = "track_mesh_pavement"
     marker.type = Marker.MESH_RESOURCE
     marker.mesh_use_embedded_materials = False
-    # marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_03_stripe_planes_colored_01.stl" #ugly stripes, but they work
-    # marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_datum_centered_01_plane_minimal_OH_GOD.stl" # this worked
-    # marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_09_applycolors.stl" # this didn't work
-    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_01_minimal.stl"
+    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_01_minimal.stl" # wahoo
     marker.pose.position.x = 0# - self.UTMdatum['E']
     marker.pose.position.y = 0# - self.UTMdatum['N']
     marker.pose.position.z = -1.57
@@ -286,7 +280,24 @@ def create_map_mesh(self):
     self.track_mesh_publisher.publish(marker)
 
 
-    ### try to publish a giant ass cube mesh at the NE corner for debugging
-    # marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/giant_cube_at_NE_end.dae"
-    # self.track_mesh_publisher.publish(marker)
+    marker = Marker()
+    marker.header.frame_id = 'odom' # publish in static frame
+    marker.id = 0
+    marker.action = Marker.ADD
+    marker.lifetime = rospy.Duration() # immortal unless changed
+    marker.ns = "track_mesh_lane_markings"
+    marker.type = Marker.MESH_RESOURCE
+    marker.mesh_use_embedded_materials = False
+    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_01_lane_markings.stl" # wahoo
+    marker.pose.position.x = 0# - self.UTMdatum['E']
+    marker.pose.position.y = 0# - self.UTMdatum['N']
+    marker.pose.position.z = -1.57
+    marker.scale.x = 1
+    marker.scale.y = 1
+    marker.scale.z = 1
+    marker.color.r = 0
+    marker.color.g = 0.9
+    marker.color.b = 0.9
+    marker.color.a = 1.0
+    self.track_mesh_publisher.publish(marker)
 
