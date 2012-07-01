@@ -1,8 +1,9 @@
 -better/prettier stacking of odom/err_ell markers
 	-make the novatel/integrated solution dominate
 
-- get track mesh from blender working
-	-box it 
+-make colors look better
+
+- get track stripes/ lane marking mesh from blender working
 
 -in mailroom.gather_odom_var(), use pop instead of a list then delete in a for loop
 
@@ -10,7 +11,6 @@
 
 -clean up randmcnally's mapping functionality
 
--subtract datum from all points
-	-redo meshing, then in randmcnally.create_map_mesh(), return publish position to (0,0,0)
-
 -mesh colors will work in rviz if using URDF file
+
+- interpolate log file to get ~100Hz

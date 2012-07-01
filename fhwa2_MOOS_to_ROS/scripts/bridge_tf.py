@@ -5,7 +5,8 @@ This file contains tf's used by bridge.py
 Created 5/30/12 by Robert Cofield
 """
 
-import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
+import roslib
+roslib.load_manifest('fhwa2_MOOS_to_ROS')
 import tf
 
 def cameraFollow_tf(self, odom_msg):
