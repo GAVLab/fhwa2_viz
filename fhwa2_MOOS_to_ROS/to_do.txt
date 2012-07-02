@@ -14,3 +14,4 @@
 -mesh colors will work in rviz if using URDF file
 
 - interpolate log file to get ~100Hz
+	http://docs.scipy.org/doc/numpy/reference/generated/numpy.interp.html

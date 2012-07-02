@@ -59,7 +59,7 @@ if __name__ == '__main__':
 	os.chdir('/')
 	
 	NovOnlyAlog = '/home/gavlab/alog_Files/Long_onlyNovatel.alog'
-	ResultAlog = '/home/gavlab/alog_Files/Long_novatel_plus3.alog'
+	ResultAlog = '/home/gavlab/alog_Files/Long_novatel_plus3_interpolated.alog'
 	src = open(NovOnlyAlog, 'rU')
 	tgt = open(ResultAlog, 'w')
 	tgt.write('%% This file created to simulate 3 measurment sources varying from the Novatel\n')

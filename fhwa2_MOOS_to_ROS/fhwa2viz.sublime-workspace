@@ -331,23 +331,7 @@
 			"file": "scripts/bridge_tf.py",
 			"settings":
 			{
-				"buffer_size": 650,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "to_do.txt",
-			"settings":
-			{
-				"buffer_size": 494,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/README.md",
-			"settings":
-			{
-				"buffer_size": 1314,
+				"buffer_size": 649,
 				"line_ending": "Unix"
 			}
 		},
@@ -368,26 +352,26 @@
 			}
 		},
 		{
-			"file": "/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/build/pyMOOS_svn/src/pyMOOSMsg.cpp",
+			"file": "to_do.txt",
 			"settings":
 			{
-				"buffer_size": 2577,
+				"buffer_size": 447,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/src/pymoos/MOOSCommClient.py",
+			"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/README.md",
 			"settings":
 			{
-				"buffer_size": 14223,
+				"buffer_size": 1314,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/gavlab/alog_Files/Long_novatel_plus3.alog",
+			"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/.gitignore",
 			"settings":
 			{
-				"buffer_size": 771023,
+				"buffer_size": 246,
 				"line_ending": "Unix"
 			}
 		}
@@ -416,10 +400,12 @@
 	},
 	"file_history":
 	[
+		"/home/gavlab/alog_Files/Long_novatel_plus3.alog",
+		"/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/src/pymoos/MOOSCommClient.py",
+		"/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/build/pyMOOS_svn/src/pyMOOSMsg.cpp",
 		"/home/gavlab/alog_Files/Long_onlyNovatel.alog",
 		"/home/gavlab/rgc0003rosws/fhwa2_viz/fhwa2_MOOS_to_ROS/scripts/guiBridge.py",
 		"/home/ozymandium/fhwa2_ws/fhwa2_viz/README.md",
-		"/home/gavlab/alog_Files/Long_novatel_plus3.alog",
 		"/home/ozymandium/fhwa2_ws/MOOS-ros-pkg/MOOS/pymoos/src/pyMOOSMsg.cpp",
 		"/home/ozymandium/fhwa2_ws/MOOS-ros-pkg/MOOS/pymoos/python/__init__.py",
 		"/opt/ros/fuerte/stacks/visualization_tutorials/interactive_marker_tutorials/python/menu.py",
@@ -469,7 +455,6 @@
 		"/home/gavlab/Documents/simpleapp/py_demo_tk3.py",
 		"/home/gavlab/Documents/simpleapp/py_demo_tk2.py",
 		"/home/gavlab/Documents/simpleapp/py_demo_tk1.py",
-		"/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/src/pymoos/MOOSCommClient.py",
 		"/home/gavlab/Desktop/Example Mission Files/Detroit_1_1_2010_____00_16_18._moos",
 		"/home/gavlab/Desktop/Example Mission Files/tcpipMOOSBridgeqandd.txt",
 		"/home/gavlab/rgc0003rosws/fhwa2_viz/to_do.txt",
@@ -507,7 +492,6 @@
 		"/home/gavlab/Documents/FHWA2/novatel_to_odom.py",
 		"/home/gavlab/Documents/FHWA2/error_ellipses.py",
 		"/home/gavlab/rgc0003rosws/fhwa2_viz/fhwa2_MOOS_to_ROS/scripts/novatel_to_odom.py",
-		"/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/build/pyMOOS_svn/src/pyMOOSMsg.cpp",
 		"/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS-ROS-Bridge/MOOS2ROS/scripts/moos2ros.py",
 		"/home/gavlab/Desktop/ITM_1_1_2010_____02_38_48.alog",
 		"/home/gavlab/Documents/FHWA2/LatLongUTMconversion.py",
@@ -559,6 +543,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"2",
 			"\"",
 			"publish",
 			"publisher",
@@ -650,7 +635,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -677,7 +662,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2721.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -694,8 +679,8 @@
 						"selection":
 						[
 							[
-								10357,
-								10357
+								499,
+								499
 							]
 						],
 						"settings":
@@ -706,7 +691,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3158.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -716,15 +701,15 @@
 					"file": "scripts/bridge_tf.py",
 					"settings":
 					{
-						"buffer_size": 650,
+						"buffer_size": 649,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								258,
-								261
+								649,
+								649
 							]
 						],
 						"settings":
@@ -740,60 +725,6 @@
 				},
 				{
 					"buffer": 3,
-					"file": "to_do.txt",
-					"settings":
-					{
-						"buffer_size": 494,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								147,
-								147
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/README.md",
-					"settings":
-					{
-						"buffer_size": 1314,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								117,
-								117
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
 					"file": "scripts/make_mult_inputs.py",
 					"settings":
 					{
@@ -804,8 +735,8 @@
 						"selection":
 						[
 							[
-								505,
-								505
+								892,
+								892
 							]
 						],
 						"settings":
@@ -814,7 +745,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 45.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -822,11 +753,11 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
-					"buffer": 6,
+					"buffer": 4,
 					"file": "scripts/guiBridge.py",
 					"settings":
 					{
@@ -855,74 +786,73 @@
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/build/pyMOOS_svn/src/pyMOOSMsg.cpp",
+					"buffer": 5,
+					"file": "to_do.txt",
 					"settings":
 					{
-						"buffer_size": 2577,
+						"buffer_size": 447,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2110,
-								2110
+								123,
+								123
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 408.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/src/pymoos/MOOSCommClient.py",
+					"buffer": 6,
+					"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/README.md",
 					"settings":
 					{
-						"buffer_size": 14223,
+						"buffer_size": 1314,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8510,
-								8510
+								117,
+								117
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1183.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 9,
-					"file": "/home/gavlab/alog_Files/Long_novatel_plus3.alog",
+					"buffer": 7,
+					"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/.gitignore",
 					"settings":
 					{
-						"buffer_size": 771023,
+						"buffer_size": 246,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1244,
-								1244
+								207,
+								208
 							]
 						],
 						"settings":
