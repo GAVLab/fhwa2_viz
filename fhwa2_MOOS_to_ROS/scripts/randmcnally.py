@@ -280,24 +280,24 @@ def create_map_mesh(self):
     self.track_mesh_publisher.publish(marker)
 
 
-    marker = Marker()
-    marker.header.frame_id = 'odom' # publish in static frame
-    marker.id = 0
-    marker.action = Marker.ADD
-    marker.lifetime = rospy.Duration() # immortal unless changed
-    marker.ns = "track_mesh_lane_markings"
-    marker.type = Marker.MESH_RESOURCE
-    marker.mesh_use_embedded_materials = False
-    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_01_lane_markings.stl" # wahoo
-    marker.pose.position.x = 0# - self.UTMdatum['E']
-    marker.pose.position.y = 0# - self.UTMdatum['N']
-    marker.pose.position.z = -1.57
-    marker.scale.x = 1
-    marker.scale.y = 1
-    marker.scale.z = 1
-    marker.color.r = 0
-    marker.color.g = 0.9
-    marker.color.b = 0.9
-    marker.color.a = 1.0
-    self.track_mesh_publisher.publish(marker)
+    # marker = Marker()
+    # marker.header.frame_id = 'odom' # publish in static frame
+    # marker.id = 0
+    # marker.action = Marker.ADD
+    # marker.lifetime = rospy.Duration() # immortal unless changed
+    # marker.ns = "track_mesh_lane_markings"
+    # marker.type = Marker.MESH_RESOURCE
+    # marker.mesh_use_embedded_materials = False
+    # marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_01_lane_markings.stl" # wahoo
+    # marker.pose.position.x = 0# - self.UTMdatum['E']
+    # marker.pose.position.y = 0# - self.UTMdatum['N']
+    # marker.pose.position.z = -1.57
+    # marker.scale.x = 1
+    # marker.scale.y = 1
+    # marker.scale.z = 1
+    # marker.color.r = 0
+    # marker.color.g = 0.9
+    # marker.color.b = 0.9
+    # marker.color.a = 1.0
+    # self.track_mesh_publisher.publish(marker)
 

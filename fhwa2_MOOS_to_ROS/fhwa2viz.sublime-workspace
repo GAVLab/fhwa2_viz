@@ -336,14 +336,6 @@
 			}
 		},
 		{
-			"file": "scripts/make_mult_inputs.py",
-			"settings":
-			{
-				"buffer_size": 2342,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "scripts/guiBridge.py",
 			"settings":
 			{
@@ -355,7 +347,7 @@
 			"file": "to_do.txt",
 			"settings":
 			{
-				"buffer_size": 447,
+				"buffer_size": 578,
 				"line_ending": "Unix"
 			}
 		},
@@ -400,6 +392,8 @@
 	},
 	"file_history":
 	[
+		"/home/gavlab/rgc0003rosws/fhwa2_viz/fhwa2_MOOS_to_ROS/scripts/make_mult_inputs.py",
+		"/home/gavlab/Desktop/william_qt_hw.sublime-workspace",
 		"/home/gavlab/alog_Files/Long_novatel_plus3.alog",
 		"/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/src/pymoos/MOOSCommClient.py",
 		"/home/gavlab/rgc0003rosws/MOOS-ros-pkg/MOOS/pyMOOS/build/pyMOOS_svn/src/pyMOOSMsg.cpp",
@@ -635,7 +629,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -679,8 +673,8 @@
 						"selection":
 						[
 							[
-								499,
-								499
+								420,
+								420
 							]
 						],
 						"settings":
@@ -722,42 +716,15 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "scripts/make_mult_inputs.py",
-					"settings":
-					{
-						"buffer_size": 2342,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								892,
-								892
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 4,
+					"buffer": 3,
 					"file": "scripts/guiBridge.py",
 					"settings":
 					{
@@ -768,8 +735,8 @@
 						"selection":
 						[
 							[
-								1802,
-								1802
+								4736,
+								4736
 							]
 						],
 						"settings":
@@ -780,25 +747,25 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 266.0,
+						"translation.y": 890.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 4,
 					"file": "to_do.txt",
 					"settings":
 					{
-						"buffer_size": 447,
+						"buffer_size": 578,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								123,
-								123
+								270,
+								270
 							]
 						],
 						"settings":
@@ -813,7 +780,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 5,
 					"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/README.md",
 					"settings":
 					{
@@ -840,7 +807,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 6,
 					"file": "/home/gavlab/rgc0003rosws/fhwa2_viz/.gitignore",
 					"settings":
 					{
@@ -851,8 +818,8 @@
 						"selection":
 						[
 							[
-								207,
-								208
+								191,
+								191
 							]
 						],
 						"settings":

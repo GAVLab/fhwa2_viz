@@ -15,3 +15,4 @@
 
 - interpolate log file to get ~100Hz
 	http://docs.scipy.org/doc/numpy/reference/generated/numpy.interp.html
+	http://docs.scipy.org/doc/scipy/reference/interpolate.html
