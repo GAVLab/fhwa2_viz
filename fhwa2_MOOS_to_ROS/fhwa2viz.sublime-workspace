@@ -629,7 +629,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -673,8 +673,8 @@
 						"selection":
 						[
 							[
-								420,
-								420
+								10770,
+								10770
 							]
 						],
 						"settings":
@@ -685,7 +685,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3179.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -720,7 +720,7 @@
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -747,7 +747,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 890.0,
+						"translation.y": 305.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -863,7 +863,7 @@
 		"cols":
 		[
 			0.0,
-			0.487581312833,
+			0.544352454169,
 			1.0
 		],
 		"rows":
