@@ -13,5 +13,6 @@ hi_file = '/home/gavlab/alog_Files/Long_novatel_plus3_100Hz.alog'
 desHz = 100
 alog = MOOSalog(lo_file, hi_file)
 alog.increaseFreq(desHz)
-
-# print('\n\n\nhiHzDict: ')
+alog.makeChronList()
+alog.writeChronListToFile()
+alog.closefiles()
