@@ -9,7 +9,7 @@ from pprint import pprint
 import copy
 
 # Bridge module imports
-import randmcnally
+import mapping
 import mailroom
 
 #ROS Imports
@@ -57,13 +57,13 @@ class MOOS2RVIZ(MOOSCommClient):
 
         self.UTMdatum = dict([['E', 659300], ['N', 3607850]]) # roughly center of the track  - meshes are centered here in blender, so don't change it unless you wanna redo that
         
-        randmcnally.create_map(self) # create marker arrays of the stripes and lane centers
+        mapping.create_map(self) # create marker arrays of the stripes and lane centers
         self.map_stripe_publisher.publish(self.map_stripe_array) # publish stripes as markers
         self.map_lane_publisher.publish(self.map_lane_array) # publish lane centers as markers
         print('Map has been published - you should see the lane/stripe markers once running')
 
         # Publish track mesh
-        randmcnally.create_map_mesh(self)
+        mapping.create_map_mesh(self)
         # self.track_mesh_publisher.publish(self.map_mesh_marker)
         print('Map mesh has been published - you should see it once running')
 

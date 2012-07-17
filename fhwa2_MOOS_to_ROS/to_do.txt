@@ -17,4 +17,4 @@
 	http://docs.scipy.org/doc/numpy/reference/generated/numpy.interp.html
 	http://docs.scipy.org/doc/scipy/reference/interpolate.html
 
-turn asphalt/lane markings into marker array so that both will display
+- mesh of lane markings visible from all angles (make non-planar)

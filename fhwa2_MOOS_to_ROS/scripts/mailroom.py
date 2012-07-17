@@ -100,7 +100,7 @@ def convert_odom_var( self, skateboard, sens, time ):
     """
     Once all the information for a single odom msg from a single sensor(source) is built together, this function converts it to UTM in a special UTM holder and sends it to the publishing function: mailroom.package_odom_var()
     """
-    from randmcnally import ll2utm  
+    from mapping import ll2utm  
     from math import radians
     # from pprint import pprint
 
