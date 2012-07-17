@@ -53,9 +53,9 @@ class MOOS2RVIZ(MOOSCommClient):
         self.legend_sri_publisher = rospy.Publisher('sri/legend', Marker)
         self.legend_dsrc_publisher = rospy.Publisher('dsrc/legend', Marker)
         # mesh of track from survey points
-        self.track_mesh_publisher = rospy.Publisher('/map/mesh', Marker, latch=True)
+        self.track_mesh_publisher = rospy.Publisher('/map/mesh', MarkerArray, latch=True)
 
-        self.UTMdatum = dict([['E', 659300], ['N', 3607850]]) # roughly center of the track
+        self.UTMdatum = dict([['E', 659300], ['N', 3607850]]) # roughly center of the track  - meshes are centered here in blender, so don't change it unless you wanna redo that
         
         randmcnally.create_map(self) # create marker arrays of the stripes and lane centers
         self.map_stripe_publisher.publish(self.map_stripe_array) # publish stripes as markers
@@ -76,7 +76,6 @@ class MOOS2RVIZ(MOOSCommClient):
         # for sens_str in self.sensors:
         #     self.LatLong_holder[sens_str] = {}
 
-                # !! Multiple source message holding - debug only - revise later !! #
         self.gNovatel_holder = {}
         self.gPennSt_holder = {}
         self.gSRI_holder = {}
@@ -132,6 +131,4 @@ def main():
     rospy.spin()
     
 if __name__ == '__main__':
-    # curr = os.getcwd()
     main()
-    # os.chdir(curr)

@@ -255,8 +255,9 @@ def create_map(self):
 ##################################################################################
 
 def create_map_mesh(self):
-    from visualization_msgs.msg import Marker
+    from visualization_msgs.msg import Marker, MarkerArray
     import rospy
+    marker_array = MarkerArray()
 
     marker = Marker()
     marker.header.frame_id = 'odom' # publish in static frame
@@ -277,12 +278,13 @@ def create_map_mesh(self):
     marker.color.g = 0.3
     marker.color.b = 0.3
     marker.color.a = 1.0
-    self.track_mesh_publisher.publish(marker)
+    marker_array.markers.append(marker)
+    # self.track_mesh_publisher.publish(marker)
 
 
     marker = Marker()
     marker.header.frame_id = 'odom' # publish in static frame
-    marker.id = 0
+    marker.id = 1
     marker.action = Marker.ADD
     marker.lifetime = rospy.Duration() # immortal unless changed
     marker.ns = "track_mesh_lane_markings"
@@ -299,5 +301,8 @@ def create_map_mesh(self):
     marker.color.g = 255
     marker.color.b = 0
     marker.color.a = 1.0
-    self.track_mesh_publisher.publish(marker)
+    marker_array.markers.append(marker)
+    # self.track_mesh_publisher.publish(marker)
+
+    self.track_mesh_publisher.publish(marker_array)
 

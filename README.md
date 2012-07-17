@@ -9,16 +9,16 @@ E:   659 300  	m
 N: 3 607 850   	m
 
 
-##### Procedures for running latest version #####
+### Procedures for running latest version ###
 
-### For MOOSDB on separate machine from visualizer: ###
+##### For MOOSDB on separate machine from visualizer: #####
 
 1. modify guiBridge.py (will run on visualizer machine) main function to reflect IP address and port number of computer with MOOSDB
 
 2. 
 
 
-### For MOOSDB and visualizer on same machine: ###
+##### For MOOSDB and visualizer on same machine: #####
 	
 1. Ensure your IP and port for MOOSDB are singular in guiBridge.py (127.0.0.1 , 9000)
 
