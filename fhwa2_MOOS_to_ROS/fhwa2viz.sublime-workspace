@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"freq",
+				"freq_max"
+			],
+			[
 				"mar",
 				"marker_array"
 			],
@@ -323,7 +327,7 @@
 			"file": "scripts/mailroom.py",
 			"settings":
 			{
-				"buffer_size": 14840,
+				"buffer_size": 13529,
 				"line_ending": "Unix"
 			}
 		},
@@ -331,7 +335,7 @@
 			"file": "scripts/mapping.py",
 			"settings":
 			{
-				"buffer_size": 11049,
+				"buffer_size": 10899,
 				"line_ending": "Unix"
 			}
 		},
@@ -347,7 +351,7 @@
 			"file": "scripts/guiBridge.py",
 			"settings":
 			{
-				"buffer_size": 5998,
+				"buffer_size": 5839,
 				"line_ending": "Unix"
 			}
 		},
@@ -372,6 +376,23 @@
 			"settings":
 			{
 				"buffer_size": 253,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "scripts/config.ini",
+			"settings":
+			{
+				"buffer_size": 260,
+				"line_ending": "Unix",
+				"name": "#!/usr/bin/env yanml"
+			}
+		},
+		{
+			"file": "/home/gavlab/rgc0003rosws/.rosinstall.bak",
+			"settings":
+			{
+				"buffer_size": 683,
 				"line_ending": "Unix"
 			}
 		}
@@ -648,15 +669,15 @@
 					"file": "scripts/mailroom.py",
 					"settings":
 					{
-						"buffer_size": 14840,
+						"buffer_size": 13529,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4219,
-								4219
+								1332,
+								1332
 							]
 						],
 						"settings":
@@ -667,7 +688,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 994.0,
+						"translation.y": 79.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -677,15 +698,15 @@
 					"file": "scripts/mapping.py",
 					"settings":
 					{
-						"buffer_size": 11049,
+						"buffer_size": 10899,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								234,
-								234
+								10899,
+								10899
 							]
 						],
 						"settings":
@@ -696,7 +717,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2900.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -731,7 +752,7 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -739,15 +760,15 @@
 					"file": "scripts/guiBridge.py",
 					"settings":
 					{
-						"buffer_size": 5998,
+						"buffer_size": 5839,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								749,
-								749
+								4270,
+								4270
 							]
 						],
 						"settings":
@@ -758,7 +779,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 872.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -842,6 +863,59 @@
 						"zoom_level": 1.0
 					},
 					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "scripts/config.ini",
+					"settings":
+					{
+						"buffer_size": 260,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								177,
+								177
+							]
+						],
+						"settings":
+						{
+							"auto_name": "#!/usr/bin/env yanml",
+							"syntax": "Packages/YAML/YAML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/home/gavlab/rgc0003rosws/.rosinstall.bak",
+					"settings":
+					{
+						"buffer_size": 683,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
 				}
 			]
 		}
@@ -874,7 +948,7 @@
 		"cols":
 		[
 			0.0,
-			0.503548196333,
+			0.506670709521,
 			1.0
 		],
 		"rows":
@@ -913,6 +987,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 164.0,
+	"side_bar_width": 206.0,
 	"status_bar_visible": true
 }

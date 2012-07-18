@@ -26,37 +26,32 @@ def handle_msg( self, msg ):
     time = msg.GetTime() # this may be grabbing the wrong time (not from the msg)
     name = msg.GetKey() # type of measurement "z______" string
     sens = msg.GetSource() # will yield "g______" string
-    if name in self.desired_variables: # where desired messages are scooped
-        gather_odom_var(self, name, var_type, sens, value, time)
+    if (name in self.desired_variables) and (sens in self.sensors): # where desired messages are scooped
+        if not cap_freq(self, name, sens, time): # frequency capping
+            gather_odom_var(self, name, var_type, sens, value, time)
     else:
         rospy.logwarn("mailroom.handle_msg :: Unhandled msg: %(name)s of type %(var_type)s carries value %(value)s" %locals())
 
 
-def cap_freq(self, name, var_type, sens, value, time):
-    """enfores the maximum frequency by only sending messages arriving after the
-    prescribed period following the previous message of the same type
+def cap_freq(self, name, sens, time):
+    """enfores the maximum frequency by emitting boolean to send only messages
+    arriving after the prescribed period following the previous message of 
+    the same type
     """
-    tmin = 1/self.freq_max # minimum amount of time between msgs for each sensor
-    last_novatel = None
-    last_pennst = None
-    last_sri = None
-    last_dsrc = None
-    if sens is 'gNovatel':
-        last_one = last_novatel
-    elif sens is 'gPennSt':
-        last_one = last_pennst
-    elif sens is 'gSRI':
-        last_one = last_sri
-    elif sens is 'gDSRC':
-        last_one = last_dsrc
+    # minimum amount of time between msgs for each sensor
+    tmin = 1/self.freq_max 
+    ## reconstruct name of last time holder to find its contents (last time)
+    last_one_name = ''.join(['last_', sens, '_', name])
+    last_one = self.cap_freq_holders[last_one_name]
 
-    if last_one is None:
-        pass # go ahead and publish (first time)
-    elif time - last_one >= tmin: # enough time has passed
-        pass # publish
-
-
-
+    # publish if first time or enough time elapsed
+    if self.freq_max == 0: # disable freq capping
+        catch = False
+    elif (last_one is None) or ((time - last_one) >= tmin):
+        catch = False
+    else:
+        catch = True
+    return catch
 
 
 def gather_odom_var( self, name, var_type, sens, value, time ):

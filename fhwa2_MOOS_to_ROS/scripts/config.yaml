@@ -1,0 +1,24 @@
+# YAML
+# Any whitespace in this file will cause errors
+#
+# Maximum frequency with which messages will be sent past mailroom.cap_freq()
+# Enter 0 for no frequency capping (not recommended - buffer lag errors)
+--- 
+freq_max: 30
+# Where the blender track mesh is zeroed
+UTMdatum: # 2 layer nested dictionary
+    E: 659300 
+    N: 3607850
+# g______ Sensors to be processed
+sensors: #list
+- 'gNovatel'
+- 'gPennSt'
+- 'gSRI'
+- 'gDSRC'
+# z______ Measurments to be processed
+desired_variables: #list
+- 'zLat'
+- 'zLong'
+- 'zLatStdDev'
+- 'zLongStdDev'
+- 'zCourse'

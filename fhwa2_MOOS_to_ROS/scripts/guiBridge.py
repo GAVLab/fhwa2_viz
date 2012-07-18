@@ -7,7 +7,7 @@ import sys, os
 from time import sleep
 from pprint import pprint
 import copy
-from configobj import ConfigObj
+from yaml import load
 
 # Bridge module imports
 import mapping
@@ -27,8 +27,6 @@ from pymoos.MOOSCommClient import MOOSCommClient
 # import MOOSCommClient
 
 
-###########################################################################
-
 class MOOS2RVIZ(MOOSCommClient):
     """Takes moos messages from an onboard moos db and displays the data in rViz"""
     def __init__(self):
@@ -37,25 +35,25 @@ class MOOS2RVIZ(MOOSCommClient):
         self.SetOnMailCallBack(self.onMail)
 
         ## Config File Operations
-        config = ConfigObj(r'./config.ini') # read file
+        stream = file('/home/gavlab/rgc0003rosws/fhwa2_viz/fhwa2_MOOS_to_ROS/scripts/config.yaml','r')
+        config = load(stream) # loads as a dictionary
         self.freq_max = config["freq_max"]
-        self.UTMdatum = dict([['E', config.UTMdatum_E], \
-                              ['N', config.UTMdatum_N]]) 
+        self.UTMdatum = dict([['E', config["UTMdatum"]["E"]],\
+                              ['N', config["UTMdatum"]["N"]]]) 
+        self.sensors = config["sensors"]
+        print('sensor strings: \n', self.sensors)
+        self.desired_variables = config["desired_variables"]
 
+        ## Publisher/Subscriber Operations
         self.set_publishers()
         rospy.Subscriber("/novatel/odom", Odometry, mailroom.pub_at_position) # put the vehicle model at the accepted position solution
-
         mapping.create_map(self) # create marker arrays of the stripes and lane centers
         self.map_stripe_publisher.publish(self.map_stripe_array) # publish stripes as markers
         self.map_lane_publisher.publish(self.map_lane_array) # publish lane centers as markers
         print('Map has been published - you should see the lane/stripe markers once running')
-
         mapping.create_map_mesh(self)
         print('Map mesh has been published - you should see it once running')
-
-        self.desired_variables = ('zLat','zLong','zLatStdDev','zLongStdDev','zCourse') # we want these measurments from each sensor, below
-        self.sensors = ('gNovatel', 'gPennSt', 'gSRI', 'gDSRC') # the 4 sources which will need to be displayed simultaneously
-        
+      
         self.gNovatel_holder = {}
         self.gPennSt_holder = {}
         self.gSRI_holder = {}
@@ -63,6 +61,8 @@ class MOOS2RVIZ(MOOSCommClient):
 
         # odom & error ellipse colors - only sets the err ell colors, but these are in the config for the odom msgs
         self.set_colors()
+
+        self.create_cap_freq_holders()
 
 
     def set_colors(self):
@@ -95,7 +95,23 @@ class MOOS2RVIZ(MOOSCommClient):
         self.curpos_publisher = rospy.Publisher('/novatel/current_position', Marker) # even though this is at the same position as the novatel error ellipse, we want it to have a different name in case the integrated solution is different
 
 
-    ## These functions required in every MOOS App
+    def create_cap_freq_holders(self):
+        """makes none value holders to keep track of when the last of each 
+        measurement was published -- to limit frequency
+        last_gNovatel_zLat = None --> will have last published timestamp
+        -used in mailroom.cap_freq function
+        """
+        from pprint import pprint
+        print('\nIn create_cap_freq_holders')
+        self.cap_freq_holders = {}
+        for sens in range(len(self.sensors)):
+            for meas in range(len(self.desired_variables)):
+                name = ''.join(['last_', self.sensors[sens], '_', self.desired_variables[meas]])
+                self.cap_freq_holders[name] = None
+        pprint(self.cap_freq_holders)
+
+
+    ### These functions required in every MOOS App #############################
     def onConnect(self): 
         print("In onConnect")
         for var in self.desired_variables: # expand later
