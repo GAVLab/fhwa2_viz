@@ -32,8 +32,6 @@ def handle_msg( self, msg ):
         rospy.logwarn("mailroom.handle_msg :: Unhandled msg: %(name)s of type %(var_type)s carries value %(value)s" %locals())
 
 
-################################################################################
-
 def cap_freq(self, name, var_type, sens, value, time):
     """enfores the maximum frequency by only sending messages arriving after the
     prescribed period following the previous message of the same type
@@ -43,6 +41,22 @@ def cap_freq(self, name, var_type, sens, value, time):
     last_pennst = None
     last_sri = None
     last_dsrc = None
+    if sens is 'gNovatel':
+        last_one = last_novatel
+    elif sens is 'gPennSt':
+        last_one = last_pennst
+    elif sens is 'gSRI':
+        last_one = last_sri
+    elif sens is 'gDSRC':
+        last_one = last_dsrc
+
+    if last_one is None:
+        pass # go ahead and publish (first time)
+    elif time - last_one >= tmin: # enough time has passed
+        pass # publish
+
+
+
 
 
 def gather_odom_var( self, name, var_type, sens, value, time ):
@@ -51,7 +65,7 @@ def gather_odom_var( self, name, var_type, sens, value, time ):
     """
     import rospy
 
-    time = int(time*1000.0)/1000.0 #rounding to 3 decimal places so that the msg will groove...
+    time = int(time*1000.0)/1000.0 #rounding to 3 decimal places 
     # Determine which holder to use for this message
     # TIME STAMPS ARE CRITICAL HERE!!
     # may build up unused messages if they aren't complete enough to publish
@@ -79,8 +93,10 @@ def gather_odom_var( self, name, var_type, sens, value, time ):
             if self.desired_variables[des_var_ind] in holder[tstamp]:
                 holder_attime_publishable[des_var_ind] = True
         if all(holder_attime_publishable): # ka-ching
-            skateboard = holder[tstamp] # this will just roll the publishable group of msgs from sensor "holder" at time "tstamp" over to convert_odom_var; note that it doesn't contain the sensor/source "g_______"
-            convert_odom_var(self, skateboard, sens, tstamp) # send it off
+            # this will just roll the publishable group of msgs from sensor "holder" at time "tstamp" over to convert_odom_var; note that it doesn't contain the sensor/source "g_______"
+            skateboard = holder[tstamp] 
+            # send it off
+            convert_odom_var(self, skateboard, sens, tstamp) 
             # remember what we've sent so it can be cleaned
             tstamps_sent.append(tstamp)  
     # clean up the holder of anything we already printed        
@@ -115,8 +131,9 @@ def package_odom_var( self, UTMtoPub ):
     import roslib
     roslib.load_manifest('fhwa2_MOOS_to_ROS')
     import rospy
-    from nav_msgs.msg import Odometry # this will need to be repeated for other message types?
-    from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest
+    from nav_msgs.msg import Odometry 
+    # remember to add anything appended her to your manifest
+    from visualization_msgs.msg import Marker, MarkerArray 
     import tf
     from tf.transformations import quaternion_from_euler as qfe
     from math import sqrt, pi, degrees
@@ -129,15 +146,16 @@ def package_odom_var( self, UTMtoPub ):
     odom_msg.header.frame_id = "odom" # may need to expand?
     odom_msg.pose.pose.position.x = UTMtoPub['E']
     odom_msg.pose.pose.position.y = UTMtoPub['N']
-    odom_msg.pose.pose.position.z = stackup_elev # stack by source so all can be visible if coincident
-    quat = qfe(-pi, -pi, -UTMtoPub['crs']-pi/2) # make a quaternion :: the (-pi, -pi, ...) came from trial-and-error => explore later
+    odom_msg.pose.pose.position.z = stackup_elev
+    # make a quaternion :: the (-pi, -pi, ...) came from trial-and-error 
+    quat = qfe(-pi, -pi, -UTMtoPub['crs']-pi/2)
     odom_msg.pose.pose.orientation.x = quat[0]
     odom_msg.pose.pose.orientation.y = quat[1]
     odom_msg.pose.pose.orientation.z = quat[2]
     odom_msg.pose.pose.orientation.w = quat[3]
     odom_msg.pose.covariance[0] = UTMtoPub['Nsd']
     odom_msg.pose.covariance[7] = UTMtoPub['Esd']
-    odom_msg.pose.covariance[14] = 0 # constrain to xy axis for top-down view (this may not need to be stated)
+    odom_msg.pose.covariance[14] = 0
 
     ### Error Ellipses ### - pulls from the odom msg
     ell_marker = Marker()
@@ -158,8 +176,9 @@ def package_odom_var( self, UTMtoPub ):
 
     odom_pub.publish(odom_msg)
     ell_pub.publish(ell_marker)
-    # tell camera tf where the look
-    if upd_veh: # accepted(novatel) position has been updated -> update the position of the G mesh
+    # tell camera tf where the look: if the accepted(novatel) position has been 
+    # updated -> update the position of the G mesh
+    if upd_veh: 
         pub_at_position(self, odom_msg)
         bridge_tf.cameraFollow_tf(self, odom_msg)
 
@@ -325,4 +344,3 @@ def pub_at_position( self, odom_msg ):
     marker.color.a = opacity
     pub.publish(marker)
     del marker
-    ##########################
