@@ -7,6 +7,7 @@ import sys, os
 from time import sleep
 from pprint import pprint
 import copy
+from configobj import ConfigObj
 
 # Bridge module imports
 import mapping
@@ -35,7 +36,44 @@ class MOOS2RVIZ(MOOSCommClient):
         self.SetOnConnectCallBack(self.onConnect)
         self.SetOnMailCallBack(self.onMail)
 
-        ### Publishers
+        ## Config File Operations
+        config = ConfigObj(r'./config.ini') # read file
+        self.freq_max = config["freq_max"]
+        self.UTMdatum = dict([['E', config.UTMdatum_E], \
+                              ['N', config.UTMdatum_N]]) 
+
+        self.set_publishers()
+        rospy.Subscriber("/novatel/odom", Odometry, mailroom.pub_at_position) # put the vehicle model at the accepted position solution
+
+        mapping.create_map(self) # create marker arrays of the stripes and lane centers
+        self.map_stripe_publisher.publish(self.map_stripe_array) # publish stripes as markers
+        self.map_lane_publisher.publish(self.map_lane_array) # publish lane centers as markers
+        print('Map has been published - you should see the lane/stripe markers once running')
+
+        mapping.create_map_mesh(self)
+        print('Map mesh has been published - you should see it once running')
+
+        self.desired_variables = ('zLat','zLong','zLatStdDev','zLongStdDev','zCourse') # we want these measurments from each sensor, below
+        self.sensors = ('gNovatel', 'gPennSt', 'gSRI', 'gDSRC') # the 4 sources which will need to be displayed simultaneously
+        
+        self.gNovatel_holder = {}
+        self.gPennSt_holder = {}
+        self.gSRI_holder = {}
+        self.gDSRC_holder = {}
+
+        # odom & error ellipse colors - only sets the err ell colors, but these are in the config for the odom msgs
+        self.set_colors()
+
+
+    def set_colors(self):
+        """sets the rgb colors for the various sensor inputs"""
+        self.rgb_novatel =  dict([['r', 0],     ['g', 150],   ['b',0]])         #black
+        self.rgb_pennst =   dict([['r', 0],     ['g', 0],   ['b',127]])         #blue
+        self.rgb_sri    =   dict([['r', 170],   ['g', 0],   ['b',127]])         #purple
+        self.rgb_dsrc   =   dict([['r', 170],   ['g', 0],   ['b',0]])           #red
+
+
+    def set_publishers(self):
         self.map_stripe_publisher = rospy.Publisher('/map/survey_stripes', MarkerArray, latch=True)
         self.map_lane_publisher = rospy.Publisher('/map/survey_lanes', MarkerArray, latch=True)
         self.odom_novatel_publisher = rospy.Publisher("/novatel/odom", Odometry) # this is the accepted (combined) position solution
@@ -54,46 +92,10 @@ class MOOS2RVIZ(MOOSCommClient):
         self.legend_dsrc_publisher = rospy.Publisher('dsrc/legend', Marker)
         # mesh of track from survey points
         self.track_mesh_publisher = rospy.Publisher('/map/mesh', MarkerArray, latch=True)
-
-        self.UTMdatum = dict([['E', 659300], ['N', 3607850]]) # roughly center of the track  - meshes are centered here in blender, so don't change it unless you wanna redo that
-        
-        mapping.create_map(self) # create marker arrays of the stripes and lane centers
-        self.map_stripe_publisher.publish(self.map_stripe_array) # publish stripes as markers
-        self.map_lane_publisher.publish(self.map_lane_array) # publish lane centers as markers
-        print('Map has been published - you should see the lane/stripe markers once running')
-
-        # Publish track mesh
-        mapping.create_map_mesh(self)
-        # self.track_mesh_publisher.publish(self.map_mesh_marker)
-        print('Map mesh has been published - you should see it once running')
-
-        # Odom init
-        self.desired_variables = ('zLat','zLong','zLatStdDev','zLongStdDev','zCourse') # we want these measurments from each sensor, below
-        self.sensors = ('gNovatel', 'gPennSt', 'gSRI', 'gDSRC') # the 4 sources which will need to be displayed simultaneously
-        # self.odom_msgs = {}
-        # self.odom_msgs_count = {}
-        # self.LatLong_holder = {} # must have both meas to convert to UTM; may need to initialize sub dictionaries?
-        # for sens_str in self.sensors:
-        #     self.LatLong_holder[sens_str] = {}
-
-        self.gNovatel_holder = {}
-        self.gPennSt_holder = {}
-        self.gSRI_holder = {}
-        self.gDSRC_holder = {}
-
-        # odom & error ellipse colors - only sets the err ell colors, but these are in the config for the odom msgs
-        self.rgb_novatel =  dict([['r', 0],     ['g', 150],   ['b',0]])         #black
-        self.rgb_pennst =   dict([['r', 0],     ['g', 0],   ['b',127]])         #blue
-        self.rgb_sri    =   dict([['r', 170],   ['g', 0],   ['b',127]])         #purple
-        self.rgb_dsrc   =   dict([['r', 170],   ['g', 0],   ['b',0]])           #red
-
-        # Vehicle model - init
-        rospy.Subscriber("/novatel/odom", Odometry, mailroom.pub_at_position) # put the vehicle model at the accepted position solution
         self.curpos_publisher = rospy.Publisher('/novatel/current_position', Marker) # even though this is at the same position as the novatel error ellipse, we want it to have a different name in case the integrated solution is different
 
 
-    # These functions required in every MOOS App
-
+    ## These functions required in every MOOS App
     def onConnect(self): 
         print("In onConnect")
         for var in self.desired_variables: # expand later

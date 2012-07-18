@@ -22,21 +22,27 @@ def handle_msg( self, msg ):
         value = msg.GetString()
     else:
         rospy.logwarn('wtf? Unknown variable type')
-
     # obtain info from msg via functions defined in pyMOOSMsg.cpp
     time = msg.GetTime() # this may be grabbing the wrong time (not from the msg)
     name = msg.GetKey() # type of measurement "z______" string
     sens = msg.GetSource() # will yield "g______" string
-    # if sens not in self.sensors:
-    #     rospy.logwarn("mailroom.handle_msg :: unknown source/sensor: %(sens)s of yielding variable type %(name)s, carrying value %(value)s" %locals())
     if name in self.desired_variables: # where desired messages are scooped
         gather_odom_var(self, name, var_type, sens, value, time)
-        # elif #..... other types of msgs to be done later
     else:
         rospy.logwarn("mailroom.handle_msg :: Unhandled msg: %(name)s of type %(var_type)s carries value %(value)s" %locals())
 
 
-#############################################################################################
+################################################################################
+
+def cap_freq(self, name, var_type, sens, value, time):
+    """enfores the maximum frequency by only sending messages arriving after the
+    prescribed period following the previous message of the same type
+    """
+    tmin = 1/self.freq_max # minimum amount of time between msgs for each sensor
+    last_novatel = None
+    last_pennst = None
+    last_sri = None
+    last_dsrc = None
 
 
 def gather_odom_var( self, name, var_type, sens, value, time ):
@@ -44,13 +50,8 @@ def gather_odom_var( self, name, var_type, sens, value, time ):
     This function will only invoke publishing when it can send off all necessary info for a single source at once
     """
     import rospy
-    # from pprint import pprint
-
-    # print("\n\nIn gather_odom_var")
-    # Need to include covariance info from here throughout'
 
     time = int(time*1000.0)/1000.0 #rounding to 3 decimal places so that the msg will groove...
-
     # Determine which holder to use for this message
     # TIME STAMPS ARE CRITICAL HERE!!
     # may build up unused messages if they aren't complete enough to publish
@@ -65,13 +66,11 @@ def gather_odom_var( self, name, var_type, sens, value, time ):
         holder = self.gDSRC_holder
     else:
         rospy.logwarn("unknown sensor type. GET IT TOGETHER.")
-    
+   
     if time not in holder: # no messages from this timestep yet, initialize a dictionary for this time
         holder[time] = {}
-
     # stick the message in a holder specific to its sensor/source, according to msg time
     holder[time][name] = dict([['var_type', var_type], ['value', value]])
-
     # the latest addition may have made something publishable - check to see if the HOLDER WE JUST ADDED TO now meets the req's at ANY OF ITS TIMESTAMPS
     tstamps_sent = []
     for tstamp in holder: # loop through all times (may be async)
@@ -82,50 +81,30 @@ def gather_odom_var( self, name, var_type, sens, value, time ):
         if all(holder_attime_publishable): # ka-ching
             skateboard = holder[tstamp] # this will just roll the publishable group of msgs from sensor "holder" at time "tstamp" over to convert_odom_var; note that it doesn't contain the sensor/source "g_______"
             convert_odom_var(self, skateboard, sens, tstamp) # send it off
-
             # remember what we've sent so it can be cleaned
-            tstamps_sent.append(tstamp)
-    
-
+            tstamps_sent.append(tstamp)  
     # clean up the holder of anything we already printed        
     for tstamp in tstamps_sent:
         del holder[tstamp] # don't need this time's msgs anymore
-        # print("\n~deleted dict from timestamp %(tstamp)f" %locals())
 
-
-
-############################################################################################
 
 def convert_odom_var( self, skateboard, sens, time ):
     """
     Once all the information for a single odom msg from a single sensor(source) is built together, this function converts it to UTM in a special UTM holder and sends it to the publishing function: mailroom.package_odom_var()
+    Covariances - Lat/Lon Std Dev are output in meters already
+    converts course to radians for ROS; Will orient odom arrows to velocity direction
     """
     from mapping import ll2utm  
     from math import radians
-    # from pprint import pprint
-
-    # print("In convert_odom_var")
     
     UTMtoPub = dict([['time', time], ['sens', sens]]) # is time really necessary? Not using as dictionary index in self...
-
-    # Convert to UTM
-    (Easting, Northing) = ll2utm(float(skateboard['zLat']['value']), float(skateboard['zLong']['value']))
+    (Easting, Northing) = ll2utm(float(skateboard['zLat']['value']), float(skateboard['zLong']['value'])) #
     UTMtoPub['N'] = Northing - self.UTMdatum['N']
     UTMtoPub['E'] = Easting  - self.UTMdatum['E']
-
-    # Covariances - Lat/Lon Std Dev are output in meters already
     UTMtoPub['Nsd'] = float(skateboard['zLatStdDev']['value'])
     UTMtoPub['Esd'] = float(skateboard['zLongStdDev']['value'])
-
-    UTMtoPub['crs'] = radians(float(skateboard['zCourse']['value'])) # convert course to radians for ROS; Will orient odom arrows to velocity direction
-
+    UTMtoPub['crs'] = radians(float(skateboard['zCourse']['value']))
     package_odom_var(self, UTMtoPub)
-
-    # print("\nUTMtoPub:")
-    # pprint(UTMtoPub)
-
-
-#########################################################################################
 
 
 def package_odom_var( self, UTMtoPub ):
@@ -142,16 +121,11 @@ def package_odom_var( self, UTMtoPub ):
     from tf.transformations import quaternion_from_euler as qfe
     from math import sqrt, pi, degrees
     import bridge_tf
-    # from pprint import pprint
 
-    # print("In package_odom_var")
-
-    (odom_pub, ell_pub, r, g, b, stackup_elev, upd_veh) = demarcateSource( self, UTMtoPub['sens'] ) # get source-specific information
- 
+    (odom_pub, ell_pub, r, g, b, stackup_elev, upd_veh) = demarcateSource( self, UTMtoPub['sens'] ) 
     ### Odometry Arrows ###
     odom_msg = Odometry()
     odom_msg.header.stamp = rospy.Time(UTMtoPub['time'])
-    # odom_msg.header.stamp = UTMtoPub['time'] # rospy.Time 'ed it already
     odom_msg.header.frame_id = "odom" # may need to expand?
     odom_msg.pose.pose.position.x = UTMtoPub['E']
     odom_msg.pose.pose.position.y = UTMtoPub['N']
@@ -164,7 +138,6 @@ def package_odom_var( self, UTMtoPub ):
     odom_msg.pose.covariance[0] = UTMtoPub['Nsd']
     odom_msg.pose.covariance[7] = UTMtoPub['Esd']
     odom_msg.pose.covariance[14] = 0 # constrain to xy axis for top-down view (this may not need to be stated)
-    #######################
 
     ### Error Ellipses ### - pulls from the odom msg
     ell_marker = Marker()
@@ -181,23 +154,15 @@ def package_odom_var( self, UTMtoPub ):
     ell_marker.color.r = r
     ell_marker.color.g = g
     ell_marker.color.b = b
-    ell_marker.color.a = 0.95 # transparency - they're on top of one another, potentially
-    ######################
+    ell_marker.color.a = 0.95
 
     odom_pub.publish(odom_msg)
     ell_pub.publish(ell_marker)
-        
     # tell camera tf where the look
     if upd_veh: # accepted(novatel) position has been updated -> update the position of the G mesh
         pub_at_position(self, odom_msg)
         bridge_tf.cameraFollow_tf(self, odom_msg)
 
-    # pprint(odom_msg)
-    # print('\n')
-
-
-
-####################################################################################
 
 def demarcateSource( self, sens ):
     """
@@ -206,8 +171,6 @@ def demarcateSource( self, sens ):
     -publishes it with the appropriate publisher
     - input 'sensor' : string from one of self.sensors list
     """
-    # print("In demarcateSource")
-
     if sens == 'gNovatel':
         odom_pub = self.odom_novatel_publisher
         ell_pub = self.ell_novatel_publisher
@@ -243,10 +206,8 @@ def demarcateSource( self, sens ):
     else:
         rospy.logwarn('mailroom.demarcateSource :: unknown msg sensor/source, seriously??!! COME ON!')   
 
-
     return odom_pub, ell_pub, r, g, b, stackup_elev, upd_veh
 
-####################################################################################
 
 def pub_at_position( self, odom_msg ):
     from visualization_msgs.msg import Marker, MarkerArray
@@ -256,13 +217,9 @@ def pub_at_position( self, odom_msg ):
         -vehicle mesh  & marker legend floating above
         -this should only be invoked when the accepted (novatel) position is updated
     """
-    # curpos_array = MarkerArray()
-    ####################
     ##### G35 Mesh #####
-    # print("In pub_at_position")
     marker = Marker()
     pub = self.curpos_publisher
-    # msg = self.odom_msgs[time]
     marker.header = odom_msg.header
     marker.id = 0 # enumerate subsequent markers here
     marker.action = Marker.MODIFY # can be ADD, REMOVE, or MODIFY
@@ -279,9 +236,7 @@ def pub_at_position( self, odom_msg ):
     marker.color.a = .2
     marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae" #robustify here
     marker.mesh_use_embedded_materials = False
-    # curpos_array.markers.append(marker)
     pub.publish(marker)
-    #####################
 
     ##### Phantom legend #####
     opacity = 1.0
@@ -304,7 +259,6 @@ def pub_at_position( self, odom_msg ):
     marker.color.g = 0 #self.rgb_novatel['g']
     marker.color.b = 0 #self.rgb_novatel['b']
     marker.color.a = opacity
-    # curpos_array.markers.append(marker)
     pub.publish(marker)
     del marker
 
@@ -327,7 +281,6 @@ def pub_at_position( self, odom_msg ):
     marker.color.g = self.rgb_pennst['g']
     marker.color.b = self.rgb_pennst['b']
     marker.color.a = opacity
-    # curpos_array.markers.append(marker)
     pub.publish(marker)
     del marker
 
@@ -335,7 +288,6 @@ def pub_at_position( self, odom_msg ):
     pub = self.legend_sri_publisher
     marker = Marker()
     marker.header = odom_msg.header
-    # marker.header.frame_id = 'odom'
     marker.id = 0
     marker.ns = 'SRI_legend'
     marker.type = Marker.TEXT_VIEW_FACING
@@ -350,14 +302,12 @@ def pub_at_position( self, odom_msg ):
     marker.color.g = self.rgb_sri['g']
     marker.color.b = self.rgb_sri['b']
     marker.color.a = opacity
-    # curpos_array.markers.append(marker)
     pub.publish(marker)
     del marker
 
     # DSRC
     pub = self.legend_dsrc_publisher
     marker = Marker()
-    # marker.header = odom_msg.header
     marker.header.frame_id = 'odom'
     marker.id = 0
     marker.ns = 'DSRC_legend'
@@ -373,9 +323,6 @@ def pub_at_position( self, odom_msg ):
     marker.color.g = self.rgb_dsrc['g']
     marker.color.b = self.rgb_dsrc['b']
     marker.color.a = opacity
-    # curpos_array.markers.append(marker)
     pub.publish(marker)
     del marker
     ##########################
-
-    # pub.publish(curpos_array)

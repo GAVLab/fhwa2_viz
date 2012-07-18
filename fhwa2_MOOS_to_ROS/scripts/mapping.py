@@ -12,7 +12,6 @@ def survey():
     """
     This function must be in the same directory as the *.txt survey files.
     """
-
     from csv import reader as rdr
     import os
 
@@ -171,8 +170,6 @@ def ll2utm(Lat, Long):
                                            -330*eccPrimeSquared)*A*A*A*A*A*A/720)))
 	return (Easting, Northing)
 
-	# not quite sure what else to do here
-
 
 def create_map(self):
     """
@@ -188,6 +185,7 @@ def create_map(self):
     self.map_lane_array = MarkerArray()
     NCAT_id = 0
     
+    ### Stripes ###
     for ring in stripes:
         for pt in ring:
             lat = float(ring[pt][0])
@@ -213,12 +211,11 @@ def create_map(self):
             marker.mesh_use_embedded_materials = False
             self.map_stripe_array.markers.append(marker)
             
-            # print('Stripes')
-            # print(marker)
             NCAT_id += 1
     print('Stripe Markers have been printed') 
     del marker
 
+    ### Lane Centers ###
     for ring in lanes:
         for pt in ring:
             lat = float(ring[pt][0])
@@ -246,19 +243,17 @@ def create_map(self):
             
             self.map_lane_array.markers.append(marker)
             
-            # print('Lane Centers')
-            # print(marker)
             NCAT_id += 1
     print('Lane Center Markers have been printed')
 
 
-##################################################################################
-
 def create_map_mesh(self):
+    """Puts a blender mesh of the paement and stripes (continuous) into rviz"""
     from visualization_msgs.msg import Marker, MarkerArray
     import rospy
     marker_array = MarkerArray()
 
+    ### Track Pavement Publisher ###
     marker = Marker()
     marker.header.frame_id = 'odom' # publish in static frame
     marker.id = 0
@@ -279,9 +274,8 @@ def create_map_mesh(self):
     marker.color.b = 0.3
     marker.color.a = 1.0
     marker_array.markers.append(marker)
-    # self.track_mesh_publisher.publish(marker)
 
-
+    ### Lane Marking Publisher ###
     marker = Marker()
     marker.header.frame_id = 'odom' # publish in static frame
     marker.id = 1
@@ -302,7 +296,5 @@ def create_map_mesh(self):
     marker.color.b = 0
     marker.color.a = 1.0
     marker_array.markers.append(marker)
-    # self.track_mesh_publisher.publish(marker)
 
     self.track_mesh_publisher.publish(marker_array)
-
