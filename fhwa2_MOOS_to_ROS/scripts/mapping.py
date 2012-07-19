@@ -81,7 +81,6 @@ def survey(self):
             pt_list = line.split(' ')
             stripes.append(pt_list)
 
-
     for center_file_loc in self.survey_center_locs:
         center_file = open(center_file_loc, 'rU')
         for line in center_file:
@@ -90,103 +89,6 @@ def survey(self):
             centers.append(pt_list)
 
     return stripes, centers
-    # from csv import reader as rdr
-    # import os
-
-    # curr = os.getcwd()
-    # # The raw Lat/Lon survey data is in a subfolder to this file's path, named 'survey'    
-    # surveydir = os.path.dirname(__file__) + '/survey'
-
-    # ### Reader Imports ###
-    # os.chdir(surveydir)
-    # stripe_inner_lat_rd = rdr(open("stripe_inner_lat.txt"), delimiter=" ")
-    # stripe_inner_lon_rd = rdr(open("stripe_inner_lon.txt"), delimiter=" ")
-    # lane_inner_lat_rd = rdr(open("lane_inner_lat.txt"), delimiter=" ")
-    # lane_inner_lon_rd = rdr(open("lane_inner_lon.txt"), delimiter=" ")
-    # stripe_middle_lat_rd = rdr(open("stripe_middle_lat.txt"), delimiter=" ")
-    # stripe_middle_lon_rd = rdr(open("stripe_middle_lon.txt"), delimiter=" ")
-    # lane_outer_lat_rd = rdr(open("lane_outer_lat.txt"), delimiter=" ")
-    # lane_outer_lon_rd = rdr(open("lane_outer_lon.txt"), delimiter=" ")
-    # stripe_outer_lat_rd = rdr(open("stripe_outer_lat.txt"), delimiter=" ")
-    # stripe_outer_lon_rd = rdr(open("stripe_outer_lon.txt"), delimiter=" ")
-
-    # ### Inner Stripe ###
-    # stripe_inner_lat = []
-    # for col in stripe_inner_lat_rd:
-    #     stripe_inner_lat.append(col)
-    # del stripe_inner_lat[0][0]
-    # stripe_inner_lat = stripe_inner_lat[0]
-    # stripe_inner_lon = []
-    # for col in stripe_inner_lon_rd:
-    #     stripe_inner_lon.append(col)
-    # del stripe_inner_lon[0][0]
-    # stripe_inner_lon = stripe_inner_lon[0]
-    # stripe_inner = {}
-    # for pt in range(len(stripe_inner_lon)):
-    #     stripe_inner[pt] = [stripe_inner_lat[pt], stripe_inner_lon[pt]]
-
-    # ### Center - Inner Lane ###
-    # lane_inner_lat = []
-    # for col in lane_inner_lat_rd:
-    #     lane_inner_lat.append(col)
-    # del lane_inner_lat[0][0]
-    # lane_inner_lat = lane_inner_lat[0]
-    # lane_inner_lon = []
-    # for col in lane_inner_lon_rd:
-    #     lane_inner_lon.append(col)
-    # del lane_inner_lon[0][0]
-    # lane_inner_lon = lane_inner_lon[0]
-    # lane_inner = {}
-    # for pt in range(len(lane_inner_lon)):
-    #     lane_inner[pt] = [lane_inner_lat[pt], lane_inner_lon[pt]]
-
-    # ### Center Stripe ###
-    # stripe_middle_lat = []
-    # for col in stripe_middle_lat_rd:
-    #     stripe_middle_lat.append(col)
-    # del stripe_middle_lat[0][0]
-    # stripe_middle_lat = stripe_middle_lat[0]
-    # stripe_middle_lon = []
-    # for col in stripe_middle_lon_rd:
-    #     stripe_middle_lon.append(col)
-    # del stripe_middle_lon[0][0]
-    # stripe_middle_lon = stripe_middle_lon[0]
-    # stripe_middle = {}
-    # for pt in range(len(stripe_middle_lon)):
-    #     stripe_middle[pt] = [stripe_middle_lat[pt], stripe_middle_lon[pt]]
-
-    # ### Center - Outer Lane ###
-    # lane_outer_lat = []
-    # for col in lane_outer_lat_rd:
-    #     lane_outer_lat.append(col)
-    # del lane_outer_lat[0][0]
-    # lane_outer_lat = lane_outer_lat[0]
-    # lane_outer_lon = []
-    # for col in lane_outer_lon_rd:
-    #     lane_outer_lon.append(col)
-    # del lane_outer_lon[0][0]
-    # lane_outer_lon = lane_outer_lon[0]
-    # lane_outer = {}
-    # for pt in range(len(lane_outer_lon)):
-    #     lane_outer[pt] = [lane_outer_lat[pt], lane_outer_lon[pt]]
-
-    # ### Outer Stripe ###
-    # stripe_outer_lat = []
-    # for col in stripe_outer_lat_rd:
-    #     stripe_outer_lat.append(col)
-    # del stripe_outer_lat[0][0]
-    # stripe_outer_lat = stripe_outer_lat[0]
-    # stripe_outer_lon = []
-    # for col in stripe_outer_lon_rd:
-    #     stripe_outer_lon.append(col)
-    # del stripe_outer_lon[0][0]
-    # stripe_outer_lon = stripe_outer_lon[0]
-    # stripe_outer = {}
-    # for pt in range(len(stripe_outer_lon)):
-    #     stripe_outer[pt] = [stripe_outer_lat[pt], stripe_outer_lon[pt]]
-
-    # os.chdir(curr)
-    # return (stripe_inner, lane_inner, stripe_middle, lane_outer, stripe_outer)
 
 
 def create_map(self):
@@ -273,7 +175,7 @@ def create_map_mesh(self):
     import rospy
     marker_array = MarkerArray()
 
-    ### Track Pavement Publisher ###
+    ### Track Pavement Publisher ###############################################
     marker = Marker()
     marker.header.frame_id = 'odom' # publish in static frame
     marker.id = 0
@@ -282,7 +184,7 @@ def create_map_mesh(self):
     marker.ns = "track_mesh_pavement"
     marker.type = Marker.MESH_RESOURCE
     marker.mesh_use_embedded_materials = False
-    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_01_minimal.stl" # wahoo
+    marker.mesh_resource = self.track_mesh_resource# wahoo
     marker.pose.position.x = 0# - self.UTMdatum['E']
     marker.pose.position.y = 0# - self.UTMdatum['N']
     marker.pose.position.z = -1.57
@@ -295,7 +197,7 @@ def create_map_mesh(self):
     marker.color.a = 1.0
     marker_array.markers.append(marker)
 
-    ### Lane Marking Publisher ###
+    ### Lane Marking Publisher #################################################
     marker = Marker()
     marker.header.frame_id = 'odom' # publish in static frame
     marker.id = 1
@@ -304,7 +206,7 @@ def create_map_mesh(self):
     marker.ns = "track_mesh_lane_markings"
     marker.type = Marker.MESH_RESOURCE
     marker.mesh_use_embedded_materials = False
-    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/NCAT_UTM_Plane_01_lane_markings.stl" # wahoo
+    marker.mesh_resource = self.marking_mesh_resource # wahoo
     marker.pose.position.x = 0# - self.UTMdatum['E']
     marker.pose.position.y = 0# - self.UTMdatum['N']
     marker.pose.position.z = -1.57

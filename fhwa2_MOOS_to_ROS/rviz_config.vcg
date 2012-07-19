@@ -1,7 +1,7 @@
 Background\ ColorB=0
 Background\ ColorG=0.584314
 Background\ ColorR=0
-Camera\ Config=0.320399 3.25722 36.1609 0 0 0
+Camera\ Config=0.289797 6.21541 10 0 0 0
 Camera\ Type=rviz::OrbitViewController
 DSRC\ -\ Err\ Ellipse.Enabled=1
 DSRC\ -\ Err\ Ellipse.Error_Ellipses___gDSRC=1

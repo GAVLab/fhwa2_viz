@@ -45,6 +45,8 @@ class MOOS2RVIZ(MOOSCommClient):
         self.desired_variables = config["desired_variables"]
         self.survey_stripe_locs = config["survey_stripe_locs"]
         self.survey_center_locs = config["survey_center_locs"]
+        self.track_mesh_resource = config["track_mesh_resource"]
+        self.marking_mesh_resource = config["marking_mesh_resource"]
 
         ## Publisher/Subscriber Operations
         self.set_publishers()
