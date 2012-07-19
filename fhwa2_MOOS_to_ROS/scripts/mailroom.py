@@ -231,7 +231,7 @@ def pub_at_position( self, odom_msg ):
         -vehicle mesh  & marker legend floating above
         -this should only be invoked when the accepted (novatel) position is updated
     """
-    ##### G35 Mesh #####
+    ##### G35 Mesh #############################################################
     marker = Marker()
     pub = self.curpos_publisher
     marker.header = odom_msg.header
@@ -248,11 +248,11 @@ def pub_at_position( self, odom_msg ):
     marker.color.g = .05
     marker.color.b = .05
     marker.color.a = .2
-    marker.mesh_resource = "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae" #robustify here
+    marker.mesh_resource = self.veh_mesh_resource
     marker.mesh_use_embedded_materials = False
     pub.publish(marker)
 
-    ##### Phantom legend #####
+    ##### Phantom legend #######################################################
     opacity = 1.0
     
     ## Novatel - Text

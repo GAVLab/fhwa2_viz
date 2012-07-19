@@ -52,3 +52,5 @@ Load the rViz configuration from /home/__user__/__rosworkspace__/fhwa2_viz/fhwa2
 
 
 #################################################
+
+Note: when changing log files, restart uPlayBack

@@ -6,7 +6,6 @@
 import sys, os
 from time import sleep
 from pprint import pprint
-import copy
 from yaml import load
 
 # Bridge module imports
@@ -47,6 +46,7 @@ class MOOS2RVIZ(MOOSCommClient):
         self.survey_center_locs = config["survey_center_locs"]
         self.track_mesh_resource = config["track_mesh_resource"]
         self.marking_mesh_resource = config["marking_mesh_resource"]
+        self.veh_mesh_resource = config["veh_mesh_resource"]
 
         ## Publisher/Subscriber Operations
         self.set_publishers()
