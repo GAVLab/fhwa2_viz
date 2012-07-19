@@ -28,14 +28,12 @@ from pymoos.MOOSCommClient import MOOSCommClient
 
 class MOOS2RVIZ(MOOSCommClient):
     """Takes moos messages from an onboard moos db and displays the data in rViz"""
-    def __init__(self):
+    def __init__(self, config):
         MOOSCommClient.__init__(self)
         self.SetOnConnectCallBack(self.onConnect)
         self.SetOnMailCallBack(self.onMail)
 
         ## Config File Operations
-        stream = file('/home/gavlab/rgc0003rosws/fhwa2_viz/fhwa2_MOOS_to_ROS/cfg/config.yaml','r')
-        config = load(stream) # loads as a dictionary
         self.freq_max = config["freq_max"]
         self.UTMdatum = dict([['E', config["UTMdatum"]["E"]],\
                               ['N', config["UTMdatum"]["N"]]]) 
@@ -133,8 +131,15 @@ def main():
     #setup ROS node
     rospy.init_node('moos2rviz')
 
+    ## setup config file
+    config_file = sys.argv[1]
+    if config_file[-4:] is not 'yaml':
+        print("Config file must be YAML format!!! That's how we do.")
+    stream = file(config_file,'r')
+    this_config = load(stream) # loads as a dictionary
+
     #Setup MOOS App
-    app = MOOS2RVIZ()
+    app = MOOS2RVIZ(this_config)
     app.Run("127.0.0.1", 9000, "moos2rviz") # change this to G comp (where MOOSDB is) currently BlackOak
     for x in range(10): # allow 1 second to connect to MOOSDB
         sleep(0.1)
@@ -147,7 +152,6 @@ def main():
         sys.exit(-1)
     
     #Setup ROS Stuff
-    # setup new types of ros topics
    
     #spin
     rospy.spin()
