@@ -34,7 +34,7 @@ class MOOS2RVIZ(MOOSCommClient):
         self.SetOnMailCallBack(self.onMail)
 
         ## Config File Operations
-        stream = file('/home/gavlab/rgc0003rosws/fhwa2_viz/fhwa2_MOOS_to_ROS/scripts/config.yaml','r')
+        stream = file('/home/gavlab/rgc0003rosws/fhwa2_viz/fhwa2_MOOS_to_ROS/cfg/config.yaml','r')
         config = load(stream) # loads as a dictionary
         self.freq_max = config["freq_max"]
         self.UTMdatum = dict([['E', config["UTMdatum"]["E"]],\

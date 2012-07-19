@@ -1,40 +1,22 @@
-TO DO LIST
+-better/prettier stacking of odom/err_ell markers
+	-make the novatel/integrated solution dominate
 
--Google Earth image of the track
-	-display when zoomed out to point where not grainy
+-make colors look better
 
--Determine other track display methods
-	-Blender mesh? ==> Determine if collada didn't display b/c it was a plane only
-	-now have framework in place, config file saved, just need to get into non-planar form?
+- get track stripes/ lane marking mesh from blender working
 
--**Robustify code**
-	-to read track data, lat/lon survey files currently have to be in same directory
-		-convert into UTM files
-		-make the code work if data is in a separate survey data file
-	-file operations
-	-loop randmcnally.survey() rather than script out long-form
-	-file operation at vehicle mesh file in  pub_at_position()
+-in mailroom.gather_odom_var(), use pop instead of a list then delete in a for loop
 
-- ensure that error ellipses are being oriented properly
+-G centered grid is at a weird elevation
 
--enable multiple position & covariance inputs
-	-go with decimal lat/lon coord sys for now
-		-determine coord sys for other data sets
-	-when told which position solution "best"
-		-do meat of display thereby
-			-car model
-			-dominant odom arrows
-		-indicate which is best
-		-determine input method for "best" solution 
-	-determine how to compare
-		-legend/color system?
-		-sizing?
-	-for devel purposes, acquire multiple datasets
-		- ~100Hz
-		- could just add white noise to 
+-clean up randmcnally's mapping functionality
 
--setup launch file to automatically load fhwa2 rviz configuration file
+-mesh colors will work in rviz if using URDF file
 
-- pub_at_position() input error message??
+- interpolate log file to get ~100Hz
+	http://docs.scipy.org/doc/numpy/reference/generated/numpy.interp.html
+	http://docs.scipy.org/doc/scipy/reference/interpolate.html
 
--get color working on G mesh model
+- mesh of lane markings visible from all angles (make non-planar)
+
+- mult instances for source
