@@ -16,10 +16,8 @@ def survey():
     import os
 
     curr = os.getcwd()
-    # The ray Lat/Lon survey data is in a subfolder to this file's path, named 'survey'    
+    # The raw Lat/Lon survey data is in a subfolder to this file's path, named 'survey'    
     surveydir = os.path.dirname(__file__) + '/survey'
-    print(curr)
-    print(surveydir)
 
     ### Reader Imports ###
     os.chdir(surveydir)

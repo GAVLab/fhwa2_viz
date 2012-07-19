@@ -25,3 +25,7 @@ msg_gen
 *.sublime-project
 
 *.pyc
+
+# single use scripts
+redo_survey.py
+redo_survey.pyc
