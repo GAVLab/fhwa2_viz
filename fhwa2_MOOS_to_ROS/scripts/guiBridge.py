@@ -43,13 +43,15 @@ class MOOS2RVIZ(MOOSCommClient):
         self.sensors = config["sensors"]
         print('sensor strings: \n', self.sensors)
         self.desired_variables = config["desired_variables"]
+        self.survey_stripe_locs = config["survey_stripe_locs"]
+        self.survey_center_locs = config["survey_center_locs"]
 
         ## Publisher/Subscriber Operations
         self.set_publishers()
         rospy.Subscriber("/novatel/odom", Odometry, mailroom.pub_at_position) # put the vehicle model at the accepted position solution
         mapping.create_map(self) # create marker arrays of the stripes and lane centers
-        self.map_stripe_publisher.publish(self.map_stripe_array) # publish stripes as markers
-        self.map_lane_publisher.publish(self.map_lane_array) # publish lane centers as markers
+        # self.map_stripe_publisher.publish(self.map_stripe_array) # publish stripes as markers
+        # self.map_lane_publisher.publish(self.map_lane_array) # publish lane centers as markers
         print('Map has been published - you should see the lane/stripe markers once running')
         mapping.create_map_mesh(self)
         print('Map mesh has been published - you should see it once running')

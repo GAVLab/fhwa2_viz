@@ -25,18 +25,21 @@ desired_variables: #list
 - 'zCourse'
 ################################################################################
 #
-# Mark true to display NCAT track meshes and markers
-# NCAT: True
-#
 # Survey Data ##################################################################
 # # Where the blender track mesh is zeroed
 UTMdatum: # 2 layer nested dictionary
     E: 659300 
     N: 3607850
-# # Location of stripe lat/lon survey points
-# # -every file in this dir will be processed as a stripe
-survey_stripe_loc: '/home/gavlab/rgc0003rosws/fhwa2_MOOS_to_ROS/survey/stripes'
-# # Location of lane center lat/lon survey points
-# # -every file in this
-survey_center_loc: '/home/gavlab/rgc0003rosws/fhwa2_MOOS_to_ROS/survey/centers'
+# # Locations of stripe lat/lon survey points
+survey_stripe_locs: 
+- '/home/gavlab/rgc0003rosws/fhwa2_viz/fhwa2_MOOS_to_ROS/survey/stripes/inner.txt'
+- '/home/gavlab/rgc0003rosws/fhwa2_viz/fhwa2_MOOS_to_ROS/survey/stripes/middle.txt'
+- '/home/gavlab/rgc0003rosws/fhwa2_viz/fhwa2_MOOS_to_ROS/survey/stripes/outer.txt'
+# # Locations of lane center lat/lon survey points
+survey_center_locs:
+- '/home/gavlab/rgc0003rosws/fhwa2_viz/fhwa2_MOOS_to_ROS/survey/centers/inner.txt'
+- '/home/gavlab/rgc0003rosws/fhwa2_viz/fhwa2_MOOS_to_ROS/survey/centers/outer.txt'
+# Mark true to display NCAT track meshes and markers
+# NCAT: True
+#
 ################################################################################

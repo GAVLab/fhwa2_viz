@@ -18,3 +18,5 @@
 	http://docs.scipy.org/doc/scipy/reference/interpolate.html
 
 - mesh of lane markings visible from all angles (make non-planar)
+
+- mult instances for source
