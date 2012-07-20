@@ -1,4 +1,5 @@
---- Mapping Configuration
+# Mapping Configuration
+---
 # Survey Data ##################################################################
 # # Where the blender track mesh is zeroed
 UTMdatum: # 2 layer nested dictionary

@@ -3,6 +3,7 @@
 This class puts a map of markers and meshes in rViz
 It does not connect to MOOS
 """
+import sys
 from yaml import load
 import mapping # fhwa2 module
 import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
@@ -13,8 +14,8 @@ from visualization_msgs.msg import Marker, MarkerArray # had to add module to ma
 class MAP2RVIZ(object):
     def __init__(self, config):
         object.__init__(self)
-        self.get_config(self, config)
-        self.set_publishers(self)
+        self.get_config(config)
+        self.set_publishers()
         mapping.create_map(self) # create marker arrays of the stripes and lane centers
         print('Map markers published - you should see the lane/stripe markers once running')
         mapping.create_map_mesh(self)
