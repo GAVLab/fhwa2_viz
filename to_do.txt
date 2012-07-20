@@ -8,8 +8,9 @@
 -in mailroom.gather_odom_var(), use pop instead of a list then delete in a for loop
 
 -G centered grid is at a weird elevation
+-G is now hopping
 
--clean up randmcnally's mapping functionality
+-bash won't bring up liveBridge
 
 -mesh colors will work in rviz if using URDF file
 
@@ -19,4 +20,5 @@
 
 - mesh of lane markings visible from all angles (make non-planar)
 
-- mult instances for source
+- make mapBridge.py shutdown once
+
