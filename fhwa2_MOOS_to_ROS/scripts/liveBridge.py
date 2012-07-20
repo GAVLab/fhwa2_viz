@@ -2,21 +2,22 @@
 # Robert Cofield, GAVLab
 # Python v2.7.3
 
-
+from pprint import pprint
 import sys, os
 from time import sleep
 from pprint import pprint
 from yaml import load
-from math import radians
+from math import radians, sqrt, pi, degrees
 from mapping import ll2utm
 
-
 #ROS Imports
-import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
+import roslib
+roslib.load_manifest('fhwa2_MOOS_to_ROS')
 import rospy
 from nav_msgs.msg import Odometry # this will need to be repeated for other message types?
 from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest
 import tf
+from tf.transformations import quaternion_from_euler as qfe
 
 #MOOS Imports
 # sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/python') # location of one file named MOOSCommClient.py (other located in bin)
@@ -71,7 +72,6 @@ class MOOS2RVIZ(MOOSCommClient):
         last_gNovatel_zLat = None --> will have last published timestamp
         -used in mailroom.cap_freq function
         """
-        from pprint import pprint
         self.cap_freq_holders = {}
         for meas in range(len(self.desired_variables)):
             name = ''.join(['last_', self.desired_variables[meas]])
@@ -79,6 +79,15 @@ class MOOS2RVIZ(MOOSCommClient):
         # print('\ncap_freq_holders')
         # pprint(self.cap_freq_holders)
     ############################################################################
+
+    def cameraFollow_tf(self, odom_msg):
+        # msg = self.odom_msgs[time]
+        msg = odom_msg
+        br = tf.TransformBroadcaster()
+        br.sendTransform((msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z),\
+                         (0, 0, 0, 1), # this is a unit quaternion\
+                         msg.header.stamp,"base_footprint", "odom") 
+                            #time,    #child frame , #parent frame
 
     ##### Mailroom Functions ###################################################
     def onConnect(self): 
@@ -197,11 +206,6 @@ class MOOS2RVIZ(MOOSCommClient):
             -does all the ROS packaging common to all sources
             -each individual legend is now
         """
-        # remember to add anything appended here to your manifest
-        from tf.transformations import quaternion_from_euler as qfe
-        from math import sqrt, pi, degrees
-        import bridge_tf
-
         ### Odometry Arrows ####################################################
         odom_msg = Odometry()
         odom_msg.header.stamp = rospy.Time(UTMtoPub['time'])
@@ -261,12 +265,10 @@ class MOOS2RVIZ(MOOSCommClient):
         # tell camera tf where the look if master ##############################
         if self.ismaster: # update the vehicle mesh position
             self.pub_at_position(odom_msg)
-            bridge_tf.cameraFollow_tf(self, odom_msg)
+            self.cameraFollow_tf(self, odom_msg)
 
 
     def pub_at_position(self, odom_msg):
-        from visualization_msgs.msg import Marker, MarkerArray
-        import rospy
         """
         Handles necessary information for displaying things at 
                                 ACCEPTED (NOVATEL) POSITION SOLUTION:
