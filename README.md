@@ -55,4 +55,5 @@ Load the rViz configuration from /home/__user__/__rosworkspace__/fhwa2_viz/fhwa2
 
 Note: when changing log files, restart uPlayBack
 
-second argument in the command line is location of config file
+second argument in the command line is location of config file:
+		

@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 """
 This file contain modules related to coordinate systems, and specifically the NCAT track map.
+This is invoked a single time by an instance of mapBridge.py
 
 Created 5/20/2012
 Author: Robert Cofield
-
-I know that my coding sucks here. Thank you.
 """
 
 def ll2utm(Lat, Long):

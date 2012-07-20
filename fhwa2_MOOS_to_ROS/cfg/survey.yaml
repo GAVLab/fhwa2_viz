@@ -25,9 +25,3 @@ track_mesh_resource: "package://fhwa2_MOOS_to_ROS/mesh/NCAT_pavement_plane.stl"
 marking_mesh_resource: "package://fhwa2_MOOS_to_ROS/mesh/NCAT_lane_markings.stl"
 #
 ################################################################################
-#
-# Live Data Parameters #########################################################
-# # Location of vehicle mesh file
-veh_mesh_resource: "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae"
-#
-################################################################################
