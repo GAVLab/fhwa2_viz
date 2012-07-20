@@ -38,11 +38,11 @@ class MAP2RVIZ(object):
 
 def main():
     #setup ROS node
-    rospy.init_node('moos2rviz')
+    rospy.init_node('moos2rviz_survey')
 
     ## setup config file
     config_file = sys.argv[1]
-    if config_file[-4:] is not 'yaml': # check file format
+    if config_file[-4:] != 'yaml': # check file format
         print("Config file must be YAML format!!! That's how we do.")
     stream = file(config_file,'r')
     this_config = load(stream) # loads as a dictionary

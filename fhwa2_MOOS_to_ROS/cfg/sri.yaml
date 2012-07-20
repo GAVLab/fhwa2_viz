@@ -1,4 +1,5 @@
---- SRI Instance Configuration
+# SRI Instance Configuration
+---
 # Display Parameters ###########################################################
 # Maximum frequency with which messages will be sent past mailroom.cap_freq()
 # Enter 0 for no frequency capping (not recommended - buffer lag errors)
