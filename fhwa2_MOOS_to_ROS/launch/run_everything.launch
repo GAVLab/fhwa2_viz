@@ -1,6 +1,12 @@
 <launch>
+    <!-- roscore is implicitly launched -->
+
 	<node pkg="MOOS" type="MOOSDB" name="MOOSDB" />
-	<!-- <node pkg="MOOS" type="uPlayBack" name="uPlayBack" output="screen" /> -->
-	<node pkg="MOOS" type="uMS" name="uMS" output="screen" />
-	<node pkg="MOOS" type="pMOOSBridge" name="pMOOSBridge" />
+	
+    <node pkg="MOOS" type="uPlayBack" name="uPlayBack" output="screen" />
+	
+    <!-- <node pkg="MOOS" type="uMS" name="uMS" output="screen" /> -->
+    
+    <node pkg="rviz" type="rviz" name="rViz" output="screen" />
+
 </launch>

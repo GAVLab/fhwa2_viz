@@ -258,8 +258,6 @@ class MOOS2RVIZ(MOOSCommClient):
         marker.color.a = 1.0
         self.legend_publisher.publish(marker)
 
-        print('Published new marker for sensor: ' + self.sensor_name)
-  
         # tell camera tf where the look if master ##############################
         if self.ismaster: # update the vehicle mesh position
             self.pub_at_position(odom_msg)
