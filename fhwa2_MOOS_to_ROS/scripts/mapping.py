@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""
+Mathematical functions related to coordinates and transforms
+"""
+
 from math import pi, sqrt, sin, cos, tan
 
 def ll2utm(Lat, Long):

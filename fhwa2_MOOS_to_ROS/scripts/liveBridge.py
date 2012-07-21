@@ -4,8 +4,7 @@
 
 from pprint import pprint
 import sys, os
-from time import sleep
-from pprint import pprint
+from time import sleep, time
 from yaml import load
 from math import radians, sqrt, pi, degrees
 from mapping import ll2utm
@@ -75,13 +74,10 @@ class MOOS2RVIZ(MOOSCommClient):
         self.cap_freq_holders = {}
         for meas in range(len(self.desired_variables)):
             name = ''.join(['last_', self.desired_variables[meas]])
-            self.cap_freq_holders[name] = None
-        # print('\ncap_freq_holders')
-        # pprint(self.cap_freq_holders)
+            self.cap_freq_holders[name] = time() # wall time
     ############################################################################
 
     def cameraFollow_tf(self, odom_msg):
-        # msg = self.odom_msgs[time]
         msg = odom_msg
         br = tf.TransformBroadcaster()
         br.sendTransform((msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z),\
@@ -92,13 +88,11 @@ class MOOS2RVIZ(MOOSCommClient):
     ##### Mailroom Functions ###################################################
     def onConnect(self): 
         """Function required in every pyMOOS App"""
-        print("In onConnect")
         for var in self.desired_variables: # expand later
             self.Register(var) #defined in MOOSCommClient.py
 
     def onMail(self):
         """Function required in every pyMOOS App"""
-        print("In onMail")
         messages = self.FetchRecentMail()
         for message in messages:
             self.handle_msg(message)
@@ -109,7 +103,6 @@ class MOOS2RVIZ(MOOSCommClient):
         """
         takes a msg and passes usable info to gather_odom_var
         """
-        # print('In handle_msg')
         if msg.IsDouble():
             var_type = "Double"
             value = str(msg.GetDouble()) #store all values as strings until handled specifically
@@ -124,19 +117,19 @@ class MOOS2RVIZ(MOOSCommClient):
         sens = msg.GetSource() # will yield "g______" string
         # print('Here')
         if (sens == self.sensor_name) and (name in self.desired_variables): # where desired messages are scooped
-            if not self.cap_freq(name, time): # frequency capping
+            if not self.cap_freq(name): # frequency capping
                 self.gather_odom_var(name, var_type, value, time)
         # else:
         #     rospy.logwarn("handle_msg :: Unhandled msg: %(name)s of type %(var_type)s carries value %(value)s" % locals())
 
 
-    def cap_freq(self, name, time):
+    def cap_freq(self, name):
         """enfores the maximum frequency by emitting boolean to send only messages
         arriving after the prescribed period following the previous message of 
         the same type
         """
-        # print('In cap_freq')
         # minimum amount of time between msgs for each sensor
+        this_time = time()
         tmin = 1/self.freq_max 
         ## reconstruct name of last time holder to find its contents (last time)
         last_one_name = ''.join(['last_', name])
@@ -145,10 +138,13 @@ class MOOS2RVIZ(MOOSCommClient):
         # publish if first time or enough time elapsed
         if self.freq_max == 0: # disable freq capping
             catch = False
-        elif (last_one is None) or ((time - last_one) >= tmin):
+        elif (last_one is None) or ((this_time - last_one) >= tmin):
             catch = False
         else:
             catch = True
+        # update the holder since we're now publishing
+        if not catch:
+            last_one = time()
         return catch
 
 
@@ -212,7 +208,7 @@ class MOOS2RVIZ(MOOSCommClient):
         odom_msg.header.frame_id = "odom" # may need to expand?
         odom_msg.pose.pose.position.x = UTMtoPub['E']
         odom_msg.pose.pose.position.y = UTMtoPub['N']
-        odom_msg.pose.pose.position.z = 0
+        odom_msg.pose.pose.position.z = 1.55
         # make a quaternion :: the (-pi, -pi, ...) came from trial-and-error 
         quat = qfe(-pi, -pi, -UTMtoPub['crs']-pi/2)
         odom_msg.pose.pose.orientation.x = quat[0]
@@ -265,7 +261,7 @@ class MOOS2RVIZ(MOOSCommClient):
         # tell camera tf where the look if master ##############################
         if self.ismaster: # update the vehicle mesh position
             self.pub_at_position(odom_msg)
-            self.cameraFollow_tf(self, odom_msg)
+            self.cameraFollow_tf(odom_msg)
 
 
     def pub_at_position(self, odom_msg):
@@ -283,6 +279,7 @@ class MOOS2RVIZ(MOOSCommClient):
         marker.id = 0 # enumerate subsequent markers here
         marker.action = Marker.MODIFY # can be ADD, REMOVE, or MODIFY
         marker.pose = odom_msg.pose.pose
+        marker.pose.position.z = 1.55
         marker.lifetime = rospy.Duration() # will last forever unless modified
         marker.ns = "vehicle_model"
         marker.type = Marker.MESH_RESOURCE

@@ -22,6 +22,7 @@ class MAP2RVIZ(object):
         print('Map markers published - you should see the lane/stripe markers once running')
         self.create_map_mesh()
         print('Map mesh has been published - you should see it once running')
+        # rospy.shutdown('cuz i said so')
 
 
     def get_config(self, config):
@@ -88,7 +89,7 @@ class MAP2RVIZ(object):
             marker.type = Marker.CUBE
             marker.pose.position.x = east - self.UTMdatum['E']
             marker.pose.position.y = nrth - self.UTMdatum['N']
-            marker.pose.position.z = -1.55 # zero is a novatel mount level
+            marker.pose.position.z = 0 # zero is a novatel mount level
             marker.color.r = 255
             marker.color.g = 255
             marker.color.b = 0
@@ -119,7 +120,7 @@ class MAP2RVIZ(object):
             marker.type = Marker.SPHERE
             marker.pose.position.x = east - self.UTMdatum['E']
             marker.pose.position.y = nrth - self.UTMdatum['N']
-            marker.pose.position.z = -1.55 # zero is a novatel mount level
+            marker.pose.position.z = 0 # zero is a novatel mount level
             marker.color.r = 0
             marker.color.g = 0
             marker.color.b = 0
@@ -151,7 +152,7 @@ class MAP2RVIZ(object):
         marker.mesh_resource = self.track_mesh_resource# wahoo
         marker.pose.position.x = 0# - self.UTMdatum['E']
         marker.pose.position.y = 0# - self.UTMdatum['N']
-        marker.pose.position.z = -1.57
+        marker.pose.position.z = 0
         marker.scale.x = 1
         marker.scale.y = 1
         marker.scale.z = 1
@@ -173,7 +174,7 @@ class MAP2RVIZ(object):
         marker.mesh_resource = self.marking_mesh_resource # wahoo
         marker.pose.position.x = 0# - self.UTMdatum['E']
         marker.pose.position.y = 0# - self.UTMdatum['N']
-        marker.pose.position.z = -1.57
+        marker.pose.position.z = 0
         marker.scale.x = 1
         marker.scale.y = 1
         marker.scale.z = 1
@@ -202,7 +203,6 @@ def main():
     app = MAP2RVIZ(this_config)
     
     #Setup ROS Stuff
-   
     #spin
     rospy.spin()
 

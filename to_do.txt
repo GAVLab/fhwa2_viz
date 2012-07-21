@@ -22,3 +22,4 @@
 
 - make mapBridge.py shutdown once
 
+all sensors into single marker array
