@@ -188,6 +188,7 @@ class MOOS2RVIZ(MOOSCommClient):
         # print("In convert_odom_var")
         UTMtoPub = dict([['time', time]]) # is time really necessary? Not using as dictionary index in self...
         (Easting, Northing) = ll2utm(float(skateboard['zLat']['value']), float(skateboard['zLong']['value'])) #
+        print("{} - {} = {}".format(Northing, self.UTMdatum['N'], Northing - self.UTMdatum['N']))
         UTMtoPub['N'] = Northing - self.UTMdatum['N']
         UTMtoPub['E'] = Easting  - self.UTMdatum['E']
         UTMtoPub['Nsd'] = float(skateboard['zLatStdDev']['value'])

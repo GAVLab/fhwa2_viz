@@ -5,7 +5,7 @@ It does not connect to MOOS
 
 Author: Robert Cofield, for GAVLab, 7/19/2012
 """
-import sys
+import sys, os
 from yaml import load
 import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
 import rospy
@@ -27,6 +27,7 @@ class MAP2RVIZ(object):
 
     def get_config(self, config):
         self.UTMdatum = config["UTMdatum"] # dict
+        self.prefix = rospy.get_param('~prefix')
         self.survey_stripe_locs = config["survey_stripe_locs"]
         self.survey_center_locs = config["survey_center_locs"]
         self.track_mesh_resource = config["track_mesh_resource"]
@@ -48,14 +49,14 @@ class MAP2RVIZ(object):
         centers = []
 
         for stripe_file_loc in self.survey_stripe_locs:
-            stripe_file = open(stripe_file_loc, 'rU')
+            stripe_file = open(os.path.join(self.prefix, stripe_file_loc), 'rU')
             for line in stripe_file:
                 line = line[0:-2] # remove the '\n' at the end
                 pt_list = line.split(' ')
                 stripes.append(pt_list)
 
         for center_file_loc in self.survey_center_locs:
-            center_file = open(center_file_loc, 'rU')
+            center_file = open(os.path.join(self.prefix, center_file_loc), 'rU')
             for line in center_file:
                 line = line[0:-2] # remove the '\n' at the end
                 pt_list = line.split(' ')
@@ -193,7 +194,7 @@ def main():
     rospy.init_node('moos2rviz_survey')
 
     ## setup config file
-    config_file = sys.argv[1]
+    config_file = rospy.myargv(argv=sys.argv)[1]
     if config_file[-4:] != 'yaml': # check file format
         print("Config file must be YAML format!!! That's how we do.")
     stream = file(config_file,'r')

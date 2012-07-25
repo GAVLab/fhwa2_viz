@@ -1,8 +1,5 @@
 <launch>
-    <!-- roscore is implicitly launched -->
-
 	<node pkg="MOOS" type="MOOSDB" name="MOOSDB" />
-	
     <node pkg="MOOS" type="uPlayBack" name="uPlayBack" output="screen" />
     <!-- <node pkg="MOOS" type="uMS" name="uMS" output="screen" /> -->
     
@@ -10,4 +7,23 @@
         args="-d $(find fhwa2_MOOS_to_ROS)/launch/fhwa2.vcg"
         required="true" output="screen" />
 
+    <node pkg="fhwa2_MOOS_to_ROS" type="mapBridge.py" name="moos2rviz_survey"
+        output="screen" args="$(find fhwa2_MOOS_to_ROS)/cfg/survey.yaml">
+        <param name="prefix" value="$(find fhwa2_MOOS_to_ROS)" />
+    </node>
+        <!-- launch-prefix="xterm -e" /> -->
+
+    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_gavlab"
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/gavlab.yaml" output="screen"/>
+        <!-- launch-prefix="xterm -e" /> -->
+<!--
+    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_pennst"
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/pennst.yaml" launch-prefix="xterm -e" />
+
+    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_sri"
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/sri.yaml" launch-prefix="xterm -e" />
+
+    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_dsrc"
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/dsrc.yaml" launch-prefix="xterm -e" />
+-->
 </launch>
