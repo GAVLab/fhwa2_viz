@@ -309,12 +309,12 @@ def main():
 
     #setup ROS node
     node_name = 'moos2rviz_' + this_config['sensor_name']
-    rospy.init_node(node_name)
+    # rospy.init_node(node_name)
 
     #Setup MOOS App
     app = MOOS2RVIZ(this_config)
-    app.Run("127.0.0.1", 9000, node_name) # change this to G comp (where MOOSDB is) currently BlackOak
-    for x in range(10): # allow 1 second to connect to MOOSDB
+    app.Run("192.198.0.1", 9000, node_name) # change this to G comp (where MOOSDB is) currently BlackOak
+    for x in range(30): # allow 1 second to connect to MOOSDB
         sleep(0.1)
         if app.IsConnected():
             print("Connected to MOOSDB")
