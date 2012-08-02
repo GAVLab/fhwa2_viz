@@ -23,3 +23,24 @@
 - make mapBridge.py shutdown once
 
 all sensors into single marker array
+
+
+manifest load problems:
+ozymandium@BlackOak:~/devel/fhwa2_ws$ python fhwa2_viz/fhwa2_MOOS_to_ROS/scripts/liveBridge.py fhwa2_viz/fhwa2_MOOS_to_ROS/cfg/gavlab.yaml 
+Traceback (most recent call last):
+  File "fhwa2_viz/fhwa2_MOOS_to_ROS/scripts/liveBridge.py", line 14, in <module>
+    roslib.load_manifest('fhwa2_MOOS_to_ROS')
+  File "/opt/ros/fuerte/lib/python2.7/dist-packages/roslib/launcher.py", line 62, in load_manifest
+    sys.path = _generate_python_path(package_name, _rospack) + sys.path
+  File "/opt/ros/fuerte/lib/python2.7/dist-packages/roslib/launcher.py", line 93, in _generate_python_path
+    m = rospack.get_manifest(pkg)
+  File "/usr/local/lib/python2.7/dist-packages/rospkg/rospack.py", line 118, in get_manifest
+    return self._load_manifest(name)
+  File "/usr/local/lib/python2.7/dist-packages/rospkg/rospack.py", line 157, in _load_manifest
+    retval = self._manifests[name] = parse_manifest_file(self.get_path(name), self._manifest_name)
+  File "/usr/local/lib/python2.7/dist-packages/rospkg/rospack.py", line 149, in get_path
+    raise ResourceNotFound(name, ros_paths=self._ros_paths)
+rospkg.common.ResourceNotFound: fhwa2_MOOS_to_ROS
+ROS path [0]=/opt/ros/fuerte/share/ros
+ROS path [1]=/opt/ros/fuerte/share
+ROS path [2]=/opt/ros/fuerte/stacks
