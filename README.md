@@ -49,6 +49,7 @@ It is assumed that the G computer will be running Windows XP, and that the viz c
 1. Hook up all equipment:
 	
 	-Novatel requires COM port on G computer (recommend 5), power, and GPS antenna to be plugged in
+	
 	-Ethernet switch between G computer and viz computer
 
 2. On the G computer, open a terminal and determine the local static IP address and subnet mask with
@@ -60,6 +61,7 @@ It is assumed that the G computer will be running Windows XP, and that the viz c
 		sudo ifconfig eth0 up
 
 3. Set a temporary static IP on the viz computer. It is recommended to pick one that is very close to the G computer's. Use the same subnet mask.
+		
 		sudo ifconfig eth0 169.254.142.190 netmask 255.255.255.0
 
 5. Ping each computer from the other to ensure proper connection
