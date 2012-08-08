@@ -32,6 +32,8 @@ Datum is roughly center of track
 		source /opt/ros/fuerte/setup.bash
 		rosinstall --verbose . /opt/ros/fuerte/
 		source ./setup.bash
+		rosmake MOOS-ROS-pkg MOOS
+		rosmake MOOS-ROS-pkg pyMOOS
 
 Note that once you have done this, subsequent updating is simpler.
 
