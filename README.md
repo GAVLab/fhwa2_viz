@@ -17,7 +17,7 @@ Datum is roughly center of track
 		cd devel
 		mkdir fhwa2_ws
 		cd fhwa2_ws
-		rosws init
+		rosws init . /opt/ros/fuerte
 		source setup.bash
 
 3. 	Install the latest version of this stack.
@@ -48,20 +48,30 @@ It is assumed that the G computer will be running Windows XP, and that the viz c
 
 1. Hook up all equipment:
 	
-	-Novatel requires COM port on G computer (recommend 5), power, and GPS antenna to be plugged in
+	-Novatel requires COM port on G computer (recommend 5), power, and GPS antenna to be plugged in.
 	
-	-Ethernet switch between G computer and viz computer
+	-Ethernet switch between G computer and viz computer.
 
-2. On the G computer, open a terminal and determine the local static IP address and subnet mask with
+2. On the G computer, open a terminal and determine the local static IP address and subnet mask.
 
 		ipconfig/all
 
-4. Ensure the wired connection is enabled on the viz computer.
+3. Ensure the wired connection is enabled on the viz computer.
 
 		sudo ifconfig eth0 up
 
-3. Set a temporary static IP on the viz computer. It is recommended to pick one that is very close to the G computer's. Use the same subnet mask.
+4. Set a temporary static IP on the viz computer. It is recommended to pick one that is very close to the G computer's. Use the same subnet mask.
 		
 		sudo ifconfig eth0 169.254.142.190 netmask 255.255.255.0
 
-5. Ping each computer from the other to ensure proper connection
+5. Ping each computer from the other to ensure proper connection.
+
+6. On the G computer's terminal, navigate to the C:\MOOS\MOOSBin folder and run the proper mission file.
+
+		pAntler ./Missions/robert_novatel.moos
+
+7. check the live.launch file and any YAML configuration files in the cfg/ folder which are specified therein. Each sensor will need to have a liveBridge.py instance and assosciated YAML configuration file.
+
+8. Launch the live bridge.
+	
+		roslaunch /home/gavlab/devel/fhwa2_ws/fhwa2_viz/fhwa2_MOOS_to_ROS/launch/live.launch
