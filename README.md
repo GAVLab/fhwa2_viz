@@ -23,7 +23,7 @@ Datum is roughly center of track
 		mkdir fhwa2_ws
 		cd fhwa2_ws
 		rosws init . /opt/ros/fuerte
-		source setup.bash
+		source ./setup.bash
 
 4. 	Install the latest version of this stack.
 
@@ -31,12 +31,12 @@ Datum is roughly center of track
 		source setup.bash
 		source /opt/ros/fuerte/setup.bash
 		rosinstall --verbose . /opt/ros/fuerte/
-		source setup.bash
+		source ./setup.bash
 
 Note that once you have done this, subsequent updating is simpler.
 
 		rosinstall .
-		source setup.bash
+		source ./setup.bash
 
 
 ### Running Playback From alog ###
