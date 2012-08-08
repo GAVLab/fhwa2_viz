@@ -11,7 +11,12 @@ Datum is roughly center of track
 ### Installation ###
 
 1. 	If you don't have ROS, you are an idiot. [Fix this.](http://www.ros.org/wiki/ROS/Installation)
-2.	Create a ROS workspace in your home folder.
+
+2. Install Git.
+
+		sudo apt-get install git
+
+3.	Create a ROS workspace in your home folder.
 
 		mkdir devel
 		cd devel
@@ -20,7 +25,7 @@ Datum is roughly center of track
 		rosws init . /opt/ros/fuerte
 		source setup.bash
 
-3. 	Install the latest version of this stack.
+4. 	Install the latest version of this stack.
 
 		rosws merge https://raw.github.com/GAVLab/fhwa2_viz/master/fhwa2_viz.rosinstall
 		source setup.bash
