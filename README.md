@@ -37,6 +37,7 @@ Datum is roughly center of track
 
 Note that once you have done this, subsequent updating is simpler.
 
+		rosws update
 		rosinstall .
 		source ./setup.bash
 
