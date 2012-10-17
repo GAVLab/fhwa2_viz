@@ -13,14 +13,14 @@
 
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_gavlab"
         args="$(find fhwa2_MOOS_to_ROS)/cfg/gavlab.yaml" output="screen"/>
-<!--
+
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_pennst"
         args="$(find fhwa2_MOOS_to_ROS)/cfg/pennst.yaml" launch-prefix="xterm -e" />
 
-    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_sri"
+    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_kapsch"
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/dsrc.yaml" launch-prefix="xterm -e" />
+
+    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_sarnoff"
         args="$(find fhwa2_MOOS_to_ROS)/cfg/sri.yaml" launch-prefix="xterm -e" />
 
-    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_dsrc"
-        args="$(find fhwa2_MOOS_to_ROS)/cfg/dsrc.yaml" launch-prefix="xterm -e" />
--->
 </launch>

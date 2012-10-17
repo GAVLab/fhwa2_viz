@@ -244,15 +244,18 @@ class MOOS2RVIZ(MOOSCommClient):
         marker = Marker()
         marker.header = odom_msg.header
         marker.id = 0
-        marker.ns = 'Novatel_legend'
+        marker.ns = self.sensor_name + 'legend'
         marker.type = Marker.TEXT_VIEW_FACING
-        marker.text = self.sensor_name
+        if self.sensor_name == 'gDSRC':
+            marker.text = 'gKapsch'
+        else:
+            marker.text = self.sensor_name
         marker.action = Marker.MODIFY
         marker.pose = odom_msg.pose.pose
         marker.pose.position.z = self.legend_text_height # elevate to spread
-        marker.scale.x = 0.25
-        marker.scale.y = 0.25
-        marker.scale.z = 0.3
+        marker.scale.x = 0.5
+        marker.scale.y = 0.5
+        marker.scale.z = 0.6
         marker.color.r = self.color['r']
         marker.color.g = self.color['g']
         marker.color.b = self.color['b']

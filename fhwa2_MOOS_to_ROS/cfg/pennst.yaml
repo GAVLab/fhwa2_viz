@@ -12,7 +12,7 @@ color: # dark blue
     b: 127
 #
 # Height of the legend text above the car (stack individual sensors manually), m
-legend_text_height: 1.5
+legend_text_height: 3.0
 #
 # Whether this instance will dictate the displayed position of the vehicle
 # -If set to true, there must be a file location for the vehicle mesh

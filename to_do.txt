@@ -1,3 +1,5 @@
+-fix DSRC/Kapsch thing
+
 -better/prettier stacking of odom/err_ell markers
 	-make the novatel/integrated solution dominate
 
