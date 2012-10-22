@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # Robert Cofield, GAVLab
 # Python v2.7.3
+from pymoos.MOOSCommClient import MOOSCommClient
+
 
 from pprint import pprint
 import sys, os
@@ -20,7 +22,7 @@ from tf.transformations import quaternion_from_euler as qfe
 
 #MOOS Imports
 # sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/python') # location of one file named MOOSCommClient.py (other located in bin)
-from pymoos.MOOSCommClient import MOOSCommClient
+
 # sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/lib')
 # import MOOSCommClient
 
@@ -88,14 +90,18 @@ class MOOS2RVIZ(MOOSCommClient):
     ##### Mailroom Functions ###################################################
     def onConnect(self): 
         """Function required in every pyMOOS App"""
+        print('liveBridge.py :: In onConnect')
         for var in self.desired_variables: # expand later
             self.Register(var) #defined in MOOSCommClient.py
 
     def onMail(self):
         """Function required in every pyMOOS App"""
+        print('In onMail')
         messages = self.FetchRecentMail()
+        print('Recent Mail Fetched')
         for message in messages:
             self.handle_msg(message)
+        print('Messages Handled')
         return True
 
 
@@ -316,9 +322,8 @@ def main():
 
     #Setup MOOS App
     app = MOOS2RVIZ(this_config)
-    app.Run("127.0.0.1", 9000, node_name) # change this to G comp (where MOOSDB is) currently BlackOak
-    # app.Run("169.254.142.189", 9000, node_name) # change this to G comp (where MOOSDB is) currently BlackOak
-    for x in range(30): # allow 1 second to connect to MOOSDB
+    app.Run("192.168.1.1", 9000, node_name) # fixed IP of R2 - G computer
+    for x in range(30): # allow 3 second to connect to MOOSDB
         sleep(0.1)
         if app.IsConnected():
             print("Connected to MOOSDB")
