@@ -13,5 +13,6 @@
     </node>
     
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_gavlab"
-        args="$(find fhwa2_MOOS_to_ROS)/cfg/gavlab.yaml" output="screen"/>
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/gavlab.yaml" output="screen"
+        respawn="true"/>
 </launch>

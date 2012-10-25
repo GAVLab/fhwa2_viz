@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Robert Cofield, GAVLab
 # Python v2.7.3
-from pymoos.MOOSCommClient import MOOSCommClient
+# from pymoos.MOOSCommClient import MOOSCommClient # used this when pymoos wouldn't build on hp under ros
 
 
 from pprint import pprint
@@ -24,7 +24,7 @@ from tf.transformations import quaternion_from_euler as qfe
 # sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/python') # location of one file named MOOSCommClient.py (other located in bin)
 
 # sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/lib')
-# import MOOSCommClient
+from pymoos.MOOSCommClient import MOOSCommClient
 
 
 class MOOS2RVIZ(MOOSCommClient):
@@ -322,7 +322,7 @@ def main():
 
     #Setup MOOS App
     app = MOOS2RVIZ(this_config)
-    app.Run("192.168.1.1", 9000, node_name) # fixed IP of R2 - G computer
+    app.Run("192.168.1.100", 9000, node_name) # fixed IP of R2 - G computer
     for x in range(30): # allow 3 second to connect to MOOSDB
         sleep(0.1)
         if app.IsConnected():
