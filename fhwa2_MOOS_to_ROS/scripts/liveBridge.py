@@ -94,8 +94,11 @@ class MOOS2RVIZ(MOOSCommClient):
         br.sendTransform((msg.pose.pose.position.x,
                           msg.pose.pose.position.y, 
                           msg.pose.pose.position.z),
-                         (0, 0, 0, 1), # this is a unit quaternion\
-                         msg.header.stamp,"fpv", "odom") 
+                         (odom_msg.pose.pose.orientation.x,
+                          odom_msg.pose.pose.orientation.y,
+                          odom_msg.pose.pose.orientation.z,
+                          odom_msg.pose.pose.orientation.w),
+                         msg.header.stamp, "fpv", "odom") 
                             #time,    #child frame , #parent frame
 
 
