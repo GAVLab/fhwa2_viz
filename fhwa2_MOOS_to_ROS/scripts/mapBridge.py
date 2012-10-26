@@ -13,6 +13,7 @@ from visualization_msgs.msg import Marker, MarkerArray # had to add module to ma
 from math import pi, sin, cos, tan, sqrt
 from mapping import ll2utm
 
+
 class MAP2RVIZ(object):
     def __init__(self, config):
         object.__init__(self)

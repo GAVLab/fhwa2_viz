@@ -88,18 +88,18 @@ class MOOS2RVIZ(MOOSCommClient):
                          msg.header.stamp,"base_footprint", "odom") 
                             #time,    #child frame , #parent frame
 
-    def FPV_tf(self, odom_msg):
-        msg = odom_msg
-        br = tf.TransformBroadcaster()
-        br.sendTransform((msg.pose.pose.position.x,
-                          msg.pose.pose.position.y, 
-                          msg.pose.pose.position.z),
-                         (odom_msg.pose.pose.orientation.x,
-                          odom_msg.pose.pose.orientation.y,
-                          odom_msg.pose.pose.orientation.z,
-                          odom_msg.pose.pose.orientation.w),
-                         msg.header.stamp, "fpv", "odom") 
-                            #time,    #child frame , #parent frame
+    # def FPV_tf(self, odom_msg):
+    #     msg = odom_msg
+    #     br = tf.TransformBroadcaster()
+    #     br.sendTransform((msg.pose.pose.position.x,
+    #                       msg.pose.pose.position.y, 
+    #                       msg.pose.pose.position.z),
+    #                      (odom_msg.pose.pose.orientation.x,
+    #                       odom_msg.pose.pose.orientation.y,
+    #                       odom_msg.pose.pose.orientation.z,
+    #                       odom_msg.pose.pose.orientation.w),
+    #                      msg.header.stamp, "fpv", "odom") 
+    #                         #time,    #child frame , #parent frame
 
 
     ##### Mailroom Functions ###################################################
@@ -287,7 +287,7 @@ class MOOS2RVIZ(MOOSCommClient):
         if self.ismaster: # update the vehicle mesh position
             self.pub_at_position(odom_msg)
             self.cameraFollow_tf(odom_msg)
-            self.FPV_tf(odom_msg) # add a view
+            # self.FPV_tf(odom_msg) # add a view
 
 
     def pub_at_position(self, odom_msg):
