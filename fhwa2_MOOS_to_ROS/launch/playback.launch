@@ -1,8 +1,10 @@
 <launch>
-	<node pkg="MOOS" type="MOOSDB" name="MOOSDB" 
+	
+    <node pkg="MOOS" type="MOOSDB" name="MOOSDB" 
         respawn="true"/>
+    
     <node pkg="MOOS" type="uPlayBack" name="uPlayBack" 
-        respawn="true" output="screen" />
+        required="true" output="screen" />
     
     <node pkg="rviz" type="rviz" name="rViz"
         args="-d $(find fhwa2_MOOS_to_ROS)/launch/fhwa2.vcg"
@@ -16,7 +18,7 @@
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_gavlab"
         args="$(find fhwa2_MOOS_to_ROS)/cfg/gavlab.yaml" output="screen"
         respawn="true">
-        <param name="ip" value="localhost"/> <!-- default value -->
+        <!-- <param name="sender_ip" value="192.168.1.100"/> -->
         <param name="port" value="9000"/> <!-- default value -->
     </node>
 

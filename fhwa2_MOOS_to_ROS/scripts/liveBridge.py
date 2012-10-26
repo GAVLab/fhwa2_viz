@@ -88,21 +88,32 @@ class MOOS2RVIZ(MOOSCommClient):
                          msg.header.stamp,"base_footprint", "odom") 
                             #time,    #child frame , #parent frame
 
+    def FPV_tf(self, odom_msg):
+        msg = odom_msg
+        br = tf.TransformBroadcaster()
+        br.sendTransform((msg.pose.pose.position.x,
+                          msg.pose.pose.position.y, 
+                          msg.pose.pose.position.z),
+                         (0, 0, 0, 1), # this is a unit quaternion\
+                         msg.header.stamp,"fpv", "odom") 
+                            #time,    #child frame , #parent frame
+
+
     ##### Mailroom Functions ###################################################
     def onConnect(self): 
         """Function required in every pyMOOS App"""
-        print('liveBridge.py :: In onConnect')
+        # print('liveBridge.py :: In onConnect')
         for var in self.desired_variables: # expand later
             self.Register(var) #defined in MOOSCommClient.py
 
     def onMail(self):
         """Function required in every pyMOOS App"""
-        print('In onMail')
+        # print('In onMail')
         messages = self.FetchRecentMail()
-        print('Recent Mail Fetched')
+        # print('Recent Mail Fetched')
         for message in messages:
             self.handle_msg(message)
-        print('Messages Handled')
+        # print('Messages Handled')
         return True
 
 
@@ -273,6 +284,7 @@ class MOOS2RVIZ(MOOSCommClient):
         if self.ismaster: # update the vehicle mesh position
             self.pub_at_position(odom_msg)
             self.cameraFollow_tf(odom_msg)
+            self.FPV_tf(odom_msg) # add a view
 
 
     def pub_at_position(self, odom_msg):
@@ -310,7 +322,7 @@ class MOOS2RVIZ(MOOSCommClient):
 ################################################################################
 
 def main():
-    ip = rospy.get_param('ip', '192.168.1.100')
+    ip = rospy.get_param('sender_ip', '127.0.0.1')
     port = rospy.get_param('port', '9000')
     
     ## setup config file
@@ -327,6 +339,7 @@ def main():
     #Setup MOOS App
     app = MOOS2RVIZ(this_config)
     app.Run(ip, int(port), node_name) # fixed IP of R2 - G computer
+    # app.Run('127.0.0.1', 9000, node_name)
     for x in range(30): # allow 3 second to connect to MOOSDB
         sleep(0.1)
         if app.IsConnected():
