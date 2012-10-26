@@ -38,6 +38,7 @@ class MOOS2RVIZ(MOOSCommClient):
         self.holder = {}
         self.create_cap_freq_holders()
 
+
     ### Init-related Functions #################################################
     def get_config(self, config):
         """saves the yaml config file info as instance attributes"""
@@ -309,10 +310,13 @@ class MOOS2RVIZ(MOOSCommClient):
 ################################################################################
 
 def main():
+    ip = rospy.get_param('ip', '192.168.1.100')
+    port = rospy.get_param('port', '9000')
+    
     ## setup config file
     config_file = sys.argv[1]
     if config_file[-4:] != 'yaml':
-        print("Config file must be YAML format!!! That's how we do.")
+        print("Config file must be YAML format")
     stream = file(config_file,'r')
     this_config = load(stream) # loads as a dictionary
 
@@ -322,7 +326,7 @@ def main():
 
     #Setup MOOS App
     app = MOOS2RVIZ(this_config)
-    app.Run("192.168.1.100", 9000, node_name) # fixed IP of R2 - G computer
+    app.Run(ip, int(port), node_name) # fixed IP of R2 - G computer
     for x in range(30): # allow 3 second to connect to MOOSDB
         sleep(0.1)
         if app.IsConnected():

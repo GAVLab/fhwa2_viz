@@ -12,8 +12,9 @@ int main(int argc, char** argv) {
     ros::NodeHandle nh;
     
     app.rospub = nh.advertise<fhwa2_MOOS_to_ROS::MOOSrosmsg>("/moos/incoming", 1);
-    app.SetOnConnectCallback(app.onConnect, void, param);
-    app.SetOnMailCallBack(app.onMail, void param);
+    // app.m_Comms.SetOnConnectCallback(app.onConnectToServer);
+    // app.m_Comms.SetOnMailCallBack(app.onNewMail);
+    // app.onInit();
 
     // app.Run(.....) // else call in thread (boost)
     ros::spin();

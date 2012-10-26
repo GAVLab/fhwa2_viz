@@ -6,20 +6,28 @@
 
 using namespace liveBridge;
 
-bool MOOS2RVIZ::onConnect() {
+void MOOS2RVIZ::onInit() {
+    // m_Comms.setOnConnectCallback(MOOS2RVIZ::onConnectToServer);
+    // m_Comms.setOnMailCallback(MOOS2RVIZ::onNewMail);
+    return;
+}
+
+bool MOOS2RVIZ::onConnectToServer() {
     bool registered = true;
     // populate desired variables
     // register desired variables
+    std::cout << "In MOOS2RVIZ::onConnectToServer\n";
     return registered;
 }
 
-bool MOOS2RVIZ::onMail(MOOSMSG_LIST &NewMail) {
+bool MOOS2RVIZ::onNewMail(MOOSMSG_LIST &NewMail) {
     MOOSMSG_LIST::iterator p;
     for (p=NewMail.begin(); p!=NewMail.end(); p++) {
         CMOOSMsg &rMsg = *p;
         // send no matter what
         this->rospub.publish(this->handleMsg(rMsg));
     }
+    std::cout << "In MOOS2RVIZ::onNewMail\n";
     return true;
 }
 

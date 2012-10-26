@@ -1,8 +1,6 @@
 <launch>
-	<node pkg="MOOS" type="MOOSDB" name="MOOSDB" 
-        respawn="true"/>
-    <node pkg="MOOS" type="uPlayBack" name="uPlayBack" 
-        respawn="true" output="screen" />
+	<node pkg="MOOS" type="MOOSDB" name="MOOSDB" />
+    <node pkg="MOOS" type="uPlayBack" name="uPlayBack" output="screen" />
     
     <node pkg="rviz" type="rviz" name="rViz"
         args="-d $(find fhwa2_MOOS_to_ROS)/launch/fhwa2.vcg"
@@ -14,14 +12,10 @@
     </node>
 
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_gavlab"
-        args="$(find fhwa2_MOOS_to_ROS)/cfg/gavlab.yaml" output="screen"
-        respawn="true">
-        <param name="ip" value="localhost"/> <!-- default value -->
-        <param name="port" value="9000"/> <!-- default value -->
-    </node>
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/gavlab.yaml" output="screen"/>
 
 <!--     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_pennst"
-        args="$(find fhwa2_MOOS_to_ROS)/cfg/pennst.yaml" launch-prefix="xterm -e" /> -->
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/pennst.yaml" launch-prefix="xterm -e" />
 
 <!--     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_kapsch"
         args="$(find fhwa2_MOOS_to_ROS)/cfg/kapsch.yaml" launch-prefix="xterm -e" />

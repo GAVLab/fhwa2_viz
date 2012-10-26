@@ -1,5 +1,5 @@
 /*
-    Please God I hope this isn't necessary
+    asdf
 
     Author: Robert Cofield
 */
@@ -21,16 +21,15 @@ namespace liveBridge{
 
 typedef fhwa2_MOOS_to_ROS::MOOSrosmsg MoosRosMsg;
 
-class MOOS2RVIZ: public CMOOSCommClient{ // change to MOOSApp
+class MOOS2RVIZ: public CMOOSApp { // change to MOOSApp
 public:
     MOOS2RVIZ(){};
     ~MOOS2RVIZ(){};
     std::vector<std::string> desired_variables;
     ros::Publisher rospub;
-    //Does registrations
-    bool onConnect();
-    //Sends new mail to the handler
-    bool onMail(MOOSMSG_LIST &NewMail);
+    void onInit();
+    bool onConnectToServer();
+    bool onNewMail(MOOSMSG_LIST &NewMail);
 
 private:
     // Puts new mail info into a ros version of the MOOS msg and publishes
