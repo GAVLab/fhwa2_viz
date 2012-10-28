@@ -12,7 +12,7 @@ color: # red
     b: 0
 #
 # Height of the legend text above the car (stack individual sensors manually), m
-legend_text_height: 1.0
+legend_text_height: 2.0
 #
 # Whether this instance will dictate the displayed position of the vehicle
 # -If set to true, there must be a file location for the vehicle mesh
@@ -26,7 +26,7 @@ veh_mesh_resource: None
 #
 # Data input parameters ########################################################
 # g______ Sensor to be processed: as it appears in the MOOS alog
-sensor_name: 'gKapsch'
+sensor_name: 'gDSRC'
 #
 # z______ Measurments to be processed: as they appear in the MOOS alog
 desired_variables: #list

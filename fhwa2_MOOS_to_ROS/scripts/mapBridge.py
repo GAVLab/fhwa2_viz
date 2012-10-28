@@ -165,27 +165,28 @@ class MAP2RVIZ(object):
         marker_array.markers.append(marker)
 
         ### Lane Marking Publisher #################################################
-        marker = Marker()
-        marker.header.frame_id = 'odom' # publish in static frame
-        marker.id = 1
-        marker.action = Marker.ADD
-        marker.lifetime = rospy.Duration() # immortal unless changed
-        marker.ns = "track_mesh_lane_markings"
-        marker.type = Marker.MESH_RESOURCE
-        marker.mesh_use_embedded_materials = False
-        marker.mesh_resource = self.marking_mesh_resource # wahoo
-        marker.pose.position.x = 0# - self.UTMdatum['E']
-        marker.pose.position.y = 0# - self.UTMdatum['N']
-        marker.pose.position.z = 0
-        marker.scale.x = 1
-        marker.scale.y = 1
-        marker.scale.z = 1
-        marker.color.r = 255
-        marker.color.g = 255
-        marker.color.b = 0
-        marker.color.a = 1.0
-        marker_array.markers.append(marker)
-        self.track_mesh_publisher.publish(marker_array)
+        if self.marking_mesh_resource:
+            marker = Marker()
+            marker.header.frame_id = 'odom' # publish in static frame
+            marker.id = 1
+            marker.action = Marker.ADD
+            marker.lifetime = rospy.Duration() # immortal unless changed
+            marker.ns = "track_mesh_lane_markings"
+            marker.type = Marker.MESH_RESOURCE
+            marker.mesh_use_embedded_materials = False
+            marker.mesh_resource = self.marking_mesh_resource # wahoo
+            marker.pose.position.x = 0# - self.UTMdatum['E']
+            marker.pose.position.y = 0# - self.UTMdatum['N']
+            marker.pose.position.z = 0
+            marker.scale.x = 1
+            marker.scale.y = 1
+            marker.scale.z = 1
+            marker.color.r = 255
+            marker.color.g = 255
+            marker.color.b = 0
+            marker.color.a = 1.0
+            marker_array.markers.append(marker)
+            self.track_mesh_publisher.publish(marker_array)
 
 
 ################################################################################
