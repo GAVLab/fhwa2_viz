@@ -10,7 +10,7 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/fhwa2_MOOS_to_ROS</url>
   <depend package="MOOS"/>
-  <!-- <depend package="pyMOOS"/> -->
+  <depend package="pyMOOS"/>
   <depend package="roscpp"/>
   <depend package="rospy"/>
   <depend package="nav_msgs"/>

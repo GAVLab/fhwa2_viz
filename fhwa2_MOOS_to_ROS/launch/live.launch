@@ -14,5 +14,8 @@
     
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_gavlab"
         args="$(find fhwa2_MOOS_to_ROS)/cfg/gavlab.yaml" output="screen"
-        respawn="true"/>
+        respawn="true">
+        <param name="sender_ip" value="192.168.1.100"/>
+    </node>
+
 </launch>

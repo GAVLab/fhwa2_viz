@@ -325,7 +325,8 @@ class MOOS2RVIZ(MOOSCommClient):
 ################################################################################
 
 def main():
-    ip = rospy.get_param('sender_ip', '127.0.0.1')
+    # ip = rospy.get_param('sender_ip')
+    ip = '192.168.1.100'
     port = rospy.get_param('port', '9000')
     
     ## setup config file
@@ -346,11 +347,11 @@ def main():
     for x in range(30): # allow 3 second to connect to MOOSDB
         sleep(0.1)
         if app.IsConnected():
-            print("Connected to MOOSDB")
+            print("Connected to MOOSDB @ " + ip+":"+port)
             break
     # Make sure we Connected
     if not app.IsConnected():
-        rospy.logerr("Failed to Connect to MOOSDB")
+        rospy.logerr("Failed to Connect to MOOSDB @ " + ip + ":" + port)
         sys.exit(-1)
     
     #Setup ROS Stuff
