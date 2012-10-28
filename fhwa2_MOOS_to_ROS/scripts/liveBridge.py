@@ -327,6 +327,7 @@ class MOOS2RVIZ(MOOSCommClient):
 def main():
     # ip = rospy.get_param('sender_ip')
     ip = '192.168.1.100'
+    # ip = '127.0.0.1'
     port = rospy.get_param('port', '9000')
     
     ## setup config file
