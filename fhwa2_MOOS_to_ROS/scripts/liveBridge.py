@@ -2,14 +2,12 @@
 # Robert Cofield, GAVLab
 # Python v2.7.3
 # from pymoos.MOOSCommClient import MOOSCommClient # used this when pymoos wouldn't build on hp under ros
-
-
 from pprint import pprint
 import sys, os
 from time import sleep, time
 from yaml import load
 from math import radians, sqrt, pi, degrees
-from mapping import ll2utm
+# from mapping import ll2utm
 
 #ROS Imports
 import roslib
@@ -19,6 +17,7 @@ from nav_msgs.msg import Odometry # this will need to be repeated for other mess
 from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest
 import tf
 from tf.transformations import quaternion_from_euler as qfe
+import navpy.util
 
 #MOOS Imports
 # sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/python') # location of one file named MOOSCommClient.py (other located in bin)
@@ -37,6 +36,7 @@ class MOOS2RVIZ(MOOSCommClient):
         self.set_publishers()
         self.holder = {}
         self.create_cap_freq_holders()
+        self.navpy_gps = navpy.util.GPS()
 
 
     ### Init-related Functions #################################################
@@ -44,10 +44,12 @@ class MOOS2RVIZ(MOOSCommClient):
         """saves the yaml config file info as instance attributes"""
         self.freq_max = config["freq_max"]
         self.UTMdatum = config["UTMdatum"] #dict
+        self.coord_sys = config["coord_sys"]
         self.sensor_name = config["sensor_name"] # single string
         self.desired_variables = config["desired_variables"]
         self.color = config["color"] # dict with keys r, g, b on 0-255 scale
         self.legend_text_height = config["legend_text_height"]
+        self.legend_text = config["display_name"]
         self.ismaster = config["dictate_pos"] # this instance will govern the current position
         if self.ismaster:
             self.veh_mesh_resource = config["veh_mesh_resource"]
@@ -195,9 +197,8 @@ class MOOS2RVIZ(MOOSCommClient):
                 self.convert_odom_var(skateboard, tstamp) 
                 # remember what we've sent so it can be cleaned
                 tstamps_sent.append(tstamp)  
-        # clean up the holder of anything we already printed        
         for tstamp in tstamps_sent:
-            del self.holder[tstamp] # don't need this time's msgs anymore
+            del self.holder[tstamp] # clean up the holder of anything we already printed        
 
 
     def convert_odom_var(self, skateboard, time):
@@ -207,8 +208,16 @@ class MOOS2RVIZ(MOOSCommClient):
         converts course to radians for ROS; Will orient odom arrows to velocity direction
         """
         # print("In convert_odom_var")
+        ## FIXME here an assumption is made about the order of variables - robustify later
         UTMtoPub = dict([['time', time]]) # is time really necessary? Not using as dictionary index in self...
-        (Easting, Northing) = ll2utm(float(skateboard['zLat']['value']), float(skateboard['zLong']['value'])) #
+        if self.coord_sys == 'ECEF':
+            (Easting, Northing, _), info = self.navpy_gps.ecef2utm((float(skateboard[self.desired_variables[0]]),
+                                                                    float(skateboard[self.desired_variables[1]]),
+                                                                    float(skateboard[self.desired_variables[2]])))
+        elif self.coord_sys == 'LLA':
+            (Easting, Northing, _), info = self.navpy_gps.lla2utm((float(skateboard['zLat']['value']),
+                                                                   float(skateboard['zLong']['value'])),
+                                                                   0)
         # print("{} - {} = {}".format(Northing, self.UTMdatum['N'], Northing - self.UTMdatum['N']))
         UTMtoPub['N'] = Northing - self.UTMdatum['N']
         UTMtoPub['E'] = Easting  - self.UTMdatum['E']
@@ -325,10 +334,12 @@ class MOOS2RVIZ(MOOSCommClient):
 ################################################################################
 
 def main():
-    # ip = rospy.get_param('sender_ip')
-    ip = '192.168.1.100'
-    # ip = '127.0.0.1'
-    port = rospy.get_param('port', '9000')
+    param_ip = rospy.get_param('~sender_ip')
+    print('IP from launch parameter: %s' % param_ip)
+    # ip = '192.168.1.100'
+    ip = '127.0.0.1'
+    port = rospy.get_param('~port')
+    print('Port from launch parameter: %s' % port)
     
     ## setup config file
     config_file = sys.argv[1]

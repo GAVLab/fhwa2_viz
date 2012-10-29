@@ -1,0 +1,19 @@
+<package>
+  <description brief="fhwa2_launch">
+
+     fhwa2_launch
+
+  </description>
+  <author>Robert Cofield</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/fhwa2_launch</url>
+
+  <depend package="fhwa2_MOOS_to_ROS"/>
+  <depend package="fhwa2_survey"/>
+  <depend package="fhwa2_description"/>
+  <depend package="fhwa2_gui"/>
+
+</package>
+
+

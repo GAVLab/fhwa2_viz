@@ -1,0 +1,42 @@
+<launch>
+	
+    <node pkg="MOOS" type="MOOSDB" name="MOOSDB" 
+        respawn="true"/>
+    
+    <node pkg="MOOS" type="uPlayBack" name="uPlayBack" 
+        required="true" output="screen" />
+    
+    <node pkg="rviz" type="rviz" name="rViz"
+        args="-d $(find fhwa2_MOOS_to_ROS)/launch/fhwa2.vcg"
+        required="true" output="screen" />
+
+    <node pkg="fhwa2_MOOS_to_ROS" type="mapBridge.py" name="moos2rviz_survey"
+        output="screen" args="$(find fhwa2_MOOS_to_ROS)/cfg/survey.yaml">
+        <param name="prefix" value="$(find fhwa2_MOOS_to_ROS)" />
+    </node>
+
+    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_truth"
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/truth.yaml" output="screen"
+        respawn="true">
+        <param name="sender_ip" value="127.0.0.1"/>
+        <param name="port" value="9000"/>
+    </node>
+
+    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_combined"
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/combined.yaml" output="screen"
+        respawn="true">
+        <param name="sender_ip" value="127.0.0.1"/>
+        <param name="port" value="9000"/>
+    </node>
+
+<!--     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_pennst"
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/pennst.yaml" launch-prefix="xterm -e" /> -->
+
+<!--     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_kapsch"
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/kapsch.yaml" launch-prefix="xterm -e" />
+ -->
+
+<!--     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_sarnoff"
+        args="$(find fhwa2_MOOS_to_ROS)/cfg/sri.yaml" launch-prefix="xterm -e" />
+ -->
+</launch>

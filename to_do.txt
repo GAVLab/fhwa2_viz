@@ -2,8 +2,10 @@ CPP
 ---
 
 setting callbacks necessary?
-
+ - the C++ version is not yet implemented
 =================
+
+
 
 - in fpv: fix latching on view switch - in mapBridge.py
 
@@ -38,3 +40,7 @@ setting callbacks necessary?
 - make mapBridge.py shutdown once
 
 all sensors into single marker array
+
+unfinished positions will likely cause memory leaks
+
+keep an array of covariances?

@@ -1,0 +1,27 @@
+<package>
+  <description brief="fhwa2_gui">
+
+     fhwa2_gui
+
+  </description>
+  <author>Robert Cofield</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/fhwa2_gui</url>
+
+  <depend package="rospy"/>
+  <depend package="nav_msgs"/>
+  <depend package="tf"/>
+  <depend package="visualization_msgs"/>
+  <depend package="rqt_gui"/>
+  <depend package="rqt_gui_py"/>
+
+
+  <!-- all the existing tags - allow plugin discoverability-->
+  <export>
+    <rqt_gui plugin="${prefix}/plugin.xml"/>
+  </export>
+
+</package>
+
+

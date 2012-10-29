@@ -1,0 +1,31 @@
+<library path="scripts">
+  
+  <class name="FHWA2 Plugin" type="fhwa2_gui.my_module.FHWA2Plugin" base_class_type="rqt_gui_py::Plugin">
+    
+    <description>
+      An example Python GUI plugin to create a great user interface.
+    </description>
+    
+    <qtgui>
+      <!-- optional grouping...
+      <group>
+        <label>Group</group>
+      </group>
+      <group>
+        <label>Subgroup</group>
+      </group>
+      -->
+      <label>FHWA2 python plugin to show position and relative errors
+      </label>
+      
+      <icon type="theme">system-help
+      </icon>
+      
+      <statustip>This is the real deal, boys.
+      </statustip>
+    
+    </qtgui>
+  
+  </class>
+
+</library>
