@@ -11,12 +11,14 @@ import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
 import rospy
 from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest
 from math import pi, sin, cos, tan, sqrt
-from mapping import ll2utm
+# from mapping import ll2utm
+from util import GPS
 
 
 class MAP2RVIZ(object):
     def __init__(self, config):
         object.__init__(self)
+        self.gps = GPS()
         self.get_config(config)
         self.set_publishers()
         self.create_map() # create marker arrays of the stripes and lane centers
@@ -81,7 +83,7 @@ class MAP2RVIZ(object):
         for pt in stripes:
             lat = float(pt[0])
             lon = float(pt[1])
-            (east, nrth) = ll2utm(lat, lon) # convert to UTM
+            (east, nrth, _), info = self.gps.lla2utm((lat, lon, 0)) # convert to UTM
             marker = Marker()
             marker.header.frame_id = 'odom'
             marker.id = NCAT_id # enumerate subsequent markers here
@@ -111,7 +113,7 @@ class MAP2RVIZ(object):
         for pt in centers:
             lat = float(pt[0])
             lon = float(pt[1])
-            (east, nrth) = ll2utm(lat, lon) # convert to UTM
+            (east, nrth, _), _ = self.gps.lla2utm((lat, lon, 0)) # convert to UTM
             
             marker = Marker()
             marker.header.frame_id = 'odom'

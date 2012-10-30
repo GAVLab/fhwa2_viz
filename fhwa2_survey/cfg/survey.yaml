@@ -19,10 +19,10 @@ survey_center_locs:
 #
 # # File location for mesh of track
 # # the syntax denotes a location in the ROS package
-track_mesh_resource: "package://fhwa2_MOOS_to_ROS/mesh/NCAT_pavement_plane.stl"
+track_mesh_resource: "package://fhwa2_survey/mesh/NCAT_pavement_plane.stl"
 #
 # # File location for mesh of lane markings
 # # syntax denotes a location in the ROS package; None to turn off
-# marking_mesh_resource: "package://fhwa2_MOOS_to_ROS/mesh/NCAT_lane_markings.stl"
-marking_mesh_resource: None
-################################################################################
+marking_mesh_resource: "package://fhwa2_survey/mesh/NCAT_lane_markings.stl"
+# marking_mesh_resource: None
+##############################################################################
