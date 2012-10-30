@@ -16,7 +16,7 @@
   <depend package="nav_msgs"/>
   <depend package="tf"/>
   <depend package="visualization_msgs"/>
-  <depend package="navpy"/>
+  <!-- <depend package="navpy"/> -->
 
 </package>
 

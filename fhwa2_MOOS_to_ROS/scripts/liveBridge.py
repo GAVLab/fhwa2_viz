@@ -48,11 +48,11 @@ class MOOS2RVIZ(MOOSCommClient):
         self.port = int(rospy.get_param('~port'))
 
         self.freq_max = config["freq_max"]
-        self.UTMdatum = config["UTMdatum"] #dict
+        self.UTMdatum = config["UTMdatum"]
         self.coord_sys = config["coord_sys"]
-        self.sensor_name = config["sensor_name"] # single string
+        self.sensor_name = config["sensor_name"]
         self.desired_variables = config["desired_variables"]
-        self.color = config["color"] # dict with keys r, g, b on 0-255 scale
+        self.color = config["color"]
         self.legend_text_height = config["legend_text_height"]
         self.legend_text = config["display_name"]
         self.ismaster = config["dictate_pos"] # this instance will govern the current position
