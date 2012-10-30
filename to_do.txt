@@ -44,3 +44,5 @@ all sensors into single marker array
 unfinished positions will likely cause memory leaks
 
 keep an array of covariances?
+
+make lane marking meshes turnable offable whilst making them pretty

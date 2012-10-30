@@ -44,7 +44,7 @@ class MOOS2RVIZ(MOOSCommClient):
         """saves the yaml config file info as instance attributes, utilizes
         values from the ROS parameter server
         """
-        self.ip = rospy.get_param('~sender_ip')
+        self.ip = str(rospy.get_param('~sender_ip'))
         self.port = int(rospy.get_param('~port'))
 
         self.freq_max = config["freq_max"]
@@ -349,6 +349,7 @@ def main():
 
     #Setup MOOS App
     app = MOOS2RVIZ(this_config)
+    print('MOOS app initialized - attempting to connect to ' + app.ip+":"+str(app.port))
     app.Run(app.ip, app.port, node_name) # fixed IP of R2 - G computer
     # app.Run('127.0.0.1', 9000, node_name)
     for x in range(30): # allow 3 second to connect to MOOSDB
