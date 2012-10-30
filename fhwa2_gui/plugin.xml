@@ -1,6 +1,6 @@
 <library path="scripts">
   
-  <class name="FHWA2 Plugin" type="fhwa2_gui.my_module.FHWA2Plugin" base_class_type="rqt_gui_py::Plugin">
+  <class name="FHWA2 Plugin" type="fhwa2_gui.fhwa2_plugin.FHWA2Plugin" base_class_type="rqt_gui_py::Plugin">
     
     <description>
       An example Python GUI plugin to create a great user interface.
@@ -15,7 +15,7 @@
         <label>Subgroup</group>
       </group>
       -->
-      <label>FHWA2 python plugin to show position and relative errors
+      <label>FHWA2 plugin
       </label>
       
       <icon type="theme">system-help

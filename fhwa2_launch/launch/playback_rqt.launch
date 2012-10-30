@@ -1,0 +1,11 @@
+<launch>
+
+    <node pkg="rqt_gui" type="rqt_gui" name="rqt" output="screen" required="true"
+        args="${find fhwa2_gui}/rqt/fhwa2.perspective"/>
+
+    <node pkg="fhwa2_gui" type="interactive_marker_server" name="interactive_marker_server"
+        output="screen"/>
+
+    <node pkg="fhwa2_gui" type="menu.py" name="menu" output="screen"/>
+
+</launch>

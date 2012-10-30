@@ -16,6 +16,7 @@
         args="$(find fhwa2_MOOS_to_ROS)/cfg/gavlab.yaml" output="screen"
         respawn="true">
         <param name="sender_ip" value="192.168.1.100"/>
+        <param name="port" value="9000"/>
     </node>
 
 </launch>

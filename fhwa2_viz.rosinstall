@@ -2,8 +2,6 @@
 # This is the MOOS to ROS bridge
 {'git': {'local-name': 'MOOS-ros-pkg', 'uri': 'https://github.com/GAVLab/MOOS-ros-pkg.git', 'version': 'master'}},
 # This is the fhwa2 visualization stuff
-{'git': {'local-name': 'fhwa2_viz', 'uri': 'https://github.com/GAVLab/fhwa2_viz.git', 'version': 'master'}},
-# Ben Clark's navigation stuff for coordinate transforms
-{'git': {'local-name': 'navpy', 'uri': 'https://github.com/ozymandium/navpy.git', 'version': 'master'}}
+{'git': {'local-name': 'fhwa2_viz', 'uri': 'https://github.com/GAVLab/fhwa2_viz.git', 'version': 'master'}}
 ]
 

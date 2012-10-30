@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os
 import roslib
 roslib.load_manifest('fhwa2_gui')
@@ -10,7 +11,7 @@ from python_qt_binding.QtGui import QWidget
 class FHWA2Plugin(Plugin):
 
     def __init__(self, context):
-        super(MyPlugin, self).__init__(context)
+        super(FHWA2Plugin, self).__init__(context)
         # give QObjects reasonable names
         self.setObjectName('FHWA2Plugin')
 
@@ -18,7 +19,7 @@ class FHWA2Plugin(Plugin):
         self._widget = QWidget()
         # get path to UI file which is a sibling of this file
         # in this example the .ui file is in the same folder as this Python file
-        ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'FHWA2Plugin.ui')
+        ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'FHWA2.ui')
         # extend the widget with all attributes and children from UI file
         loadUi(ui_file, self._widget)
         # give QObjects reasonable names
@@ -27,7 +28,7 @@ class FHWA2Plugin(Plugin):
         context.add_widget(self._widget)
 
     def shutdown_plugin(self):
-        # TODO unregister all publishers/subscribers here, stop timers, 
+        # TODO unregister all publishers here
         pass
 
     def save_settings(self, plugin_settings, instance_settings):

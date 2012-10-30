@@ -17,7 +17,7 @@ from nav_msgs.msg import Odometry # this will need to be repeated for other mess
 from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest
 import tf
 from tf.transformations import quaternion_from_euler as qfe
-import navpy.util
+from util import GPS
 
 #MOOS Imports
 # sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/python') # location of one file named MOOSCommClient.py (other located in bin)
@@ -36,12 +36,17 @@ class MOOS2RVIZ(MOOSCommClient):
         self.set_publishers()
         self.holder = {}
         self.create_cap_freq_holders()
-        self.navpy_gps = navpy.util.GPS()
+        self.navpy_gps = GPS()
 
 
     ### Init-related Functions #################################################
     def get_config(self, config):
-        """saves the yaml config file info as instance attributes"""
+        """saves the yaml config file info as instance attributes, utilizes
+        values from the ROS parameter server
+        """
+        self.ip = rospy.get_param('~sender_ip')
+        self.port = int(rospy.get_param('~port'))
+
         self.freq_max = config["freq_max"]
         self.UTMdatum = config["UTMdatum"] #dict
         self.coord_sys = config["coord_sys"]
@@ -240,7 +245,7 @@ class MOOS2RVIZ(MOOSCommClient):
         odom_msg.pose.pose.position.x = UTMtoPub['E']
         odom_msg.pose.pose.position.y = UTMtoPub['N']
         odom_msg.pose.pose.position.z = 1.55
-        # make a quaternion :: the (-pi, -pi, ...) came from trial-and-error 
+        # make a quaternion :: came from trial-and-error...
         quat = qfe(-pi, -pi, -UTMtoPub['crs']-pi/2)
         odom_msg.pose.pose.orientation.x = quat[0]
         odom_msg.pose.pose.orientation.y = quat[1]
@@ -274,12 +279,9 @@ class MOOS2RVIZ(MOOSCommClient):
         marker = Marker()
         marker.header = odom_msg.header
         marker.id = 0
-        marker.ns = self.sensor_name + 'legend'
+        marker.ns = self.sensor_name + '_legend'
         marker.type = Marker.TEXT_VIEW_FACING
-        if self.sensor_name == 'gDSRC':
-            marker.text = 'gKapsch'
-        else:
-            marker.text = self.sensor_name
+        marker.text = self.legend_text
         marker.action = Marker.MODIFY
         marker.pose = odom_msg.pose.pose
         marker.pose.position.z = self.legend_text_height # elevate to spread
@@ -333,14 +335,7 @@ class MOOS2RVIZ(MOOSCommClient):
 ################################################################################
 ################################################################################
 
-def main():
-    param_ip = rospy.get_param('~sender_ip')
-    print('IP from launch parameter: %s' % param_ip)
-    # ip = '192.168.1.100'
-    ip = '127.0.0.1'
-    port = rospy.get_param('~port')
-    print('Port from launch parameter: %s' % port)
-    
+def main():    
     ## setup config file
     config_file = sys.argv[1]
     if config_file[-4:] != 'yaml':
@@ -354,16 +349,16 @@ def main():
 
     #Setup MOOS App
     app = MOOS2RVIZ(this_config)
-    app.Run(ip, int(port), node_name) # fixed IP of R2 - G computer
+    app.Run(app.ip, app.port, node_name) # fixed IP of R2 - G computer
     # app.Run('127.0.0.1', 9000, node_name)
     for x in range(30): # allow 3 second to connect to MOOSDB
         sleep(0.1)
         if app.IsConnected():
-            print("Connected to MOOSDB @ " + ip+":"+port)
+            print("Connected to MOOSDB @ " + str(app.ip)+":"+str(app.port))
             break
     # Make sure we Connected
     if not app.IsConnected():
-        rospy.logerr("Failed to Connect to MOOSDB @ " + ip + ":" + port)
+        rospy.logerr("Failed to Connect to MOOSDB @ " + str(app.ip) + ":" + str(app.port))
         sys.exit(-1)
     
     #Setup ROS Stuff

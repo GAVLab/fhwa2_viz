@@ -16,24 +16,28 @@
         args="$(find fhwa2_MOOS_to_ROS)/cfg/gavlab.yaml" output="screen"
         respawn="true">
         <param name="sender_ip" value="192.168.1.100"/>
-    </node>
+         <param name="port" value="9000"/>
+   </node>
 
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_pennst"
         args="$(find fhwa2_MOOS_to_ROS)/cfg/pennst.yaml" output="screen"
         respawn="true">
         <param name="sender_ip" value="192.168.1.100"/>
-    </node>
+         <param name="port" value="9000"/>
+   </node>
 
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_sri"
         args="$(find fhwa2_MOOS_to_ROS)/cfg/sri.yaml" output="screen"
         respawn="true">
         <param name="sender_ip" value="192.168.1.100"/>
-    </node>
+         <param name="port" value="9000"/>
+   </node>
 
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_kapsch"
         args="$(find fhwa2_MOOS_to_ROS)/cfg/kapsch.yaml" output="screen"
         respawn="true">
         <param name="sender_ip" value="192.168.1.100"/>
+        <param name="port" value="9000"/>
     </node>
 
 
