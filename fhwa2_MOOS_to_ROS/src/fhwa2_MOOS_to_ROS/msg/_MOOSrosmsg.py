@@ -4,18 +4,13 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
-import genpy
 import std_msgs.msg
 
 class MOOSrosmsg(genpy.Message):
-  _md5sum = "aed3d08388c2c5522cdd5f3a96a1298c"
+  _md5sum = "97702062a217e1d933056674e209b481"
   _type = "fhwa2_MOOS_to_ROS/MOOSrosmsg"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """Header header
-    uint32 seq
-    time stamp
-    string frame_id
-
 string MOOStype
 float64 MOOStime
 string MOOSname
@@ -43,8 +38,8 @@ time stamp
 string frame_id
 
 """
-  __slots__ = ['header','seq','stamp','frame_id','MOOStype','MOOStime','MOOSname','MOOSsource','MOOSdouble','MOOSstring']
-  _slot_types = ['std_msgs/Header','uint32','time','string','string','float64','string','string','float64','string']
+  __slots__ = ['header','MOOStype','MOOStime','MOOSname','MOOSsource','MOOSdouble','MOOSstring']
+  _slot_types = ['std_msgs/Header','string','float64','string','string','float64','string']
 
   def __init__(self, *args, **kwds):
     """
@@ -54,7 +49,7 @@ string frame_id
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,seq,stamp,frame_id,MOOStype,MOOStime,MOOSname,MOOSsource,MOOSdouble,MOOSstring
+       header,MOOStype,MOOStime,MOOSname,MOOSsource,MOOSdouble,MOOSstring
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -65,12 +60,6 @@ string frame_id
       #message fields cannot be None, assign default values for those that are
       if self.header is None:
         self.header = std_msgs.msg.Header()
-      if self.seq is None:
-        self.seq = 0
-      if self.stamp is None:
-        self.stamp = genpy.Time()
-      if self.frame_id is None:
-        self.frame_id = ''
       if self.MOOStype is None:
         self.MOOStype = ''
       if self.MOOStime is None:
@@ -85,9 +74,6 @@ string frame_id
         self.MOOSstring = ''
     else:
       self.header = std_msgs.msg.Header()
-      self.seq = 0
-      self.stamp = genpy.Time()
-      self.frame_id = ''
       self.MOOStype = ''
       self.MOOStime = 0.
       self.MOOSname = ''
@@ -110,14 +96,6 @@ string frame_id
       _x = self
       buff.write(_struct_3I.pack(_x.header.seq, _x.header.stamp.secs, _x.header.stamp.nsecs))
       _x = self.header.frame_id
-      length = len(_x)
-      if python3 or type(_x) == unicode:
-        _x = _x.encode('utf-8')
-        length = len(_x)
-      buff.write(struct.pack('<I%ss'%length, length, _x))
-      _x = self
-      buff.write(_struct_3I.pack(_x.seq, _x.stamp.secs, _x.stamp.nsecs))
-      _x = self.frame_id
       length = len(_x)
       if python3 or type(_x) == unicode:
         _x = _x.encode('utf-8')
@@ -160,8 +138,6 @@ string frame_id
     try:
       if self.header is None:
         self.header = std_msgs.msg.Header()
-      if self.stamp is None:
-        self.stamp = genpy.Time()
       end = 0
       _x = self
       start = end
@@ -176,19 +152,6 @@ string frame_id
         self.header.frame_id = str[start:end].decode('utf-8')
       else:
         self.header.frame_id = str[start:end]
-      _x = self
-      start = end
-      end += 12
-      (_x.seq, _x.stamp.secs, _x.stamp.nsecs,) = _struct_3I.unpack(str[start:end])
-      start = end
-      end += 4
-      (length,) = _struct_I.unpack(str[start:end])
-      start = end
-      end += length
-      if python3:
-        self.frame_id = str[start:end].decode('utf-8')
-      else:
-        self.frame_id = str[start:end]
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
@@ -231,7 +194,6 @@ string frame_id
         self.MOOSstring = str[start:end].decode('utf-8')
       else:
         self.MOOSstring = str[start:end]
-      self.stamp.canon()
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -247,14 +209,6 @@ string frame_id
       _x = self
       buff.write(_struct_3I.pack(_x.header.seq, _x.header.stamp.secs, _x.header.stamp.nsecs))
       _x = self.header.frame_id
-      length = len(_x)
-      if python3 or type(_x) == unicode:
-        _x = _x.encode('utf-8')
-        length = len(_x)
-      buff.write(struct.pack('<I%ss'%length, length, _x))
-      _x = self
-      buff.write(_struct_3I.pack(_x.seq, _x.stamp.secs, _x.stamp.nsecs))
-      _x = self.frame_id
       length = len(_x)
       if python3 or type(_x) == unicode:
         _x = _x.encode('utf-8')
@@ -298,8 +252,6 @@ string frame_id
     try:
       if self.header is None:
         self.header = std_msgs.msg.Header()
-      if self.stamp is None:
-        self.stamp = genpy.Time()
       end = 0
       _x = self
       start = end
@@ -314,19 +266,6 @@ string frame_id
         self.header.frame_id = str[start:end].decode('utf-8')
       else:
         self.header.frame_id = str[start:end]
-      _x = self
-      start = end
-      end += 12
-      (_x.seq, _x.stamp.secs, _x.stamp.nsecs,) = _struct_3I.unpack(str[start:end])
-      start = end
-      end += 4
-      (length,) = _struct_I.unpack(str[start:end])
-      start = end
-      end += length
-      if python3:
-        self.frame_id = str[start:end].decode('utf-8')
-      else:
-        self.frame_id = str[start:end]
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
@@ -369,7 +308,6 @@ string frame_id
         self.MOOSstring = str[start:end].decode('utf-8')
       else:
         self.MOOSstring = str[start:end]
-      self.stamp.canon()
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill

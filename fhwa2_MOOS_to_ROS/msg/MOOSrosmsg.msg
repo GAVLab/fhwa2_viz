@@ -1,8 +1,4 @@
 Header header
-    uint32 seq
-    time stamp
-    string frame_id
-
 string MOOStype
 float64 MOOStime
 string MOOSname

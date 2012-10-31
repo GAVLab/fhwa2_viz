@@ -89,8 +89,8 @@ bool MOOS2ROS::OnNewMail(MOOSMSG_LIST &NewMail) {
 fhwa2_MOOS_to_ROS::MOOSrosmsg MOOS2ROS::handleMsg(CMOOSMsg &Msg) {
     // Create ros msg to send
     fhwa2_MOOS_to_ROS::MOOSrosmsg rosmsg;
-    rosmsg.stamp = ros::Time::now(); // William put the stamp as MOOStime
-    rosmsg.frame_id = std::string("MOOS");
+    rosmsg.header.stamp = ros::Time::now(); // William put the stamp as MOOStime
+    rosmsg.header.frame_id = GetAppName();
 
     // Populate the rosmsg with data from the MOOS msg
     rosmsg.MOOStime = Msg.GetTime();
