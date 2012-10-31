@@ -22,11 +22,14 @@ dictate_pos: True
 # Location of vehicle mesh file
 veh_mesh_resource: "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae"
 #
-display_name: 'Combined'
+display_name: 'Not Truth'
 #
 ################################################################################
 #
 # Data input parameters ########################################################
+#
+moosapp_name: 'gMOOS2ROS_not_truth'
+#
 # g______ Sensor to be processed: as it appears in the MOOS alog
 sensor_name: 'gNovatel'
 #
@@ -34,6 +37,8 @@ sensor_name: 'gNovatel'
 coord_sys: 'ECEF'
 #
 # z______ Measurments to be processed: as they appear in the MOOS alog
+# ECEF measurements need a list of length 7 in the ORDER below
+# LLA measurements need a list of length 5, as altitude is not yet supported
 desired_variables: #list
 - 'zpsrX'
 - 'zpsrY'

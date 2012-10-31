@@ -110,10 +110,11 @@ fhwa2_MOOS_to_ROS::MOOSrosmsg MOOS2ROS::handleMsg(CMOOSMsg &Msg) {
 }
 
 
-int main(int argc, char * argv[]) {
-    ros::init(argc, argv, "moos2ros"); // Let ROS shutdown stuff itself
+int main(int argc, char * argv[]) {   
+    ros::init(argc, argv, "moos2ros"); // Let ROS shutdown stuff itself, rename node in mission file
     ROS_INFO_STREAM("moos2ros node initialized");
-    
+
+
     const char * mission_file = "Mission.moos";
     const char * app_name = "MOOS2ROS";
     switch(argc) {
@@ -122,13 +123,18 @@ int main(int argc, char * argv[]) {
     case 2:
         mission_file = argv[1];
     }
+    
     namename = app_name;
+
     MOOS2ROS app;
     // ROS_INFO_STREAM("namename: " << namename);
     // ROS_INFO_STREAM("app_name: " << app_name);
     // ROS_INFO_STREAM("mission_file: " << mission_file);
 
-    app.rospub = app.node_handle.advertise<fhwa2_MOOS_to_ROS::MOOSrosmsg>("/moos/incoming", 1);
+    std::stringstream ss;
+    ss << "/moos/" << namename;
+    std::string topic_name = ss.str();
+    app.rospub = app.node_handle.advertise<fhwa2_MOOS_to_ROS::MOOSrosmsg>(topic_name, 1);
 
     app.Run(app_name, mission_file); // else call in thread (boost)
 

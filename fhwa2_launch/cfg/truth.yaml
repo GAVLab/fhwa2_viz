@@ -22,11 +22,14 @@ dictate_pos: True
 # Location of vehicle mesh file
 veh_mesh_resource: "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae"
 #
-display_name: 'True'
+display_name: 'Truth'
 #
 ################################################################################
 #
 # Data input parameters ########################################################
+#
+moosapp_name: 'gMOOS2ROS_truth'
+#
 # g______ Sensor to be processed: as it appears in the MOOS alog
 sensor_name: 'gNovatel'
 #
