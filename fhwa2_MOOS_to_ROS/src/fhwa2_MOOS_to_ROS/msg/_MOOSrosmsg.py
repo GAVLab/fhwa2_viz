@@ -15,12 +15,15 @@ class MOOSrosmsg(genpy.Message):
     uint32 seq
     time stamp
     string frame_id
+
 string MOOStype
 float64 MOOStime
 string MOOSname
 string MOOSsource
 float64 MOOSdouble
 string MOOSstring
+
+
 ================================================================================
 MSG: std_msgs/Header
 # Standard metadata for higher-level stamped data types.

@@ -8,7 +8,7 @@ ServerPort = 9000
 //optional global simualtion flags (some processes use this to fake reality when required)
 Simulator = false
 
-ProcessConfig = gMOOS2ROS
+ProcessConfig = gMOOS2ROS_not_truth
 {
    X_var="zpsrX"
    Y_var="zpsrY"
@@ -17,7 +17,6 @@ ProcessConfig = gMOOS2ROS
    YStdDev_var="zpsrYStdDev"
    ZStdDev_var="zpsrZStdDev"
    Course_var="zCourse"
-
    CoordSys="ECEF"
    Sensor="gNovatel"
 }

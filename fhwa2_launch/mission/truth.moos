@@ -9,7 +9,7 @@ ServerPort = 9000
 Simulator = false
 
 // only put subscriptions here
-ProcessConfig = gMOOS2ROS
+ProcessConfig = gMOOS2ROS_truth
 {
    X_var="zX"
    Y_var="zY"

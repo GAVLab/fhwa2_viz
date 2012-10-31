@@ -6,24 +6,20 @@
 #include <string>
 #include <sstream>
 
+std::string namename;
+
 MOOS2ROS::MOOS2ROS() {
     this->node_handle = ros::NodeHandle("MOOS");
     ros::AsyncSpinner spinner(1);
     spinner.start();
     this->SetQuitOnFailedIterate(true);
 
-    // config_variables[0] = "X_var";
-    // config_variables[1] = "Y_var";
-    // config_variables[2] = "Z_var";
-    // config_variables[3] = "XStdDev_var";
-    // config_variables[4] = "YStdDev_var";
-    // config_variables[5] = "ZStdDev_var";
-    // config_variables[6] = "Course_var";
+    // MOOSTrace("MOOS Name before being set: %s", m_sMOOSName);
 
-    // MOOSTrace("MOOS Name before being set: %s", m_sMOOSName.c_str());
-    m_sAppName = "gMOOS2ROS";
-    m_sMOOSName = "gMOOS2ROS"; // May cause problems
+    m_sAppName = namename;
+    m_sMOOSName = namename; // May cause problems
     m_MissionReader.SetAppName("gMOOS2ROS");
+
     MOOSTrace("\nMOOS2ROS class initialized with App Name: %s \n\n", GetAppName().c_str());
 }
 
@@ -34,7 +30,7 @@ MOOS2ROS::~MOOS2ROS() {
 
 bool MOOS2ROS::OnConnectToServer() {
     GetDesiredVaribles();
-
+    MOOSTrace("Got desired variables");
     std::vector<std::string>::iterator p;
     for (p=this->desired_variables.begin(); 
          p!=this->desired_variables.end(); p++) {
@@ -53,7 +49,6 @@ void MOOS2ROS::GetDesiredVaribles() {
     std::string ZStdDev_var;
     std::string Course_var;
 
-    // if (m_MissionReader.GetConfigurationParam("DesiredVariables", s_Vars)) {
     if (m_MissionReader.GetConfigurationParam("X_var", X_var))
         desired_variables.push_back(X_var);
     if (m_MissionReader.GetConfigurationParam("Y_var", Y_var))
@@ -86,7 +81,6 @@ bool MOOS2ROS::OnNewMail(MOOSMSG_LIST &NewMail) {
     MOOSMSG_LIST::iterator p;
     for (p=NewMail.begin(); p!=NewMail.end(); p++) {
         CMOOSMsg &rMsg = *p;
-        // send no matter what
         this->rospub.publish(this->handleMsg(rMsg));
     }
     return true;
@@ -123,13 +117,15 @@ int main(int argc, char * argv[]) {
     const char * mission_file = "Mission.moos";
     const char * app_name = "MOOS2ROS";
     switch(argc) {
+    case 4:
+        namename = argv[3];
     case 3:
         app_name = argv[2];
     case 2:
         mission_file = argv[1];
     }
-
     MOOS2ROS app;
+    ROS_INFO_STREAM("namename: " << namename);
 
     app.rospub = app.node_handle.advertise<fhwa2_MOOS_to_ROS::MOOSrosmsg>("/moos/incoming", 1);
 
