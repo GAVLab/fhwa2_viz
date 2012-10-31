@@ -18,7 +18,7 @@ MOOS2ROS::MOOS2ROS() {
 
     m_sAppName = namename;
     m_sMOOSName = namename; // May cause problems
-    m_MissionReader.SetAppName("gMOOS2ROS");
+    m_MissionReader.SetAppName(namename);
 
     MOOSTrace("\nMOOS2ROS class initialized with App Name: %s \n\n", GetAppName().c_str());
 }
@@ -30,7 +30,7 @@ MOOS2ROS::~MOOS2ROS() {
 
 bool MOOS2ROS::OnConnectToServer() {
     GetDesiredVaribles();
-    MOOSTrace("Got desired variables");
+    // MOOSTrace("Got desired variables");
     std::vector<std::string>::iterator p;
     for (p=this->desired_variables.begin(); 
          p!=this->desired_variables.end(); p++) {
@@ -117,15 +117,16 @@ int main(int argc, char * argv[]) {
     const char * mission_file = "Mission.moos";
     const char * app_name = "MOOS2ROS";
     switch(argc) {
-    case 4:
-        namename = argv[3];
     case 3:
         app_name = argv[2];
     case 2:
         mission_file = argv[1];
     }
+    namename = app_name;
     MOOS2ROS app;
-    ROS_INFO_STREAM("namename: " << namename);
+    // ROS_INFO_STREAM("namename: " << namename);
+    // ROS_INFO_STREAM("app_name: " << app_name);
+    // ROS_INFO_STREAM("mission_file: " << mission_file);
 
     app.rospub = app.node_handle.advertise<fhwa2_MOOS_to_ROS::MOOSrosmsg>("/moos/incoming", 1);
 

@@ -7,11 +7,11 @@
         required="true" output="screen" />
 
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="liveBridge_truth"
-        args="$(find fhwa2_launch)/mission/truth.moos gMOOS2ROS gMOOS2ROS_truth"
+        args="$(find fhwa2_launch)/mission/truth.moos gMOOS2ROS_truth"
         output="screen" required="true"/>
 
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="liveBridge_not_truth"
-        args="$(find fhwa2_launch)/mission/not_truth.moos gMOOS2ROS gMOOS2ROS_not_truth"
+        args="$(find fhwa2_launch)/mission/not_truth.moos gMOOS2ROS_not_truth"
         output="screen" required="true"/>
 
 </launch>
