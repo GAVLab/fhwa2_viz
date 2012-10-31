@@ -29,10 +29,9 @@ rosbuild_genmsg()
 #rosbuild_add_executable(example examples/example.cpp)
 #target_link_libraries(example ${PROJECT_NAME})
 
-set(FHWA_SRCS src/liveBridge.cpp)
-set(FHWA_HEADERS include/fhwa2_MOOS_to_ROS/liveBridge.h)
+#set(FHWA_SRCS src/liveBridge.cpp)
+#set(FHWA_HEADERS include/fhwa2_MOOS_to_ROS/liveBridge.h)
 
-rosbuild_add_library(${PROJECT_NAME} ${FHWA_SRCS} ${FHWA_HEADERS})
+#rosbuild_add_library(${PROJECT_NAME} ${FHWA_SRCS} ${FHWA_HEADERS})
 
-#rosbuild_add_executable(liveBridge src/liveBridge.cpp)
-rosbuild_add_executable(liveBridge_node src/liveBridge_node.cc)
+rosbuild_add_executable(liveBridge_node src/liveBridge_node.cpp)

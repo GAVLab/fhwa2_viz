@@ -1,0 +1,23 @@
+//name of the machine hosting the MOOSDB 
+//(can be an I.P address aswell as a FQDN)
+ServerHost = 127.0.0.1
+
+//port DB listens on (make sure you are blocking the port you request)
+ServerPort = 9000
+
+//optional global simualtion flags (some processes use this to fake reality when required)
+Simulator = false
+
+ProcessConfig = gMOOS2ROS
+{
+   X_var="zpsrX"
+   Y_var="zpsrY"
+   Z_var="zpsrZ"
+   XStdDev_var="zpsrXStdDev"
+   YStdDev_var="zpsrYStdDev"
+   ZStdDev_var="zpsrZStdDev"
+   Course_var="zCourse"
+
+   CoordSys="ECEF"
+   Sensor="gNovatel"
+}

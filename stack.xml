@@ -1,0 +1,22 @@
+<stack>
+    <name>fhwa2_viz</name>
+    <version>0.2</version>
+    <description brief="REPLACE_ME with a breif description">
+        REPLACE_ME with a longer description
+    </description>
+    <maintainer email="robertgcofield@gmail.com">
+        Robert G Cofield
+    </maintainer>
+    <license>BSD</license>
+    <copyright>GAVLab</copyright>
+
+    <url>http://github.com/GAVLab/fhwa2_viz/wiki</url>
+
+    <build_depends>roscpp</build_depends>
+    <build_depends>rospy</build_depends>
+    <build_depends>std_msgs</build_depends>
+
+    <depends>roscpp</depends>
+    <depends>std_msgs</depends>
+    <depends>rospy</depends>
+</stack>

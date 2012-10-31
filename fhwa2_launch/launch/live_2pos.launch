@@ -1,11 +1,4 @@
 <launch>
-<!--     
-    <node pkg="MOOS" type="MOOSDB" name="MOOSDB"
-        respawn="true" output="screen"/>
-    
-    <node pkg="MOOS" type="uPlayBack" name="uPlayBack" 
-        required="true" output="screen" />
- -->
 
     <node pkg="rviz" type="rviz" name="rViz"
         args="-d $(find fhwa2_gui)/rviz/fhwa2.vcg"

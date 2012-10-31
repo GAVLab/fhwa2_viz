@@ -1,0 +1,13 @@
+<launch>
+
+    <node pkg="MOOS" type="MOOSDB" name="MOOSDB"
+        respawn="true" output="screen"/>
+    
+    <node pkg="MOOS" type="uPlayBack" name="uPlayBack" 
+        required="true" output="screen" />
+
+    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="liveBridge"
+        args="$(find fhwa2_MOOS_to_ROS)/mission/playback.moos gMOOS2ROS"
+        output="screen" required="true"/>
+
+</launch>
