@@ -163,9 +163,6 @@ class MOOS2RVIZ:
         special UTM holder and sends it to the publishing function: mailroom.package_odom_var()
         Covariances - Lat/Lon Std Dev are output in meters already
         converts course to radians for ROS; Will orient odom arrows to velocity direction
-
-        FIX ECEF STD DEVS!!!!!!!!!!!!!!!!!!!!!!!!!
-
         """
         ## FIXME here an assumption is made about the order of variables - robustify later
         if self.DEBUG:
@@ -186,8 +183,8 @@ class MOOS2RVIZ:
             UTMtoPub = {}
             UTMtoPub['N'] = N - self.UTMdatum['N']
             UTMtoPub['E'] = E - self.UTMdatum['E']
-            UTMtoPub['Nsd'] = float(Nsd)
-            UTMtoPub['Esd'] = float(Esd)
+            UTMtoPub['Nsd'] = abs(float(Nsd))
+            UTMtoPub['Esd'] = abs(float(Esd))
             UTMtoPub['crs'] = radians(float(skateboard[-1]))
             self.package_odom_var(UTMtoPub)
             if self.DEBUG:
@@ -239,8 +236,8 @@ class MOOS2RVIZ:
         ell_marker.lifetime = rospy.Duration() # will last forever unless modified
         ell_marker.ns = ''.join(["Error_Ellipses", '__', self.sensor_name, '__', self.moosapp_name])
         ell_marker.type = Marker.CYLINDER     
-        ell_marker.scale.x = abs(sqrt(odom_msg.pose.covariance[0])) # not visible unless scaled up
-        ell_marker.scale.y = abs(sqrt(odom_msg.pose.covariance[7])) # not visible unless scaled up
+        ell_marker.scale.x = sqrt(odom_msg.pose.covariance[0])
+        ell_marker.scale.y = sqrt(odom_msg.pose.covariance[7])
         ell_marker.scale.z = 0.000001 # We just want a disk
         ell_marker.color.r = self.color['r']
         ell_marker.color.g = self.color['g']
