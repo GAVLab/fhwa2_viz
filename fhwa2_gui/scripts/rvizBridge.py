@@ -186,8 +186,8 @@ class MOOS2RVIZ:
             UTMtoPub = {}
             UTMtoPub['N'] = N - self.UTMdatum['N']
             UTMtoPub['E'] = E - self.UTMdatum['E']
-            UTMtoPub['Nsd'] = float(Nsd)
-            UTMtoPub['Esd'] = float(Esd)
+            UTMtoPub['Nsd'] = abs(float(Nsd))
+            UTMtoPub['Esd'] = abs(float(Esd))
             UTMtoPub['crs'] = radians(float(skateboard[-1]))
             self.package_odom_var(UTMtoPub)
             if self.DEBUG:
