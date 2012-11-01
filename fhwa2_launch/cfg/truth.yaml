@@ -8,11 +8,11 @@ freq_max: 30
 # Color in r,g,b
 color: # green
     r: 0
-    g: 180
+    g: 200
     b: 0
 #
 # Height of the legend text above the car (stack individual sensors manually), m
-legend_text_height: 3.5
+legend_text_height: 4.0
 #
 # Whether this instance will dictate the displayed position of the vehicle
 # -If set to true, there must be a file location for the vehicle mesh
@@ -20,7 +20,7 @@ legend_text_height: 3.5
 dictate_pos: True
 #
 # Location of vehicle mesh file
-veh_mesh_resource: "package://fhwa2_MOOS_to_ROS/mesh/infiniti_03_novatel_centered.dae"
+veh_mesh_resource: "package://fhwa2_description/mesh/infiniti_03_novatel_centered.dae"
 #
 display_name: 'Truth'
 #

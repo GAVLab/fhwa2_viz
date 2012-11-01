@@ -30,11 +30,13 @@
     <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_truth"
         args="$(find fhwa2_launch)/cfg/truth.yaml" output="screen"
         required="true">
+        <param name="DEBUG" value="False"/>
     </node>
 
     <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_not_truth"
         args="$(find fhwa2_launch)/cfg/not_truth.yaml" output="screen"
         required="true">
+        <param name="DEBUG" value="False"/>
     </node>
     
 </launch>

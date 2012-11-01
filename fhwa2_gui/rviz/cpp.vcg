@@ -1,10 +1,10 @@
-Background\ ColorB=0.882353
+Background\ ColorB=1
 Background\ ColorG=0.882353
 Background\ ColorR=0.882353
-Camera\ Config=0.7904 2.7204 154.485 0 0 0
+Camera\ Config=0.320398 3.04042 19.8485 0 0 0
 Camera\ Type=rviz::OrbitViewController
 Fixed\ Frame=/odom
-G-Centric\ Grid.Alpha=1
+G-Centric\ Grid.Alpha=0.7
 G-Centric\ Grid.Cell\ Size=1
 G-Centric\ Grid.ColorB=0
 G-Centric\ Grid.ColorG=0
@@ -12,16 +12,13 @@ G-Centric\ Grid.ColorR=0
 G-Centric\ Grid.Enabled=1
 G-Centric\ Grid.Line\ Style=0
 G-Centric\ Grid.Line\ Width=0.03
-G-Centric\ Grid.Normal\ Cell\ Count=0
+G-Centric\ Grid.Normal\ Cell\ Count=1
 G-Centric\ Grid.OffsetX=0
 G-Centric\ Grid.OffsetY=0
 G-Centric\ Grid.OffsetZ=-1.55
 G-Centric\ Grid.Plane=0
 G-Centric\ Grid.Plane\ Cell\ Count=9
-G-Centric\ Grid.Reference\ Frame=/base_footprint
-G35\ Mesh.Enabled=1
-G35\ Mesh.Marker\ Topic=/novatel/current_position
-G35\ Mesh.Queue\ Size=100
+G-Centric\ Grid.Reference\ Frame=/gMOOS2ROS_truth_base_link
 InteractiveMarker.Enabled=1
 InteractiveMarker.Show\ Axes=0
 InteractiveMarker.Show\ Descriptions=1
@@ -35,9 +32,15 @@ Not\ Truth\ Combined.Enabled=0
 Not\ Truth\ Combined.Marker\ Array\ Topic=/gMOOS2ROS_not_truth/the_3
 Not\ Truth\ Combined.Queue\ Size=100
 Not\ Truth\ Err\ Ellipse.Enabled=1
+Not\ Truth\ Err\ Ellipse.Error_Ellipses__gNovatel__gMOOS2ROS_not_truth=1
 Not\ Truth\ Err\ Ellipse.Marker\ Topic=/gMOOS2ROS_not_truth/error_ellipse
 Not\ Truth\ Err\ Ellipse.Queue\ Size=100
+Not\ Truth\ G35.Enabled=1
+Not\ Truth\ G35.Marker\ Topic=/gMOOS2ROS_not_truth/current_position
+Not\ Truth\ G35.Queue\ Size=100
+Not\ Truth\ G35.vehicle_model__gNovatel__gMOOS2ROS_not_truth=1
 Not\ Truth\ Legend.Enabled=1
+Not\ Truth\ Legend.Error_Ellipses__gNovatel__gMOOS2ROS_not_truth=1
 Not\ Truth\ Legend.Marker\ Topic=/gMOOS2ROS_not_truth/legend
 Not\ Truth\ Legend.Queue\ Size=100
 Not\ Truth.Angle\ Tolerance=0.1
@@ -45,13 +48,13 @@ Not\ Truth.ColorB=0
 Not\ Truth.ColorG=0.1
 Not\ Truth.ColorR=1
 Not\ Truth.Enabled=1
-Not\ Truth.Keep=100
+Not\ Truth.Keep=10
 Not\ Truth.Length=1
 Not\ Truth.Position\ Tolerance=0.1
 Not\ Truth.Topic=/gMOOS2ROS_not_truth/odom
-Property\ Grid\ Splitter=586,114
-Property\ Grid\ State=expanded=.Global Options;splitterratio=0.577825
-QMainWindow=000000ff00000000fd00000003000000000000019b0000030efc0200000001fb000000100044006900730070006c006100790073010000001d0000030e000000ee00ffffff00000001000001310000030efc0200000004fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073000000001d0000018c0000006700fffffffb0000000c00430061006d00650072006100000000d50000013e0000000000000000fb0000000a00560069006500770073010000001d0000030e000000bb00fffffffb0000001200530065006c0065006300740069006f006e000000028f000000670000006700ffffff000000030000074e0000003efc0100000001fb0000000800540069006d006500000000000000074e000002bf00ffffff000002930000030e00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+Property\ Grid\ Splitter=421,114
+Property\ Grid\ State=expanded=.Global Options,.Global Status;splitterratio=0.577825
+QMainWindow=000000ff00000000fd00000003000000000000019b0000032afc0200000002fb000000100044006900730070006c006100790073010000001d00000269000000ee00fffffffb0000000a00560069006500770073010000028c000000bb000000bb00ffffff00000001000001310000032afc0200000003fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073000000001d0000018c0000006700fffffffb0000000c00430061006d00650072006100000000d50000013e0000000000000000fb0000001200530065006c0065006300740069006f006e000000028f000000670000006700ffffff000000030000074e0000003efc0100000001fb0000000800540069006d006500000000000000074e000002bf00ffffff000004950000032a00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
 Static\ Grid.Alpha=0.75
 Static\ Grid.Cell\ Size=10
 Static\ Grid.ColorB=0
@@ -79,7 +82,7 @@ TF.Show\ Arrows=1
 TF.Show\ Axes=1
 TF.Show\ Names=0
 TF.Update\ Interval=0
-Target\ Frame=/base_footprint
+Target\ Frame=/gMOOS2ROS_truth_base_link
 Tool\ 2D\ Nav\ GoalTopic=/move_base_simple/goal
 Tool\ 2D\ Pose\ EstimateTopic=initialpose
 Track\ &\ Lane\ Meshes.Enabled=1
@@ -91,9 +94,15 @@ Truth\ Combined.Enabled=0
 Truth\ Combined.Marker\ Array\ Topic=/gMOOS2ROS_truth/the_3
 Truth\ Combined.Queue\ Size=100
 Truth\ Err\ Ellipse.Enabled=1
+Truth\ Err\ Ellipse.Error_Ellipses__gNovatel__gMOOS2ROS_truth=1
 Truth\ Err\ Ellipse.Marker\ Topic=/gMOOS2ROS_truth/error_ellipse
 Truth\ Err\ Ellipse.Queue\ Size=100
+Truth\ G35.Enabled=1
+Truth\ G35.Marker\ Topic=/gMOOS2ROS_truth/current_position
+Truth\ G35.Queue\ Size=100
+Truth\ G35.vehicle_model__gNovatel__gMOOS2ROS_truth=1
 Truth\ Legend.Enabled=1
+Truth\ Legend.Error_Ellipses__gNovatel__gMOOS2ROS_truth=1
 Truth\ Legend.Marker\ Topic=/gMOOS2ROS_truth/legend
 Truth\ Legend.Queue\ Size=100
 Truth.Angle\ Tolerance=0.1
@@ -101,7 +110,7 @@ Truth.ColorB=0
 Truth.ColorG=1
 Truth.ColorR=0
 Truth.Enabled=1
-Truth.Keep=100
+Truth.Keep=10
 Truth.Length=1
 Truth.Position\ Tolerance=0.1
 Truth.Topic=/gMOOS2ROS_truth/odom
@@ -113,10 +122,10 @@ ClassName=rviz::MarkerDisplay
 Name=Truth Err Ellipse
 [Display10]
 ClassName=rviz::MarkerArrayDisplay
-Name=Stripes
+Name=Lane Centers
 [Display11]
-ClassName=rviz::TFDisplay
-Name=TF
+ClassName=rviz::MarkerArrayDisplay
+Name=Stripes
 [Display12]
 ClassName=rviz::MarkerArrayDisplay
 Name=Track & Lane Meshes
@@ -129,43 +138,46 @@ Name=Truth Combined
 [Display15]
 ClassName=rviz::MarkerArrayDisplay
 Name=Not Truth Combined
+[Display16]
+ClassName=rviz::TFDisplay
+Name=TF
 [Display2]
 ClassName=rviz::MarkerDisplay
 Name=Truth Legend
 [Display3]
+ClassName=rviz::MarkerDisplay
+Name=Truth G35
+[Display4]
 ClassName=rviz::OdometryDisplay
 Name=Not Truth
-[Display4]
-ClassName=rviz::MarkerDisplay
-Name=Not Truth Err Ellipse
 [Display5]
 ClassName=rviz::MarkerDisplay
-Name=Not Truth Legend
+Name=Not Truth Err Ellipse
 [Display6]
-ClassName=rviz::GridDisplay
-Name=G-Centric Grid
+ClassName=rviz::MarkerDisplay
+Name=Not Truth Legend
 [Display7]
 ClassName=rviz::MarkerDisplay
-Name=G35 Mesh
+Name=Not Truth G35
 [Display8]
 ClassName=rviz::GridDisplay
-Name=Static Grid
+Name=G-Centric Grid
 [Display9]
-ClassName=rviz::MarkerArrayDisplay
-Name=Lane Centers
+ClassName=rviz::GridDisplay
+Name=Static Grid
 [Views]
-0Name=Fixed
-1Name=Overhead
+0Name=Truth
+1Name=Not Truth
 [Views/0]
-Config=0.340399 4.52537 15.4666 0.58451 0.0959205 -1.4979
-Target=/base_footprint
+Config=1.2054 2.8204 154.485 -33.2373 -113.342 -1.55
+Target=/gMOOS2ROS_truth_base_link
 Type=rviz::OrbitViewController
 [Views/1]
-Config=0.380399 0.0703985 37.8553 0 0 0
-Target=/fpv
+Config=0.310398 6.22859 43.6349 0 0 0
+Target=/gMOOS2ROS_not_truth_base_link
 Type=rviz::OrbitViewController
 [Window]
-Height=847
-Width=1403
-X=193
+Height=875
+Width=1606
+X=29
 Y=-32

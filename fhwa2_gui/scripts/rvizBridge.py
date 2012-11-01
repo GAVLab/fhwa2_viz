@@ -47,6 +47,7 @@ class MOOS2RVIZ:
         """saves the yaml config file info as instance attributes, utilizes
         values from the ROS parameter server
         """
+        self.DEBUG = rospy.get_param('~DEBUG')
         self.moosapp_name = config['moosapp_name']
         self.sensor_name = config["sensor_name"]
         self.freq_max = config["freq_max"]
@@ -61,8 +62,9 @@ class MOOS2RVIZ:
             self.veh_mesh_resource = config["veh_mesh_resource"]
         else:
             self.veh_mesh_resource = None
-        print('rvizBridde '+self.moosapp_name+': desired variables are')
-        pp(self.desired_variables)
+        if self.DEBUG:
+            print('rvizBridde '+self.moosapp_name+': desired variables are')
+            pp(self.desired_variables)
 
 
     def set_publishers(self):
@@ -80,15 +82,19 @@ class MOOS2RVIZ:
 
         combined_topic = '/'.join([self.moosapp_name, "the_3"])
         self.combined_publisher = rospy.Publisher(combined_topic, MarkerArray)
-        print('rvizBridde '+self.moosapp_name+': Publishers and Subscribers set')
+        if self.DEBUG:
+            print('rvizBridge '+self.moosapp_name+': Publishers and Subscribers set')
     ############################################################################
 
     def cameraFollow_tf(self, odom_msg):
+        """
+        reexamine if using urdf (base_footprint)
+        """
         msg = odom_msg
         br = tf.TransformBroadcaster()
         br.sendTransform((msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z),\
                          (0, 0, 0, 1), # this is a unit quaternion\
-                         msg.header.stamp,"base_footprint", "odom") 
+                         msg.header.stamp,''.join([self.moosapp_name,"_base_link"]), "odom") 
                             #time,    #child frame , #parent frame
 
     ##### Mailroom Functions ###################################################
@@ -111,11 +117,12 @@ class MOOS2RVIZ:
             sens = msg.MOOSsource # will yield "g______" string
 
             self.gather_odom_var(name, var_type, value, time)
-            print("\n\nrvizBridge: " + self.moosapp_name + ': handle_msg sent to gather_odom_var:')
-            print('\tname: '+name)
-            print('\ttime: '+str(time))
-            print('\tsens: '+sens)
-            print('\tvalue: '+str(value))
+            if self.DEBUG:
+                print("\n\nrvizBridge: " + self.moosapp_name + ': handle_msg sent to gather_odom_var:')
+                print('\tname: '+name)
+                print('\ttime: '+str(time))
+                print('\tsens: '+sens)
+                print('\tvalue: '+str(value))
         # else:
             # print('rvizBridge: '+self.moosapp_name+': handle_msg rejected msg ')
             # pp(msg)
@@ -128,23 +135,25 @@ class MOOS2RVIZ:
         This function will only invoke publishing when it can send off all
         necessary info for a single source at once
         """
-        print('rvizBridge: '+self.moosapp_name+": In gather_odom_var for "+name)
-        time = int(time*1000.0)/1000.0 #rounding to 3 decimal places 
-        print('rvizBridge: '+self.moosapp_name+": In gather_odom_var the preexisting state of self.holder is --")
-        pp(self.holder)
+        if self.DEBUG:
+            print('rvizBridge: '+self.moosapp_name+": In gather_odom_var for "+name)
+            print('rvizBridge: '+self.moosapp_name+": In gather_odom_var the preexisting state of self.holder is --")
+            pp(self.holder)
 
+        time = int(time*1000.0)/1000.0 #rounding to 3 decimal places 
         self.holder[name] = [time, var_type, value]
         shippable = [False]*len(self.desired_variables)
         for des_var_ind in range(len(self.desired_variables)):
             if all(self.holder[self.desired_variables[des_var_ind]]):
                 shippable[des_var_ind] = True
         if all(shippable):
-            print('\nrvizBridge: '+self.moosapp_name+": gather_odom_var IS SHIPPING NOW\n")
             skateboard = []
             for var in self.desired_variables:
                 skateboard.append( self.holder[var][2] )
             self.convert_odom_var(skateboard)
             self.make_holder_nones()
+            if self.DEBUG:
+                print('\nrvizBridge: '+self.moosapp_name+": gather_odom_var IS SHIPPING NOW\n")
 
 
     def convert_odom_var(self, skateboard):
@@ -159,8 +168,9 @@ class MOOS2RVIZ:
 
         """
         ## FIXME here an assumption is made about the order of variables - robustify later
-        print('rvizBridge: '+self.moosapp_name+': convert_odom_var: SKATEBOARD RECIEVED --')
-        pp(skateboard)
+        if self.DEBUG:
+            print('rvizBridge: '+self.moosapp_name+': convert_odom_var: SKATEBOARD RECIEVED --')
+            pp(skateboard)
         if self.coord_sys == 'ECEF':
             (E, N, _), _ = self.navpy_gps.ecef2utm((float(skateboard[0]),
                                                     float(skateboard[1]),
@@ -169,8 +179,6 @@ class MOOS2RVIZ:
             Xstray = float(skateboard[0])+float(skateboard[3])
             Ystray = float(skateboard[1])-float(skateboard[4]) # ASSUME Y ECEF IS NEGATIVE
             Zstray = float(skateboard[2])+float(skateboard[5])
-            print ('Xstray, Ystray, Zstray')
-            pp(Xstray), pp(Ystray), pp(Zstray)
             (Estray, Nstray, _), _ = self.navpy_gps.ecef2utm((Xstray, Ystray, Zstray))
             Esd = Estray - E
             Nsd = Nstray - N
@@ -181,10 +189,10 @@ class MOOS2RVIZ:
             UTMtoPub['Nsd'] = float(Nsd)
             UTMtoPub['Esd'] = float(Esd)
             UTMtoPub['crs'] = radians(float(skateboard[-1]))
-
-            print('rvizBridge: '+self.moosapp_name+': convert_odom_var: UTMtoPub --')
-            pp(UTMtoPub)
             self.package_odom_var(UTMtoPub)
+            if self.DEBUG:
+                print('rvizBridge: '+self.moosapp_name+': convert_odom_var: UTMtoPub --')
+                pp(UTMtoPub)
         else:
             raise Exception('Only ECEF implemented thus far')
         # print("{} - {} = {}".format(Northing, self.UTMdatum['N'], Northing - self.UTMdatum['N']))
@@ -196,7 +204,8 @@ class MOOS2RVIZ:
             -does all the ROS packaging common to all sources
             -each individual legend is now
         """
-        print('rvizBridge: '+self.moosapp_name+': In package_odom_var')
+        if self.DEBUG:
+            print('rvizBridge: '+self.moosapp_name+': In package_odom_var')
         combined_array = MarkerArray()
 
         ### Odometry Arrows ####################################################
@@ -230,8 +239,8 @@ class MOOS2RVIZ:
         ell_marker.lifetime = rospy.Duration() # will last forever unless modified
         ell_marker.ns = ''.join(["Error_Ellipses", '__', self.sensor_name, '__', self.moosapp_name])
         ell_marker.type = Marker.CYLINDER     
-        ell_marker.scale.x = sqrt(odom_msg.pose.covariance[0]) # not visible unless scaled up
-        ell_marker.scale.y = sqrt(odom_msg.pose.covariance[7]) # not visible unless scaled up
+        ell_marker.scale.x = abs(sqrt(odom_msg.pose.covariance[0])) # not visible unless scaled up
+        ell_marker.scale.y = abs(sqrt(odom_msg.pose.covariance[7])) # not visible unless scaled up
         ell_marker.scale.z = 0.000001 # We just want a disk
         ell_marker.color.r = self.color['r']
         ell_marker.color.g = self.color['g']
@@ -251,9 +260,9 @@ class MOOS2RVIZ:
         legend_marker.action = Marker.MODIFY
         legend_marker.pose = odom_msg.pose.pose
         legend_marker.pose.position.z = self.legend_text_height # elevate to spread
-        legend_marker.scale.x = 0.5
-        legend_marker.scale.y = 0.5
-        legend_marker.scale.z = 0.6
+        legend_marker.scale.x = 1
+        legend_marker.scale.y = 1
+        legend_marker.scale.z = 1
         legend_marker.color.r = self.color['r']
         legend_marker.color.g = self.color['g']
         legend_marker.color.b = self.color['b']
@@ -306,7 +315,7 @@ def main():
     ## setup config file
     config_file = sys.argv[1]
     if config_file[-4:] != 'yaml':
-        print("Config file must be YAML format")
+        raise Exception("Config file must be YAML format")
     stream = file(config_file,'r')
     this_config = load(stream) # loads as a dictionary
 
