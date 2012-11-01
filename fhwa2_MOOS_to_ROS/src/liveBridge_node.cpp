@@ -34,7 +34,7 @@ bool MOOS2ROS::OnConnectToServer() {
     std::vector<std::string>::iterator p;
     for (p=this->desired_variables.begin(); 
          p!=this->desired_variables.end(); p++) {
-        m_Comms.Register(*p, 0);
+        m_Comms.Register(*p, 0.01);
     }
     return true;
 }

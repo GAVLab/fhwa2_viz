@@ -22,9 +22,9 @@ class MAP2RVIZ(object):
         self.get_config(config)
         self.set_publishers()
         self.create_map() # create marker arrays of the stripes and lane centers
-        print('Map markers published - you should see the lane/stripe markers once running')
+        print('mapBridge: Map markers published - you should see the lane/stripe markers once running')
         self.create_map_mesh()
-        print('Map mesh has been published - you should see it once running')
+        print('mapBridge: Map mesh has been published - you should see it once running')
         # rospy.shutdown('cuz i said so')
 
 
@@ -106,7 +106,7 @@ class MAP2RVIZ(object):
             
             NCAT_id += 1
         self.map_stripe_publisher.publish(self.map_stripe_array) # publish stripes as markers
-        print('Stripe Markers have been printed') 
+        print('mapBridge: Stripe Markers have been printed') 
         del marker
 
         ### Lane Centers ###########################################################
@@ -137,7 +137,7 @@ class MAP2RVIZ(object):
             
             NCAT_id += 1
         self.map_lane_publisher.publish(self.map_lane_array) # publish lane centers as markers
-        print('Lane Center Markers have been printed')
+        print('mapBridge: Lane Center Markers have been printed')
 
 
     def create_map_mesh(self):

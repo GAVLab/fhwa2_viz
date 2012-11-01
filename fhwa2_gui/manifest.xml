@@ -16,6 +16,7 @@
   <depend package="rqt_gui"/>
   <depend package="rqt_gui_py"/>
   <depend package="interactive_markers"/>
+  <depend package="fhwa2_MOOS_to_ROS"/>
 
   <!-- make rqt plugin discoverable -->
   <export>

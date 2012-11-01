@@ -8,7 +8,6 @@ ServerPort = 9000
 //optional global simualtion flags (some processes use this to fake reality when required)
 Simulator = false
 
-// only put subscriptions here
 ProcessConfig = gMOOS2ROS_truth
 {
    X_var="zX"

@@ -17,6 +17,4 @@ ProcessConfig = gMOOS2ROS_not_truth
    YStdDev_var="zpsrYStdDev"
    ZStdDev_var="zpsrZStdDev"
    Course_var="zCourse"
-   CoordSys="ECEF"
-   Sensor="gNovatel"
 }

@@ -6,6 +6,7 @@
     <node pkg="MOOS" type="uPlayBack" name="uPlayBack" 
         required="true" output="screen" />
 
+<!-- MOOS Apps -->
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="liveBridge_truth"
         args="$(find fhwa2_launch)/mission/truth.moos gMOOS2ROS_truth"
         output="screen" required="true"/>
@@ -14,4 +15,26 @@
         args="$(find fhwa2_launch)/mission/not_truth.moos gMOOS2ROS_not_truth"
         output="screen" required="true"/>
 
+<!-- rViz Nodes -->
+    <!-- rViz -->
+    <node pkg="rviz" type="rviz" name="rViz"
+        args="-d $(find fhwa2_gui)/rviz/cpp.vcg"
+        required="true" output="screen" />
+
+    <!-- Survey markers -->
+    <node pkg="fhwa2_survey" type="mapBridge.py" name="moos2rviz_survey"
+        output="screen" args="$(find fhwa2_survey)/cfg/survey.yaml">
+        <param name="prefix" value="$(find fhwa2_survey)" />
+    </node>
+
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_truth"
+        args="$(find fhwa2_launch)/cfg/truth.yaml" output="screen"
+        required="true">
+    </node>
+
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_not_truth"
+        args="$(find fhwa2_launch)/cfg/not_truth.yaml" output="screen"
+        required="true">
+    </node>
+    
 </launch>
