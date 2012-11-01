@@ -39,7 +39,7 @@ coord_sys: 'ECEF'
 # z______ Measurments to be processed: as they appear in the MOOS alog
 # ECEF measurements need a list of length 7 in the ORDER below
 # LLA measurements need a list of length 5, as altitude is not yet supported
-desired_variables: #list
+desired_variables: #list order is crucial
 - 'zpsrX'
 - 'zpsrY'
 - 'zpsrZ'
