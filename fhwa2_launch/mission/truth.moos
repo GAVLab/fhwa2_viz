@@ -18,5 +18,5 @@ ProcessConfig = gMOOS2ROS_truth
    ZStdDev_var="zZStdDev"
    Course_var="zCourse"
 
-   min_upd=0.01
+   min_upd=0.2
 }

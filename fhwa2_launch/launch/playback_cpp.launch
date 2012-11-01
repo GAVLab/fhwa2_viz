@@ -17,10 +17,10 @@
 
 <!-- rViz Nodes -->
     <!-- rViz -->
-    <node pkg="rviz" type="rviz" name="rViz"
+<!--     <node pkg="rviz" type="rviz" name="rViz"
         args="-d $(find fhwa2_gui)/rviz/cpp.vcg"
         required="true" output="screen" />
-
+ -->
     <!-- Survey markers -->
     <node pkg="fhwa2_survey" type="mapBridge.py" name="moos2rviz_survey"
         output="screen" args="$(find fhwa2_survey)/cfg/survey.yaml">

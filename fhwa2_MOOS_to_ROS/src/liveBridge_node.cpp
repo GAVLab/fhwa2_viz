@@ -82,6 +82,7 @@ bool MOOS2ROS::Iterate() {
 
 // This is the function that should implicitly work
 bool MOOS2ROS::OnNewMail(MOOSMSG_LIST &NewMail) {
+    MOOSTrace("\nGot New Mail: MOOSTime = %f\n", MOOSTime());
     MOOSMSG_LIST::iterator p;
     for (p=NewMail.begin(); p!=NewMail.end(); p++) {
         CMOOSMsg &rMsg = *p;
@@ -93,7 +94,8 @@ bool MOOS2ROS::OnNewMail(MOOSMSG_LIST &NewMail) {
 fhwa2_MOOS_to_ROS::MOOSrosmsg MOOS2ROS::handleMsg(CMOOSMsg &Msg) {
     // Create ros msg to send
     fhwa2_MOOS_to_ROS::MOOSrosmsg rosmsg;
-    rosmsg.header.stamp = ros::Time::now(); // William put the stamp as MOOStime
+    // rosmsg.header.stamp = ros::Time::now(); // William put the stamp as MOOStime
+    rosmsg.header.stamp = ros::Time(Msg.GetTime());
     rosmsg.header.frame_id = GetAppName();
 
     // Populate the rosmsg with data from the MOOS msg

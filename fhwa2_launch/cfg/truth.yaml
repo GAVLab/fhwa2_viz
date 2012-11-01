@@ -3,7 +3,7 @@
 # Display Parameters ###########################################################
 # Maximum frequency with which messages will be sent past mailroom.cap_freq()
 # Enter 0 for no frequency capping (not recommended - buffer lag errors)
-freq_max: 30
+# freq_max: 30
 #
 # Color in r,g,b
 color: # green
@@ -47,6 +47,10 @@ desired_variables: #list order is crucial
 - 'zYStdDev'
 - 'zZStdDev'
 - 'zCourse'
+#
+# Number of most recent timesteps to keep data from while waiting for variables
+# to arrive that are missing
+timestep_buffer: 100
 #
 ################################################################################
 #

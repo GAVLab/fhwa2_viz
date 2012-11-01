@@ -35,12 +35,12 @@ class MOOS2RVIZ:
         self.navpy_gps = GPS()
 
         self.holder = {}
-        self.make_holder_nones()
+        # self.make_holder_nones()
         self.time_pub_tol = 1.0
 
-    def make_holder_nones(self):
-        for var in self.desired_variables:
-            self.holder[var] = [None] * 3 # [time(float), var_type(string), value(float)] for now only double/float values supported
+    # def make_holder_nones(self):
+    #     for var in self.desired_variables:
+    #         self.holder[var] = [None] * 3 # [time(float), var_type(string), value(float)] for now only double/float values supported
 
     ### Init-related Functions #################################################
     def get_config(self, config):
@@ -50,10 +50,12 @@ class MOOS2RVIZ:
         self.DEBUG = rospy.get_param('~DEBUG')
         self.moosapp_name = config['moosapp_name']
         self.sensor_name = config["sensor_name"]
-        self.freq_max = config["freq_max"]
+        # self.freq_max = config["freq_max"]
         self.UTMdatum = config["UTMdatum"]
         self.coord_sys = config["coord_sys"]
         self.desired_variables = config["desired_variables"]
+        self.num_desired_variables = len(self.desired_variables)
+        self.timestep_buffer = config["timestep_buffer"]
         self.color = config["color"]
         self.legend_text_height = config["legend_text_height"]
         self.legend_text = config["display_name"]
@@ -112,11 +114,12 @@ class MOOS2RVIZ:
             else:
                 rospy.logwarn('wtf? Unknown variable type')
             # obtain info from msg via functions defined in pyMOOSMsg.cpp
-            time = msg.MOOStime # this may be grabbing the wrong time (not from the msg)
+            # time = msg.MOOStime # this may be grabbing the wrong time (not from the msg)
+            time = msg.header.stamp.secs
             name = msg.MOOSname # type of measurement "z______" string
             sens = msg.MOOSsource # will yield "g______" string
 
-            self.gather_odom_var(name, var_type, value, time)
+            self.gather_odom_var(name, value, time)
             if self.DEBUG:
                 print("\n\nrvizBridge: " + self.moosapp_name + ': handle_msg sent to gather_odom_var:')
                 print('\tname: '+name)
@@ -130,30 +133,49 @@ class MOOS2RVIZ:
         #     rospy.logwarn("handle_msg :: Unhandled msg: %(name)s of type %(var_type)s carries value %(value)s" % locals())
 
 
-    def gather_odom_var(self, name, var_type, value, time):
+    def gather_odom_var(self, name, value, time):
         """
         This function will only invoke publishing when it can send off all
         necessary info for a single source at once
-        """
-        if self.DEBUG:
-            print('rvizBridge: '+self.moosapp_name+": In gather_odom_var for "+name)
-            print('rvizBridge: '+self.moosapp_name+": In gather_odom_var the preexisting state of self.holder is --")
-            pp(self.holder)
 
-        time = int(time*1000.0)/1000.0 #rounding to 3 decimal places 
-        self.holder[name] = [time, var_type, value]
-        shippable = [False]*len(self.desired_variables)
-        for des_var_ind in range(len(self.desired_variables)):
-            if all(self.holder[self.desired_variables[des_var_ind]]):
-                shippable[des_var_ind] = True
-        if all(shippable):
-            skateboard = []
-            for var in self.desired_variables:
-                skateboard.append( self.holder[var][2] )
-            self.convert_odom_var(skateboard)
-            self.make_holder_nones()
-            if self.DEBUG:
-                print('\nrvizBridge: '+self.moosapp_name+": gather_odom_var IS SHIPPING NOW\n")
+        TODO: error handling, mults of same meas at a timestamp due to rounding
+        """
+    # if self.DEBUG:
+        print("\n\nTime before rounding: %f" % time)
+        time = round(time,2)
+
+        print('rvizBridge: '+self.moosapp_name+": In gather_odom_var for "+name+" at rounded time "+str(time))
+        print('rvizBridge: '+self.moosapp_name+": In gather_odom_var the preexisting state of self.holder is --")
+        pp(self.holder)
+
+        if time not in self.holder: # add this time if not a message from it already
+            self.holder[time] = {}
+        
+        self.holder[time][name] = value # put this info in the proper place
+
+        print('rvizBridge: '+self.moosapp_name+": In gather_odom_var self.holder after adding current is --")
+        pp(self.holder)
+
+
+        times_sent = [] # keep track of what we send to remove
+        for t in self.holder: # go through each time in record to see if its publishable
+            print('len(self.holder[%s]) = %s' % (str(t), str(len(self.holder[t]))))
+            if len(self.holder[t]) == self.num_desired_variables: # all here, ready to ship
+                times_sent.append(t) # we will remove this timestep later
+                skateboard = [] # data structure that actually gets shipped
+                for var in self.desired_variables: # populate the shipping sturcture
+                    skateboard.append( self.holder[t][var] )
+                self.convert_odom_var(skateboard) # send it off
+                # if self.DEBUG:
+                print('rvizBridge: '+self.moosapp_name+": gather_odom_var IS SHIPPING NOW")
+        
+        print("times_sent: ")
+        pp(times_sent)
+        for t in times_sent: # remove everything already processed
+            del self.holder[t]
+        if len(self.holder) > self.timestep_buffer: # remove timestep that has been hanging around too long
+            del self.holder[min(self.holder)]
+            print('removing lowest time value from holder')
 
 
     def convert_odom_var(self, skateboard):
