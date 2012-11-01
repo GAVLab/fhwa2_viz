@@ -22,7 +22,7 @@ dictate_pos: True
 # Location of vehicle mesh file
 veh_mesh_resource: "package://fhwa2_description/mesh/infiniti_03_novatel_centered.dae"
 #
-display_name: 'Not Truth'
+display_name: 'GPS'
 #
 ################################################################################
 #
