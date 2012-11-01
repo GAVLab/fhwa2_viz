@@ -34,7 +34,7 @@ bool MOOS2ROS::OnConnectToServer() {
     std::vector<std::string>::iterator p;
     for (p=this->desired_variables.begin(); 
          p!=this->desired_variables.end(); p++) {
-        m_Comms.Register(*p, 0.01);
+        m_Comms.Register(*p, this->min_upd);
     }
     return true;
 }
@@ -63,6 +63,10 @@ void MOOS2ROS::GetDesiredVaribles() {
         desired_variables.push_back(ZStdDev_var);
     if (m_MissionReader.GetConfigurationParam("Course_var", Course_var))
         desired_variables.push_back(Course_var);
+
+    if (m_MissionReader.GetConfigurationParam("min_upd", this->min_upd))
+        return;
+    return;
 }
 
 bool MOOS2ROS::OnDisconnectFromServer() {

@@ -49,6 +49,7 @@ public:
     fhwa2_MOOS_to_ROS::MOOSrosmsg handleMsg(CMOOSMsg &Msg);
 
     std::vector<std::string> desired_variables;
+    float min_upd;
     ros::Publisher rospub;
     ros::NodeHandle node_handle;
     // virtual bool onConnectToServer(void * pParam);
