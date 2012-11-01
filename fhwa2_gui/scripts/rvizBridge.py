@@ -114,8 +114,8 @@ class MOOS2RVIZ:
             else:
                 rospy.logwarn('wtf? Unknown variable type')
             # obtain info from msg via functions defined in pyMOOSMsg.cpp
-            # time = msg.MOOStime # this may be grabbing the wrong time (not from the msg)
-            time = msg.header.stamp.secs
+            time = msg.MOOStime # this may be grabbing the wrong time (not from the msg)
+            # time = msg.header.stamp.secs
             name = msg.MOOSname # type of measurement "z______" string
             sens = msg.MOOSsource # will yield "g______" string
 
@@ -141,8 +141,8 @@ class MOOS2RVIZ:
         TODO: error handling, mults of same meas at a timestamp due to rounding
         """
     # if self.DEBUG:
-        print("\n\nTime before rounding: %f" % time)
-        time = round(time,2)
+        print("\nTime before rounding: %f" % time)
+        time = round(time)
 
         print('rvizBridge: '+self.moosapp_name+": In gather_odom_var for "+name+" at rounded time "+str(time))
         print('rvizBridge: '+self.moosapp_name+": In gather_odom_var the preexisting state of self.holder is --")
@@ -175,7 +175,7 @@ class MOOS2RVIZ:
             del self.holder[t]
         if len(self.holder) > self.timestep_buffer: # remove timestep that has been hanging around too long
             del self.holder[min(self.holder)]
-            print('removing lowest time value from holder')
+            print('removing lowest time value from holder\n')
 
 
     def convert_odom_var(self, skateboard):

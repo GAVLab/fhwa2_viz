@@ -46,7 +46,7 @@ public:
     bool OnDisconnectFromServer();
     bool Iterate();
     bool OnNewMail(MOOSMSG_LIST &NewMail);
-    fhwa2_MOOS_to_ROS::MOOSrosmsg handleMsg(CMOOSMsg &Msg);
+    fhwa2_MOOS_to_ROS::MOOSrosmsg handleMsg(CMOOSMsg &Msg, float when);
 
     std::vector<std::string> desired_variables;
     float min_upd;

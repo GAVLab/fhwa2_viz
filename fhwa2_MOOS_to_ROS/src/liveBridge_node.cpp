@@ -29,6 +29,7 @@ MOOS2ROS::~MOOS2ROS() {
 }
 
 bool MOOS2ROS::OnConnectToServer() {
+    MOOSTrace("\nConnected to Server:\n\tMOOSTime = %f\n\tROS Time = %f", MOOSTime(), ros::Time::now().toSec());
     GetDesiredVaribles();
     // MOOSTrace("Got desired variables");
     std::vector<std::string>::iterator p;
@@ -82,16 +83,17 @@ bool MOOS2ROS::Iterate() {
 
 // This is the function that should implicitly work
 bool MOOS2ROS::OnNewMail(MOOSMSG_LIST &NewMail) {
+    // const float time_now = MOOSTime();
     MOOSTrace("\nGot New Mail: MOOSTime = %f\n", MOOSTime());
     MOOSMSG_LIST::iterator p;
     for (p=NewMail.begin(); p!=NewMail.end(); p++) {
         CMOOSMsg &rMsg = *p;
-        this->rospub.publish(this->handleMsg(rMsg));
+        this->rospub.publish(this->handleMsg(rMsg, MOOSTime()));
     }
     return true;
 }
 
-fhwa2_MOOS_to_ROS::MOOSrosmsg MOOS2ROS::handleMsg(CMOOSMsg &Msg) {
+fhwa2_MOOS_to_ROS::MOOSrosmsg MOOS2ROS::handleMsg(CMOOSMsg &Msg, float when) {
     // Create ros msg to send
     fhwa2_MOOS_to_ROS::MOOSrosmsg rosmsg;
     // rosmsg.header.stamp = ros::Time::now(); // William put the stamp as MOOStime
@@ -99,6 +101,7 @@ fhwa2_MOOS_to_ROS::MOOSrosmsg MOOS2ROS::handleMsg(CMOOSMsg &Msg) {
     rosmsg.header.frame_id = GetAppName();
 
     // Populate the rosmsg with data from the MOOS msg
+    // rosmsg.MOOStime = Msg.GetTime();
     rosmsg.MOOStime = Msg.GetTime();
     rosmsg.MOOSname = Msg.GetName();
     rosmsg.MOOSsource = Msg.GetSource();
