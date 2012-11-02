@@ -108,7 +108,8 @@ class MOOS2RVIZ:
             if var_type == "Double":
                 value = str(msg.MOOSdouble) #store all values as strings until handled specifically
             elif var_type == "String":
-                rospy.logwarn("Strings not yet supported")
+                rospy.logwarn("Strings not yet supported %s" % msg.MOOSname)
+                value = msg.MOOSstring
             else:
                 rospy.logwarn('wtf? Unknown variable type')
             # obtain info from msg via functions defined in pyMOOSMsg.cpp
@@ -135,17 +136,27 @@ class MOOS2RVIZ:
         This function will only invoke publishing when it can send off all
         necessary info for a single source at once
         """
-        if self.DEBUG:
-            print('rvizBridge: '+self.moosapp_name+": In gather_odom_var for "+name)
-            print('rvizBridge: '+self.moosapp_name+": In gather_odom_var the preexisting state of self.holder is --")
-            pp(self.holder)
+        # if self.DEBUG:
+        #     print('rvizBridge: '+self.moosapp_name+": In gather_odom_var for "+name)
+        #     print('rvizBridge: '+self.moosapp_name+": In gather_odom_var the preexisting state of self.holder is --")
+        #     pp(self.holder)
 
         time = int(time*1000.0)/1000.0 #rounding to 3 decimal places 
         self.holder[name] = [time, var_type, value]
+
+        if self.DEBUG:
+            print('rvizBridge: '+self.moosapp_name+": In gather_odom_var after addition self.holder is --")
+            pp(self.holder)
+
         shippable = [False]*len(self.desired_variables)
+        # print('len shippable: %i' % len(shippable))
+        # print('len desired_variables: %i' % len(self.desired_variables))
+        # print('holder'), pp(self.holder)
+
         for des_var_ind in range(len(self.desired_variables)):
             if all(self.holder[self.desired_variables[des_var_ind]]):
                 shippable[des_var_ind] = True
+        # print('shippable:'), pp(shippable)
         if all(shippable):
             skateboard = []
             for var in self.desired_variables:

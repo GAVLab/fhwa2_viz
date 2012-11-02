@@ -12,7 +12,7 @@ MOOS2ROS::MOOS2ROS() {
     this->node_handle = ros::NodeHandle("MOOS");
     ros::AsyncSpinner spinner(1);
     spinner.start();
-    this->SetQuitOnFailedIterate(true);
+    // this->SetQuitOnFailedIterate(true);
 
     // MOOSTrace("MOOS Name before being set: %s", m_sMOOSName);
 
@@ -29,13 +29,27 @@ MOOS2ROS::~MOOS2ROS() {
 }
 
 bool MOOS2ROS::OnConnectToServer() {
-    GetDesiredVaribles();
+    // GetDesiredVaribles();
     // MOOSTrace("Got desired variables");
-    std::vector<std::string>::iterator p;
-    for (p=this->desired_variables.begin(); 
-         p!=this->desired_variables.end(); p++) {
-        m_Comms.Register(*p, this->min_upd);
-    }
+    // std::vector<std::string>::iterator p;
+    // for (p=this->desired_variables.begin(); 
+    //      p!=this->desired_variables.end(); p++) {
+    //     m_Comms.Register(*p, this->min_upd);
+    // }
+    m_Comms.Register("zX", 0);
+    m_Comms.Register("zY", 0);
+    m_Comms.Register("zZ", 0);
+    m_Comms.Register("zXStdDev", 0);
+    m_Comms.Register("zYStdDev", 0);
+    m_Comms.Register("zZStdDev", 0);
+    m_Comms.Register("zCourse", 0);
+    m_Comms.Register("zpsrX", 0);
+    m_Comms.Register("zpsrY", 0);
+    m_Comms.Register("zpsrZ", 0);
+    m_Comms.Register("zpsrXStdDev", 0);
+    m_Comms.Register("zpsrYStdDev", 0);
+    m_Comms.Register("zpsrZStdDev", 0);
+
     return true;
 }
 
@@ -49,20 +63,41 @@ void MOOS2ROS::GetDesiredVaribles() {
     std::string ZStdDev_var;
     std::string Course_var;
 
-    if (m_MissionReader.GetConfigurationParam("X_var", X_var))
+    if (m_MissionReader.GetConfigurationParam("X_var", X_var)) {
         desired_variables.push_back(X_var);
-    if (m_MissionReader.GetConfigurationParam("Y_var", Y_var))
+        MOOSTrace("Subscribed to X_var:\n\t");
+        std::cout << X_var << std::endl;
+    }
+    if (m_MissionReader.GetConfigurationParam("Y_var", Y_var)) {
         desired_variables.push_back(Y_var);
-    if (m_MissionReader.GetConfigurationParam("Z_var", Z_var))
+        MOOSTrace("Subscribed to Y_var\n\t");
+        std::cout << Y_var <<std::endl;
+    }
+    if (m_MissionReader.GetConfigurationParam("Z_var", Z_var)) {
         desired_variables.push_back(Z_var);
-    if (m_MissionReader.GetConfigurationParam("XStdDev_var", XStdDev_var))
+        MOOSTrace("Subscribed to Z_var\n\t");
+        std::cout << Z_var <<std::endl;
+    }
+    if (m_MissionReader.GetConfigurationParam("XStdDev_var", XStdDev_var)) {
         desired_variables.push_back(XStdDev_var);
-    if (m_MissionReader.GetConfigurationParam("YStdDev_var", YStdDev_var))
+        MOOSTrace("Subscribed to XStdDev_var\n\t");
+        std::cout << XStdDev_var <<std::endl;
+    }
+    if (m_MissionReader.GetConfigurationParam("YStdDev_var", YStdDev_var)) {
         desired_variables.push_back(YStdDev_var);
-    if (m_MissionReader.GetConfigurationParam("ZStdDev_var", ZStdDev_var))
+        MOOSTrace("Subscribed to YStdDev_var\n\t");
+        std::cout << YStdDev_var <<std::endl;
+    }
+    if (m_MissionReader.GetConfigurationParam("ZStdDev_var", ZStdDev_var)) {
         desired_variables.push_back(ZStdDev_var);
-    if (m_MissionReader.GetConfigurationParam("Course_var", Course_var))
+        MOOSTrace("Subscribed to ZStdDev_var\n\t");
+        std::cout << ZStdDev_var <<std::endl;
+    }
+    if (m_MissionReader.GetConfigurationParam("Course_var", Course_var)) {
         desired_variables.push_back(Course_var);
+        MOOSTrace("Subscribed to Course_var\n\t");
+        std::cout << Course_var <<std::endl;
+    }
 
     if (m_MissionReader.GetConfigurationParam("min_upd", this->min_upd))
         return;
@@ -138,7 +173,7 @@ int main(int argc, char * argv[]) {
     std::stringstream ss;
     ss << "/moos/" << namename;
     std::string topic_name = ss.str();
-    app.rospub = app.node_handle.advertise<fhwa2_MOOS_to_ROS::MOOSrosmsg>(topic_name, 1);
+    app.rospub = app.node_handle.advertise<fhwa2_MOOS_to_ROS::MOOSrosmsg>(topic_name, 100);
 
     app.Run(app_name, mission_file); // else call in thread (boost)
 

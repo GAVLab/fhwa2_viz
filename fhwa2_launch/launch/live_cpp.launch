@@ -1,9 +1,9 @@
 <launch>
 
-    <node pkg="MOOS" type="MOOSDB" name="MOOSDB"
-        respawn="true" output="screen"/>
+    <!-- <node pkg="MOOS" type="MOOSDB" name="MOOSDB"
+        respawn="true" output="screen"/> -->
     
-    <node pkg="MOOS" type="uPlayBack" name="uPlayBack" 
+    <node pkg="MOOS" type="uMS" name="uMS" 
         required="true" output="screen" />
 
 <!-- MOOS Apps -->
