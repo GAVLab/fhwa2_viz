@@ -10,15 +10,6 @@ Simulator = false
 
 ProcessConfig = gMOOS2ROS
 {
-    // Novatel
-    X_var="zX"
-    Y_var="zY"
-    Z_var="zZ"
-    XStdDev_var="zXStdDev"
-    YStdDev_var="zYStdDev"
-    ZStdDev_var="zZStdDev"
-    Course_var="zCourse"
-
     // App params
-    min_upd=1.0
+    min_upd=0.1
 }
