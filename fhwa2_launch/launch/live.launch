@@ -1,22 +1,38 @@
 <launch>
-    
-    <!-- <node pkg="MOOS" type="MOOSDB" name="MOOSDB" output="screen" required="true"/> -->
-    <node pkg="MOOS" type="uMS" name="uMS" output="screen" required="true"/>
-    
-    <node pkg="rviz" type="rviz" name="rViz"
-        args="-d $(find fhwa2_MOOS_to_ROS)/launch/fhwa2.vcg"
+
+<!-- uMS -->
+    <node pkg="MOOS" type="uMS" name="uMS"
         required="true" output="screen" />
 
-    <node pkg="fhwa2_MOOS_to_ROS" type="mapBridge.py" name="moos2rviz_survey"
-        output="screen" args="$(find fhwa2_MOOS_to_ROS)/cfg/survey.yaml">
-        <param name="prefix" value="$(find fhwa2_MOOS_to_ROS)" />
+<!-- MOOS App -->
+    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="liveBridge"
+        args="$(find fhwa2_launch)/mission/not_truth_live.moos gMOOS2ROS"
+        output="screen" required="true"/>
+
+<!-- rViz Nodes -->
+    <!-- rViz -->
+    <node pkg="rviz" type="rviz" name="rViz"
+        args="-d $(find fhwa2_gui)/rviz/cpp.vcg"
+        required="true" output="screen" />
+
+    <!-- Survey markers -->
+    <node pkg="fhwa2_survey" type="mapBridge.py" name="moos2rviz_survey"
+        output="screen" args="$(find fhwa2_survey)/cfg/survey.yaml">
+        <param name="prefix" value="$(find fhwa2_survey)" />
     </node>
-    
-    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge.py" name="moos2rviz_gavlab"
-        args="$(find fhwa2_MOOS_to_ROS)/cfg/gavlab.yaml" output="screen"
-        respawn="true">
-        <param name="sender_ip" value="192.168.1.100"/>
-        <param name="port" value="9000"/>
+
+    <!-- RTK -->
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_truth"
+        args="$(find fhwa2_launch)/cfg/rtk.yaml" output="screen"
+        required="true">
+        <param name="DEBUG" value="False"/>
+    </node>
+
+    <!-- GPS -->
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_not_truth"
+        args="$(find fhwa2_launch)/cfg/gps.yaml" output="screen"
+        required="true">
+        <param name="DEBUG" value="False"/>
     </node>
 
 </launch>

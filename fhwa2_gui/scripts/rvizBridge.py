@@ -174,9 +174,8 @@ class MOOS2RVIZ:
         special UTM holder and sends it to the publishing function: mailroom.package_odom_var()
         Covariances - Lat/Lon Std Dev are output in meters already
         converts course to radians for ROS; Will orient odom arrows to velocity direction
-
-        FIX ECEF STD DEVS!!!!!!!!!!!!!!!!!!!!!!!!!
-
+        
+        # ASSUME Y ECEF IS NEGATIVE
         """
         ## FIXME here an assumption is made about the order of variables - robustify later
         if self.DEBUG:
@@ -186,7 +185,6 @@ class MOOS2RVIZ:
             (E, N, _), _ = self.navpy_gps.ecef2utm((float(skateboard[0]),
                                                     float(skateboard[1]),
                                                     float(skateboard[2])))
-            
             Xstray = float(skateboard[0])+float(skateboard[3])
             Ystray = float(skateboard[1])-float(skateboard[4]) # ASSUME Y ECEF IS NEGATIVE
             Zstray = float(skateboard[2])+float(skateboard[5])
