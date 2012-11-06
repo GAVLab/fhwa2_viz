@@ -22,17 +22,17 @@
     </node>
 
     <!-- RTK -->
-    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_truth"
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_rtk"
         args="$(find fhwa2_launch)/cfg/rtk.yaml" output="screen"
         required="true">
-        <param name="DEBUG" value="True"/>
+        <param name="DEBUG" value="False"/>
     </node>
 
     <!-- GPS -->
-    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_not_truth"
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_gps"
         args="$(find fhwa2_launch)/cfg/gps.yaml" output="screen"
         required="true">
-        <param name="DEBUG" value="True"/>
+        <param name="DEBUG" value="False"/>
     </node>
 
 </launch>

@@ -310,9 +310,9 @@ class MOOS2RVIZ:
         marker.scale.x = 0.0254 # artifact of sketchup export
         marker.scale.y = 0.0254 # artifact of sketchup export
         marker.scale.z = 0.0254 # artifact of sketchup export
-        marker.color.r = .05
-        marker.color.g = .05
-        marker.color.b = .05
+        marker.color.r = self.color['r']
+        marker.color.g = self.color['g']
+        marker.color.b = self.color['b']
         marker.color.a = .2
         marker.mesh_resource = self.veh_mesh_resource
         marker.mesh_use_embedded_materials = False

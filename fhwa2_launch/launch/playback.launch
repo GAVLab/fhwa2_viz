@@ -6,8 +6,8 @@
     <node pkg="MOOS" type="uPlayBack" name="uPlayBack" 
         required="true" output="screen" />
 
-    <node pkg="MOOS" type="uMS" name="uMS"
-        required="true" output="screen"/>
+<!--     <node pkg="MOOS" type="uMS" name="uMS"
+        required="true" output="screen"/> -->
 
 <!-- MOOS Apps -->
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="MOOSBridge"
@@ -29,13 +29,13 @@
     <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_rtk"
         args="$(find fhwa2_launch)/cfg/rtk.yaml" output="screen"
         required="true">
-        <param name="DEBUG" value="True"/>
+        <param name="DEBUG" value="False"/>
     </node>
 
     <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_gps"
         args="$(find fhwa2_launch)/cfg/gps.yaml" output="screen"
         required="true">
-        <param name="DEBUG" value="True"/>
+        <param name="DEBUG" value="False"/>
     </node>
     
 </launch>

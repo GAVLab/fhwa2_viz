@@ -1,9 +1,5 @@
 # Combined Sensor Solution Instance Configuration
 ---
-# Display Parameters ###########################################################
-# Maximum frequency with which messages will be sent past mailroom.cap_freq()
-# Enter 0 for no frequency capping (not recommended - buffer lag errors)
-freq_max: 30
 #
 # Color in r,g,b
 color: # red
@@ -24,11 +20,10 @@ veh_mesh_resource: "package://fhwa2_description/mesh/infiniti_03_novatel_centere
 #
 display_name: 'GPS'
 #
-################################################################################
-#
-# Data input parameters ########################################################
-#
+# used to subscribe - do not change
 moosapp_name: 'gMOOS2ROS'
+#
+# Used to set outgoing topics
 myname: 'gps'
 #
 # g______ Sensor to be processed: as it appears in the MOOS alog
@@ -49,12 +44,8 @@ desired_variables: #list order is crucial
 - 'zpsrZStdDev'
 - 'zCourse'
 #
-################################################################################
-#
-# Survey Data ##################################################################
 # Where the blender track mesh is zeroed
 UTMdatum: # 2 layer nested dictionary
     E: 659300 
     N: 3607850
-#
 ################################################################################
