@@ -32,7 +32,7 @@ class ErrorNode(object):
         self.ref_pose = Odometry()
         self.tgt_pose = Odometry()
         self.output = PoseError()
-        print 'ErrorNode output format:', pp(self.output)
+        if self.DEBUG: print 'ErrorNode output format:', pp(self.output)
 
 
     def onRefUpdate(self, msg):

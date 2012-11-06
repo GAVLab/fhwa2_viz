@@ -271,13 +271,13 @@ class MOOS2RVIZ:
         legend_marker.action = Marker.MODIFY
         legend_marker.pose = odom_msg.pose.pose
         legend_marker.pose.position.z = self.legend_text_height # elevate to spread
-        legend_marker.scale.x = 1
-        legend_marker.scale.y = 1
-        legend_marker.scale.z = 1
+        legend_marker.scale.x = .7
+        legend_marker.scale.y = .7
+        legend_marker.scale.z = .7
         legend_marker.color.r = self.color['r']
         legend_marker.color.g = self.color['g']
         legend_marker.color.b = self.color['b']
-        legend_marker.color.a = 1.0
+        legend_marker.color.a = .7
         self.legend_publisher.publish(legend_marker)
 
         combined_array.markers.append(legend_marker)

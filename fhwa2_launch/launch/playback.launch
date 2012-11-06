@@ -52,7 +52,7 @@
     </node>
     
 <!-- Temporarily display in separate rxplot window -->
-    <node pkg="rxtools" type="rxplot" name="error_plot" output="screen"
-        args="/error_mags/rtk_ref/gps_tgt/mag_horiz" required="true"/>
+    <node pkg="fhwa2_error" type="rxplotter.bash" name="rxplotter" 
+        output="screen" required="true" />
 
 </launch>
