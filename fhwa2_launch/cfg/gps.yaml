@@ -3,7 +3,7 @@
 #
 # Color in r,g,b
 color: # red
-    r: 200
+    r: 225
     g: 0
     b: 0
 #
@@ -24,7 +24,7 @@ display_name: 'GPS'
 moosapp_name: 'gMOOS2ROS'
 #
 # Used to set outgoing topics
-myname: 'gps'
+# myname: 'gps'
 #
 # g______ Sensor to be processed: as it appears in the MOOS alog
 sensor_name: 'gNovatel'

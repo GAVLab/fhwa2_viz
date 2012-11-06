@@ -50,7 +50,8 @@ class MOOS2RVIZ:
         self.DEBUG = rospy.get_param('~DEBUG')
         self.moosapp_name = config['moosapp_name']
         self.sensor_name = config["sensor_name"]
-        self.myname = config["myname"]
+        # self.myname = config["myname"]
+        self.myname = rospy.get_param('~myname')
         # self.freq_max = config["freq_max"]
         self.UTMdatum = config["UTMdatum"]
         self.coord_sys = config["coord_sys"]

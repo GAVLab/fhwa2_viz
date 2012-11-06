@@ -24,7 +24,7 @@ display_name: 'RTK'
 moosapp_name: 'gMOOS2ROS'
 #
 # Used to set outgoing topics
-myname: 'rtk'
+# myname: 'rtk'
 #
 # g______ Sensor to be processed: as it appears in the MOOS alog
 sensor_name: 'gNovatel'

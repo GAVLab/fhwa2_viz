@@ -9,7 +9,7 @@
 <!--     <node pkg="MOOS" type="uMS" name="uMS"
         required="true" output="screen"/> -->
 
-<!-- MOOS Apps -->
+<!-- MOOS App -->
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="MOOSBridge"
         args="$(find fhwa2_launch)/mission/truth_playback.moos gMOOS2ROS"
         output="screen" required="true"/>
@@ -30,12 +30,26 @@
         args="$(find fhwa2_launch)/cfg/rtk.yaml" output="screen"
         required="true">
         <param name="DEBUG" value="False"/>
+        <param name="myname" value="rtk"/>
     </node>
 
     <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_gps"
         args="$(find fhwa2_launch)/cfg/gps.yaml" output="screen"
         required="true">
         <param name="DEBUG" value="False"/>
+        <param name="myname" value="gps"/> 
+    </node>
+
+<!-- Error Node -->
+    <node pkg="fhwa2_gui" type="calcError.py" name="gps_rtk_error"
+        output="screen" required="true">
+        <param name="ref_topic" value="/moos/rtk/odom"/>
+        <param name="tgt_topic" value="/moos/gps/odom"/>
+        <param name="pub_topic" value="/error_mags/rtk_ref/gps_tgt"/>
     </node>
     
+<!-- Temporarily display in separate rxplot window -->
+    <node pkg="rxplot" type="rxplot" name="error_plot" output="screen"
+        args="/error_mags/rtk_ref/gps_tgt"/>
+
 </launch>
