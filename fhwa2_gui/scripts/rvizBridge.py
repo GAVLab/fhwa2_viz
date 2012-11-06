@@ -299,10 +299,9 @@ class MOOS2RVIZ:
         """
         ### G35 Mesh #############################################################
         marker = Marker()
-        pub = self.curpos_publisher
         marker.header = odom_msg.header
         marker.id = 0 # enumerate subsequent markers here
-        marker.action = Marker.MODIFY # can be ADD, REMOVE, or MODIFY
+        marker.action = Marker.MODIFY
         marker.pose = odom_msg.pose.pose
         marker.pose.position.z = 1.55
         marker.lifetime = rospy.Duration() # will last forever unless modified
@@ -314,10 +313,10 @@ class MOOS2RVIZ:
         marker.color.r = self.color['r']
         marker.color.g = self.color['g']
         marker.color.b = self.color['b']
-        marker.color.a = .2
+        marker.color.a = .1
         marker.mesh_resource = self.veh_mesh_resource
         marker.mesh_use_embedded_materials = False
-        pub.publish(marker)
+        self.curpos_publisher.publish(marker)
 
 ################################################################################
 ################################################################################
@@ -331,8 +330,7 @@ def main():
     this_config = load(stream) # loads as a dictionary
 
     #setup ROS node
-    node_name = 'rvizBridge_'.join([this_config['myname']])
-    rospy.init_node(node_name)
+    rospy.init_node('fhwa2_rviz_bridge')
 
     #Setup App
     app = MOOS2RVIZ(this_config)

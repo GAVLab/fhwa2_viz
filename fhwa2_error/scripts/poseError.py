@@ -5,6 +5,8 @@ roslib.load_manifest('fhwa2_gui')
 import rospy
 from fhwa2_gui.msg import PoseError
 from nav_msgs.msg import Odometry
+from math import sqrt
+from pprint import pprint as pp
 
 
 class ErrorNode(object):
@@ -29,7 +31,8 @@ class ErrorNode(object):
         # Data holders
         self.ref_pose = Odometry()
         self.tgt_pose = Odometry()
-        self.error_out = PoseError()
+        self.output = PoseError()
+        print 'ErrorNode output format:', pp(self.output)
 
 
     def onRefUpdate(self, msg):
@@ -45,12 +48,27 @@ class ErrorNode(object):
 
 
     def crunch(self):
-         
+        if self.DEBUG: print('In ErrorNode::onRefUpdate')
+        x1 = self.ref_pose.pose.pose.position.x
+        x2 = self.tgt_pose.pose.pose.position.x
+        y1 = self.ref_pose.pose.pose.position.y
+        y2 = self.tgt_pose.pose.pose.position.y
+        mag = sqrt((x2-x1)**2 + (y2-y1)**2)
+        self.output.mag_horiz = mag
+        self.output.east = x2-x1
+        self.output.nrth = y2-y1
+        self.output.elev = self.tgt_pose.pose.pose.position.z - \
+                                    self.ref_pose.pose.pose.position.z
+
 
     def spit(self):
-        pass
+        self.output.header.stamp = rospy.Time().now()
+        self.output.header.frame_id = '/odom'
+        self.output.reference_frame = self.ref_pose.header.frame_id
+        self.output.target_frame = self.tgt_pose.header.frame_id
+        self.pub.publish(self.output)
 
-        
+        if self.DEBUG: print("ErrorNode::publishing..."), pp(self.output)
 
 if __name__ == '__main__':
     rospy.init_node('pose_error_node')
