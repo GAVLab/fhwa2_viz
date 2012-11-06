@@ -50,7 +50,8 @@ class MOOS2RVIZ:
         self.DEBUG = rospy.get_param('~DEBUG')
         self.moosapp_name = config['moosapp_name']
         self.sensor_name = config["sensor_name"]
-        self.freq_max = config["freq_max"]
+        self.myname = config["myname"]
+        # self.freq_max = config["freq_max"]
         self.UTMdatum = config["UTMdatum"]
         self.coord_sys = config["coord_sys"]
         self.desired_variables = config["desired_variables"]
@@ -69,21 +70,21 @@ class MOOS2RVIZ:
 
     def set_publishers(self):
         rospy.Subscriber("/moos/"+self.moosapp_name, MOOSrosmsg, self.handle_msg)
-        odom_topic = '/'.join([self.moosapp_name, 'odom'])
+        odom_topic = '/'.join(['moos', self.myname, 'odom'])
         self.odom_publisher = rospy.Publisher(odom_topic, Odometry)
-        ell_topic = '/'.join([self.moosapp_name, 'error_ellipse'])
+        ell_topic = '/'.join(['moos',self.myname, 'error_ellipse'])
         self.ell_publisher = rospy.Publisher(ell_topic, Marker)
-        legend_topic = '/'.join([self.moosapp_name, 'legend'])
+        legend_topic = '/'.join(['moos', self.myname, 'legend'])
         self.legend_publisher = rospy.Publisher(legend_topic, Marker)
         if self.ismaster: # this instance dictates accepted position (veh disp mesh)
-            curpos_topic = '/'.join([self.moosapp_name, 'current_position'])
+            curpos_topic = '/'.join(['moos', self.myname, 'current_position'])
             self.curpos_publisher = rospy.Publisher(curpos_topic, Marker) # even though this is at the same position as the novatel error ellipse, we want it to have a different name in case the integrated solution is different
             rospy.Subscriber(odom_topic, Odometry, self.pub_at_position) # put the vehicle model at the accepted position solution
 
-        combined_topic = '/'.join([self.moosapp_name, "the_3"])
+        combined_topic = '/'.join(['moos',self.myname, "the_3"])
         self.combined_publisher = rospy.Publisher(combined_topic, MarkerArray)
         if self.DEBUG:
-            print('rvizBridge '+self.moosapp_name+': Publishers and Subscribers set')
+            print('rvizBridge '+self.myname+': Publishers and Subscribers set')
     ############################################################################
 
     def cameraFollow_tf(self, odom_msg):
@@ -94,7 +95,7 @@ class MOOS2RVIZ:
         br = tf.TransformBroadcaster()
         br.sendTransform((msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z),\
                          (0, 0, 0, 1), # this is a unit quaternion\
-                         msg.header.stamp,''.join([self.moosapp_name,"_base_link"]), "odom") 
+                         msg.header.stamp, ''.join([self.myname,"_base_link"]), "odom") 
                             #time,    #child frame , #parent frame
 
     ##### Mailroom Functions ###################################################
@@ -102,7 +103,7 @@ class MOOS2RVIZ:
         """
         takes a MOOSrosmsg and passes usable info to gather_odom_var
         """
-        # print("rvizBridge: " + self.moosapp_name + ": msg received "+msg.MOOStype)
+        # print("rvizBridge: " + self.myname + ": msg received "+msg.MOOStype)
         if (msg.MOOSsource == self.sensor_name) and (msg.MOOSname in self.desired_variables):
             var_type = msg.MOOStype
             if var_type == "Double":
@@ -119,13 +120,13 @@ class MOOS2RVIZ:
 
             self.gather_odom_var(name, var_type, value, time)
             if self.DEBUG:
-                print("\n\nrvizBridge: " + self.moosapp_name + ': handle_msg sent to gather_odom_var:')
+                print("\n\nrvizBridge: " + self.myname + ': handle_msg sent to gather_odom_var:')
                 print('\tname: '+name)
                 print('\ttime: '+str(time))
                 print('\tsens: '+sens)
                 print('\tvalue: '+str(value))
         # else:
-            # print('rvizBridge: '+self.moosapp_name+': handle_msg rejected msg ')
+            # print('rvizBridge: '+self.myname+': handle_msg rejected msg ')
             # pp(msg)
         # else:
         #     rospy.logwarn("handle_msg :: Unhandled msg: %(name)s of type %(var_type)s carries value %(value)s" % locals())
@@ -137,15 +138,15 @@ class MOOS2RVIZ:
         necessary info for a single source at once
         """
         # if self.DEBUG:
-        #     print('rvizBridge: '+self.moosapp_name+": In gather_odom_var for "+name)
-        #     print('rvizBridge: '+self.moosapp_name+": In gather_odom_var the preexisting state of self.holder is --")
+        #     print('rvizBridge: '+self.myname+": In gather_odom_var for "+name)
+        #     print('rvizBridge: '+self.myname+": In gather_odom_var the preexisting state of self.holder is --")
         #     pp(self.holder)
 
         time = int(time*1000.0)/1000.0 #rounding to 3 decimal places 
         self.holder[name] = [time, var_type, value]
 
         if self.DEBUG:
-            print('rvizBridge: '+self.moosapp_name+": In gather_odom_var after addition self.holder is --")
+            print('rvizBridge: '+self.myname+": In gather_odom_var after addition self.holder is --")
             pp(self.holder)
 
         shippable = [False]*len(self.desired_variables)
@@ -164,7 +165,7 @@ class MOOS2RVIZ:
             self.convert_odom_var(skateboard)
             self.make_holder_nones()
             if self.DEBUG:
-                print('\nrvizBridge: '+self.moosapp_name+": gather_odom_var IS SHIPPING NOW\n")
+                print('\nrvizBridge: '+self.myname+": gather_odom_var IS SHIPPING NOW\n")
 
 
     def convert_odom_var(self, skateboard):
@@ -179,7 +180,7 @@ class MOOS2RVIZ:
         """
         ## FIXME here an assumption is made about the order of variables - robustify later
         if self.DEBUG:
-            print('rvizBridge: '+self.moosapp_name+': convert_odom_var: SKATEBOARD RECIEVED --')
+            print('rvizBridge: '+self.myname+': convert_odom_var: SKATEBOARD RECIEVED --')
             pp(skateboard)
         if self.coord_sys == 'ECEF':
             (E, N, _), _ = self.navpy_gps.ecef2utm((float(skateboard[0]),
@@ -200,7 +201,7 @@ class MOOS2RVIZ:
             UTMtoPub['crs'] = radians(float(skateboard[-1]))
             self.package_odom_var(UTMtoPub)
             if self.DEBUG:
-                print('rvizBridge: '+self.moosapp_name+': convert_odom_var: UTMtoPub --')
+                print('rvizBridge: '+self.myname+': convert_odom_var: UTMtoPub --')
                 pp(UTMtoPub)
         else:
             raise Exception('Only ECEF implemented thus far')
@@ -214,7 +215,7 @@ class MOOS2RVIZ:
             -each individual legend is now
         """
         if self.DEBUG:
-            print('rvizBridge: '+self.moosapp_name+': In package_odom_var')
+            print('rvizBridge: '+self.myname+': In package_odom_var')
         combined_array = MarkerArray()
 
         ### Odometry Arrows ####################################################
@@ -246,7 +247,7 @@ class MOOS2RVIZ:
         ell_marker.action = Marker.MODIFY # can be ADD, REMOVE, or MODIFY
         ell_marker.pose = odom_msg.pose.pose # put at same place as its odom arrow
         ell_marker.lifetime = rospy.Duration() # will last forever unless modified
-        ell_marker.ns = ''.join(["Error_Ellipses", '__', self.sensor_name, '__', self.moosapp_name])
+        ell_marker.ns = ''.join(["Error_Ellipses", '__', self.sensor_name, '__', self.myname])
         ell_marker.type = Marker.CYLINDER     
         ell_marker.scale.x = abs(sqrt(odom_msg.pose.covariance[0])) # not visible unless scaled up
         ell_marker.scale.y = abs(sqrt(odom_msg.pose.covariance[7])) # not visible unless scaled up
@@ -263,7 +264,7 @@ class MOOS2RVIZ:
         legend_marker = Marker()
         legend_marker.header = odom_msg.header
         legend_marker.id = 0
-        legend_marker.ns = ''.join(["Error_Ellipses", '__', self.sensor_name, '__', self.moosapp_name])
+        legend_marker.ns = ''.join(["Error_Ellipses", '__', self.sensor_name, '__', self.myname])
         legend_marker.type = Marker.TEXT_VIEW_FACING
         legend_marker.text = self.legend_text
         legend_marker.action = Marker.MODIFY
@@ -304,7 +305,7 @@ class MOOS2RVIZ:
         marker.pose = odom_msg.pose.pose
         marker.pose.position.z = 1.55
         marker.lifetime = rospy.Duration() # will last forever unless modified
-        marker.ns = ''.join(["vehicle_model", '__', self.sensor_name, '__', self.moosapp_name])
+        marker.ns = ''.join(["vehicle_model", '__', self.sensor_name, '__', self.myname])
         marker.type = Marker.MESH_RESOURCE
         marker.scale.x = 0.0254 # artifact of sketchup export
         marker.scale.y = 0.0254 # artifact of sketchup export
@@ -329,7 +330,7 @@ def main():
     this_config = load(stream) # loads as a dictionary
 
     #setup ROS node
-    node_name = 'rvizBridge_'.join([this_config['moosapp_name']])
+    node_name = 'rvizBridge_'.join([this_config['myname']])
     rospy.init_node(node_name)
 
     #Setup App

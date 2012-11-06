@@ -6,7 +6,7 @@
 
 <!-- MOOS App -->
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="liveBridge"
-        args="$(find fhwa2_launch)/mission/not_truth_live.moos gMOOS2ROS"
+        args="$(find fhwa2_launch)/mission/playback.moos gMOOS2ROS"
         output="screen" required="true"/>
 
 <!-- rViz Nodes -->
@@ -25,14 +25,14 @@
     <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_truth"
         args="$(find fhwa2_launch)/cfg/rtk.yaml" output="screen"
         required="true">
-        <param name="DEBUG" value="False"/>
+        <param name="DEBUG" value="True"/>
     </node>
 
     <!-- GPS -->
     <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_not_truth"
         args="$(find fhwa2_launch)/cfg/gps.yaml" output="screen"
         required="true">
-        <param name="DEBUG" value="False"/>
+        <param name="DEBUG" value="True"/>
     </node>
 
 </launch>

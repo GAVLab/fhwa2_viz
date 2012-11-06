@@ -29,6 +29,7 @@ display_name: 'RTK'
 # Data input parameters ########################################################
 #
 moosapp_name: 'gMOOS2ROS'
+myname: 'rtk'
 #
 # g______ Sensor to be processed: as it appears in the MOOS alog
 sensor_name: 'gNovatel'

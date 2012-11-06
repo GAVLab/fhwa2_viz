@@ -29,6 +29,7 @@ display_name: 'GPS'
 # Data input parameters ########################################################
 #
 moosapp_name: 'gMOOS2ROS'
+myname: 'gps'
 #
 # g______ Sensor to be processed: as it appears in the MOOS alog
 sensor_name: 'gNovatel'
