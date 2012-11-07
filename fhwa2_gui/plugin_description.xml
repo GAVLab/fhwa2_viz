@@ -1,0 +1,20 @@
+<library path="lib/libfhwa2_gui">
+  
+  <class  name="fhwa2_gui/Error"
+          type="fhwa2_gui::ErrorPanel"
+          base_class_type="rviz::Panel">
+    <description>
+      A panel widget allowing rxplot-like display of errors.
+    </description>
+  </class>
+
+  <class  name="fhwa2_gui/Menu"
+          type="fhwa2_gui::MenuPanel"
+          base_class_type="rviz::Panel">
+    <description>
+      A panel widget allowing choice of sensors to compare
+      directly controls the error panel
+    </description>
+  </class>
+
+</library>

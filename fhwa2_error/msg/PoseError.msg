@@ -1,5 +1,0 @@
-Header header
-string reference_frame
-string target_frame
-float32 mag_horiz
-PointError error

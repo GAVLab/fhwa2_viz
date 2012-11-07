@@ -15,8 +15,12 @@
     <build_depends>roscpp</build_depends>
     <build_depends>rospy</build_depends>
     <build_depends>std_msgs</build_depends>
+    <build_depends>visualization</build_depends>
+    <build_depends>visualization_common</build_depends>
 
     <depends>roscpp</depends>
-    <depends>std_msgs</depends>
     <depends>rospy</depends>
+    <depends>std_msgs</depends>
+    <depends>visualization</depends>
+    <depends>visualization_common</depends>
 </stack>

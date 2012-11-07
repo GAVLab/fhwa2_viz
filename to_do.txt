@@ -2,7 +2,6 @@ CPP
 ---
 
 setting callbacks necessary?
- - the C++ version is not yet implemented
 =================
 
 
@@ -23,13 +22,7 @@ setting callbacks necessary?
 - get track stripes/ lane marking mesh from blender working
 
 -in mailroom.gather_odom_var(), use pop instead of a list then delete in a for loop
-
--G centered grid is at a weird elevation
--G is now hopping
-
--bash won't bring up liveBridge
-
--mesh colors will work in rviz if using URDF file
+    -deque?
 
 - interpolate log file to get ~100Hz
 	http://docs.scipy.org/doc/numpy/reference/generated/numpy.interp.html
@@ -37,9 +30,7 @@ setting callbacks necessary?
 
 - mesh of lane markings visible from all angles (make non-planar)
 
-- make mapBridge.py shutdown once
-
-all sensors into single marker array
+0-all sensors into single marker array?
 
 unfinished positions will likely cause memory leaks
 
