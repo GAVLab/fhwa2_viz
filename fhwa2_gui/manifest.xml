@@ -17,10 +17,14 @@
   <depend package="rqt_gui_py"/>
   <depend package="interactive_markers"/>
   <depend package="fhwa2_MOOS_to_ROS"/>
+  <depend package="std_msgs"/>
+  <depend package="geometry_msgs"/>
+  <depend package="rxtools"/>
+
 
   <!-- make rqt plugin discoverable -->
   <export>
-    <rqt_gui plugin="${prefix}/plugin.xml"/>
+    <rqt_gui plugin="${prefix}/menu_plugin.xml"/>
   </export>
 
 </package>
