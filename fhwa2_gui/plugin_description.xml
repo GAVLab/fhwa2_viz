@@ -1,5 +1,4 @@
 <library path="lib/libfhwa2_gui">
-  
   <class  name="fhwa2_gui/Error"
           type="fhwa2_gui::ErrorPanel"
           base_class_type="rviz::Panel">
@@ -9,5 +8,4 @@
       is the RTK
     </description>
   </class>
-
 </library>

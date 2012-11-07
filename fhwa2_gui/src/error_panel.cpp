@@ -1,24 +1,32 @@
 #include <stdio.h>
 
 #include "error_panel.h"
-// #include "error_plot.h"
+#include "plot_widget.h"
 
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QComboBox>
-
-#include <qwt/qwt_plot.h>
 
 namespace fhwa2_gui {
 
 ErrorPanel::ErrorPanel( QWidget* parent )
     : rviz::Panel( parent )
 {
-    QVBoxLayout* layout = new QVBoxLayout;
-    layout->addWidget( new QLabel( "Target Sensor:" ) );
+    // Menu
+    QVBoxLayout* menu_layout = new QVBoxLayout;
+    menu_layout->addWidget( new QLabel( "Target Sensor:" ) );
     target_topic_combobox_ = new QComboBox;
     // Do more combobox stuff
-    layout->addWidget( target_topic_combobox_ );
+    menu_layout->addWidget( target_topic_combobox_ );
+
+    // plot_widget_ = new PlotWidget;
+
+    // WHole thing
+    QHBoxLayout* layout = new QHBoxLayout;
+    layout->addWidget( plot_widget_ );
+    layout->addLayout( menu_layout );
+
     setLayout( layout );
 
     // Connect stuff;
@@ -30,18 +38,18 @@ void ErrorPanel::setTargetTopic( int cb_index ) {
     return;
 }
 
-void saveToConfig( const std::string& key_prefix,
-                   const boost::shared_ptr<rviz::Config>& config ) {
-    return;
-}
+// void saveToConfig( const std::string& key_prefix,
+//                    const boost::shared_ptr<rviz::Config>& config ) {
+//     return;
+// }
 
-void loadFromConfig( const std::string& key_prefix,
-                     const boost::shared_ptr<rviz::Config>& config ) {
-    return;
-}
+// void loadFromConfig( const std::string& key_prefix,
+//                      const boost::shared_ptr<rviz::Config>& config ) {
+//     return;
+// }
 
 } //end namespace fhwa2_gui
 
 // Notify pluginlib about this class
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_DECLARE_CLASS( fhwa2_gui, Menu, fhwa2_gui::ErrorPanel, rviz::Panel )
+PLUGINLIB_DECLARE_CLASS( fhwa2_gui, Error, fhwa2_gui::ErrorPanel, rviz::Panel )

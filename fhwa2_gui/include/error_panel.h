@@ -12,6 +12,8 @@ class QComboBox;
 
 namespace fhwa2_gui {
 
+class PlotWidget;
+
 class ErrorPanel: public rviz::Panel {
 Q_OBJECT
 public:
@@ -19,22 +21,23 @@ public:
     ErrorPanel( QWidget* parent = 0);
 
     // Overrides of rviz::Panel for topic subscriptions
-    virtual void saveToConfig( const std::string& key_prefix,
-                               const boost::shared_ptr<rviz::Config>& config );
-    virtual void loadFromConfig( const std::string& key_prefix,
-                                 const boost::shared_ptr<rviz::Config>& config );
+    // virtual void saveToConfig( const std::string& key_prefix,
+    //                            const boost::shared_ptr<rviz::Config>& config );
+    // virtual void loadFromConfig( const std::string& key_prefix,
+    //                              const boost::shared_ptr<rviz::Config>& config );
 
 public Q_SLOTS:
     // Receives from the combobox
     void setTargetTopic( int cb_index );
 
 Q_SIGNALS:
-    // Sends a the attribute error topic to the error plotter, which will then
-    // subscribe to it
-    void setErrorTopic( const std::string& topic );
+    // send new datapoint to the plotter
+    void updateValue( float t, float v );
 
 protected:
+    PlotWidget* plot_widget_;
     QComboBox* target_topic_combobox_;
+       
     // resulting topic to send to the error plotter for subscription
     std::string error_topic; 
 };

@@ -34,10 +34,12 @@ add_definitions(-DQT_NO_KEYWORDS) # avoid conflicting with boost emit and slots
 
 qt4_wrap_cpp(MOC_FILES
   include/error_panel.h
+  include/plot_widget.h
 )
 
 set(SOURCE_FILES
   src/error_panel.cpp
+  src/plot_widget.cpp
   ${MOC_FILES}
 )
 
