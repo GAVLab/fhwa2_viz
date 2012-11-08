@@ -1,0 +1,30 @@
+<library path="src">
+  
+  <class  name="ErrorPlugin" 
+          type="fhwa2_gui.mat_plot.MatPlot" 
+          base_class_type="rqt_gui_py::Plugin">
+    
+    <description>
+      An example Python GUI plugin to create a great user interface.
+    </description>
+    
+    <qtgui>
+      <!-- optional grouping...
+      <group>
+        <label>Group</group>
+      </group>
+      <group>
+        <label>Subgroup</group>
+      </group>
+      -->
+      <label>FHWA2 Sensors: Error Visualization</label>
+      
+      <icon type="theme">utilities-system-monitor</icon>
+      
+      <statustip>Great user interface to provide real value.</statustip>
+    
+    </qtgui>
+  
+  </class>
+
+</library>

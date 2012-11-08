@@ -21,33 +21,12 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="MatDataPlot" name="data_plot">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+    <widget class="MatplotlibWidget" name="angle_plot" native="true">
      <property name="minimumSize">
       <size>
-       <width>50</width>
-       <height>50</height>
-      </size>
-     </property>
-     <property name="baseSize">
-      <size>
        <width>0</width>
-       <height>0</height>
+       <height>180</height>
       </size>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::WheelFocus</enum>
-     </property>
-     <property name="acceptDrops">
-      <bool>true</bool>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -89,9 +68,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MatDataPlot</class>
-   <extends>QFrame</extends>
-   <header>rqt_matplot.mat_data_plot</header>
+   <class>MatplotlibWidget</class>
+   <extends>QWidget</extends>
+   <header>matplotlibwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

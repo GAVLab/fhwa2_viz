@@ -52,7 +52,7 @@
  -->
 
 <!-- Error Node -->
-    <node pkg="fhwa2_error" type="poseError.py" name="gps_rtk_error"
+    <node pkg="fhwa2_gui" type="poseError.py" name="gps_rtk_error"
         output="screen" required="true">
         <param name="DEBUG" value="False"/>
         <param name="ref_topic" value="/moos/rtk/odom"/>

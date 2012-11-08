@@ -4,18 +4,19 @@ python3 = True if sys.hexversion > 0x03000000 else False
 import genpy
 import struct
 
-import fhwa2_gui.msg
 import std_msgs.msg
 
 class PoseError(genpy.Message):
-  _md5sum = "8d00e3277ce0a9626b61e8802c98fa07"
+  _md5sum = "14850a501fe6757bd9cd218245436f60"
   _type = "fhwa2_gui/PoseError"
   _has_header = True #flag to mark the presence of a Header object
   _full_text = """Header header
 string reference_frame
 string target_frame
 float32 mag_horiz
-PointError error
+float32 east
+float32 nrth
+float32 elev
 ================================================================================
 MSG: std_msgs/Header
 # Standard metadata for higher-level stamped data types.
@@ -34,14 +35,9 @@ time stamp
 # 1: global frame
 string frame_id
 
-================================================================================
-MSG: fhwa2_gui/PointError
-float64 east
-float64 nrth
-float32 elev
 """
-  __slots__ = ['header','reference_frame','target_frame','mag_horiz','error']
-  _slot_types = ['std_msgs/Header','string','string','float32','fhwa2_gui/PointError']
+  __slots__ = ['header','reference_frame','target_frame','mag_horiz','east','nrth','elev']
+  _slot_types = ['std_msgs/Header','string','string','float32','float32','float32','float32']
 
   def __init__(self, *args, **kwds):
     """
@@ -51,7 +47,7 @@ float32 elev
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,reference_frame,target_frame,mag_horiz,error
+       header,reference_frame,target_frame,mag_horiz,east,nrth,elev
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -68,14 +64,20 @@ float32 elev
         self.target_frame = ''
       if self.mag_horiz is None:
         self.mag_horiz = 0.
-      if self.error is None:
-        self.error = fhwa2_gui.msg.PointError()
+      if self.east is None:
+        self.east = 0.
+      if self.nrth is None:
+        self.nrth = 0.
+      if self.elev is None:
+        self.elev = 0.
     else:
       self.header = std_msgs.msg.Header()
       self.reference_frame = ''
       self.target_frame = ''
       self.mag_horiz = 0.
-      self.error = fhwa2_gui.msg.PointError()
+      self.east = 0.
+      self.nrth = 0.
+      self.elev = 0.
 
   def _get_types(self):
     """
@@ -110,7 +112,7 @@ float32 elev
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
       _x = self
-      buff.write(_struct_f2df.pack(_x.mag_horiz, _x.error.east, _x.error.nrth, _x.error.elev))
+      buff.write(_struct_4f.pack(_x.mag_horiz, _x.east, _x.nrth, _x.elev))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -122,8 +124,6 @@ float32 elev
     try:
       if self.header is None:
         self.header = std_msgs.msg.Header()
-      if self.error is None:
-        self.error = fhwa2_gui.msg.PointError()
       end = 0
       _x = self
       start = end
@@ -158,8 +158,8 @@ float32 elev
         self.target_frame = str[start:end]
       _x = self
       start = end
-      end += 24
-      (_x.mag_horiz, _x.error.east, _x.error.nrth, _x.error.elev,) = _struct_f2df.unpack(str[start:end])
+      end += 16
+      (_x.mag_horiz, _x.east, _x.nrth, _x.elev,) = _struct_4f.unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -193,7 +193,7 @@ float32 elev
         length = len(_x)
       buff.write(struct.pack('<I%ss'%length, length, _x))
       _x = self
-      buff.write(_struct_f2df.pack(_x.mag_horiz, _x.error.east, _x.error.nrth, _x.error.elev))
+      buff.write(_struct_4f.pack(_x.mag_horiz, _x.east, _x.nrth, _x.elev))
     except struct.error as se: self._check_types(se)
     except TypeError as te: self._check_types(te)
 
@@ -206,8 +206,6 @@ float32 elev
     try:
       if self.header is None:
         self.header = std_msgs.msg.Header()
-      if self.error is None:
-        self.error = fhwa2_gui.msg.PointError()
       end = 0
       _x = self
       start = end
@@ -242,12 +240,12 @@ float32 elev
         self.target_frame = str[start:end]
       _x = self
       start = end
-      end += 24
-      (_x.mag_horiz, _x.error.east, _x.error.nrth, _x.error.elev,) = _struct_f2df.unpack(str[start:end])
+      end += 16
+      (_x.mag_horiz, _x.east, _x.nrth, _x.elev,) = _struct_4f.unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
+_struct_4f = struct.Struct("<4f")
 _struct_3I = struct.Struct("<3I")
-_struct_f2df = struct.Struct("<f2df")
