@@ -6,170 +6,62 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>480</height>
+    <width>1000</width>
+    <height>200</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="MatplotlibWidget" name="error_plot" native="true"/>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="status_groupBox">
+    <widget class="MatplotlibWidget" name="angle_plot" native="true">
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>75</height>
+       <height>180</height>
       </size>
      </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="srcDisp_comboBox">
      <property name="maximumSize">
       <size>
-       <width>16777215</width>
-       <height>100</height>
+       <width>200</width>
+       <height>16777215</height>
       </size>
      </property>
-     <property name="autoFillBackground">
+     <property name="acceptDrops">
       <bool>true</bool>
      </property>
-     <property name="title">
-      <string>Sensor Viewing</string>
-     </property>
-     <property name="flat">
+     <property name="editable">
       <bool>true</bool>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="3">
-       <widget class="QLabel" name="label_3">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Target Sensor to Display</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3" rowspan="2">
-       <widget class="QComboBox" name="srcDisp_comboBox">
-        <property name="acceptDrops">
-         <bool>true</bool>
-        </property>
-        <property name="editable">
-         <bool>true</bool>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToMinimumContentsLength</enum>
-        </property>
-        <item>
-         <property name="text">
-          <string>Novatel STD</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>FHWA2 Filtered</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Penn St.</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>SRI</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Kapsch</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>ALL</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="label_5">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <italic>true</italic>
-         </font>
-        </property>
-        <property name="text">
-         <string>No Target Sensor</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2" rowspan="2">
-       <widget class="QLabel" name="label_2">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <underline>true</underline>
-         </font>
-        </property>
-        <property name="text">
-         <string>Target Sensor:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <italic>true</italic>
-         </font>
-        </property>
-        <property name="text">
-         <string>No Reference Sensor</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" rowspan="2">
-       <widget class="QLabel" name="label">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <underline>true</underline>
-         </font>
-        </property>
-        <property name="text">
-         <string>Reference Sensor:</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <property name="sizeAdjustPolicy">
+      <enum>QComboBox::AdjustToMinimumContentsLength</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>Novatel STD</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>FHWA2 Filtered</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>ALL</string>
+      </property>
+     </item>
     </widget>
    </item>
   </layout>
