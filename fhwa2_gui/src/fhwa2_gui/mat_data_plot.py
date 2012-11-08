@@ -88,6 +88,9 @@ class MatDataPlot(QWidget):
 
     def draw_plot(self):
         self._canvas.axes.grid(True, color='gray')
+        self._canvas.axes.set_xlabel('Time (s)')
+        self._canvas.axes.set_ylabel('Error (m)')
+        self._canvas.axes.set_title('Error of Sensor: GPS  for Reference: RTK')
         # Set axis bounds
         ymin = ymax = None
         xmax = xmin = 0

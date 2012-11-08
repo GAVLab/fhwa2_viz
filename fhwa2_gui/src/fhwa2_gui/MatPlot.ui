@@ -142,7 +142,7 @@
   <customwidget>
    <class>MatDataPlot</class>
    <extends>QFrame</extends>
-   <header>rqt_matplot.mat_data_plot</header>
+   <header>fhwa2_gui.mat_data_plot</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
