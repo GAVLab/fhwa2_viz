@@ -1,11 +1,62 @@
 <launch>
 
+    <node pkg="MOOS" type="MOOSDB" name="MOOSDB"
+        respawn="true" output="screen"/>
+    
+    <node pkg="MOOS" type="uPlayBack" name="uPlayBack" 
+        required="true" output="screen" />
+
+<!--     <node pkg="MOOS" type="uMS" name="uMS"
+        required="true" output="screen"/> -->
+
+<!-- MOOS App -->
+    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="MOOSBridge"
+        args="$(find fhwa2_launch)/mission/playback.moos gMOOS2ROS"
+        output="screen" required="true"/>
+
+<!-- rViz Nodes -->
+    <!-- Survey markers -->
+    <node pkg="fhwa2_survey" type="mapBridge.py" name="rviz_survey"
+        output="screen" args="$(find fhwa2_survey)/cfg/survey_NCAT.yaml">
+        <param name="prefix" value="$(find fhwa2_survey)" />
+    </node>
+
+    <!-- RTK (used as truth) -->
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_rtk"
+        args="$(find fhwa2_launch)/cfg/rtk.yaml" output="screen"
+        required="true">
+        <param name="DEBUG" value="False"/>
+        <param name="myname" value="rtk"/>
+    </node>
+
+    <!-- Standalone GPS -->
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_gps"
+        args="$(find fhwa2_launch)/cfg/gps.yaml" output="screen"
+        required="true">
+        <param name="DEBUG" value="False"/>
+        <param name="myname" value="gps"/> 
+    </node>
+
+    <!-- FHWA2 Combined Soln -->
+<!--     <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_fhwa2"
+        args="$(find fhwa2_launch)/cfg/fhwa2.yaml" output="screen"
+        required="true">
+        <param name="DEBUG" value="False"/>
+        <param name="myname" value="fhwa2"/> 
+    </node>
+ -->
+
+<!-- Error Node -->
+    <node pkg="fhwa2_gui" type="poseError.py" name="gps_rtk_error"
+        output="screen" required="true">
+        <param name="DEBUG" value="False"/>
+        <param name="ref_topic" value="/moos/rtk/odom"/>
+        <param name="tgt_topic" value="/moos/gps/odom"/>
+        <param name="pub_topic" value="/error_mags/rtk_ref/gps_tgt"/>
+    </node>
+
+<!-- rQT -->
     <node pkg="rqt_gui" type="rqt_gui" name="rqt" output="screen" required="true"
-        args="${find fhwa2_gui}/rqt/fhwa2.perspective"/>
-
-    <node pkg="fhwa2_gui" type="interactive_marker_server" name="interactive_marker_server"
-        output="screen"/>
-
-    <node pkg="fhwa2_gui" type="menu.py" name="menu" output="screen"/>
+        args="-p $(find fhwa2_gui)/cfg/fhwa2.perspective"/>
 
 </launch>

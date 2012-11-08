@@ -125,9 +125,9 @@ class MAP2RVIZ(object):
             marker.pose.position.x = east - self.UTMdatum['E']
             marker.pose.position.y = nrth - self.UTMdatum['N']
             marker.pose.position.z = 0 # zero is a novatel mount level
-            marker.color.r = 0
-            marker.color.g = 0
-            marker.color.b = 0
+            marker.color.r = 255
+            marker.color.g = 255
+            marker.color.b = 255
             marker.color.a = 0.75
             marker.scale.x = 0.2
             marker.scale.y = 0.2

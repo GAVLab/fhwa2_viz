@@ -1,0 +1,15 @@
+<launch>
+
+<!-- rViz Nodes -->
+    <!-- rViz -->
+    <node pkg="rviz" type="rviz" name="rViz"
+        args="-d $(find fhwa2_gui)/rviz/rqt.vcg"
+        required="false" output="screen" />
+
+    <!-- Survey markers -->
+    <node pkg="fhwa2_survey" type="mapBridge.py" name="rviz_survey"
+        output="screen" args="$(find fhwa2_survey)/cfg/survey_TF.yaml">
+        <param name="prefix" value="$(find fhwa2_survey)" />
+    </node>
+
+</launch>

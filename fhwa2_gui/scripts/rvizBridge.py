@@ -274,10 +274,10 @@ class MOOS2RVIZ:
         legend_marker.scale.x = .7
         legend_marker.scale.y = .7
         legend_marker.scale.z = .7
-        legend_marker.color.r = self.color['r']
-        legend_marker.color.g = self.color['g']
-        legend_marker.color.b = self.color['b']
-        legend_marker.color.a = .7
+        legend_marker.color.r = self.color['r'] +25
+        legend_marker.color.g = self.color['g'] +25
+        legend_marker.color.b = self.color['b'] +25
+        legend_marker.color.a = 1
         self.legend_publisher.publish(legend_marker)
 
         combined_array.markers.append(legend_marker)

@@ -11,18 +11,18 @@
 
 <!-- MOOS App -->
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="MOOSBridge"
-        args="$(find fhwa2_launch)/mission/truth_playback.moos gMOOS2ROS"
+        args="$(find fhwa2_launch)/mission/playback.moos gMOOS2ROS"
         output="screen" required="true"/>
 
 <!-- rViz Nodes -->
     <!-- rViz -->
     <node pkg="rviz" type="rviz" name="rViz"
         args="-d $(find fhwa2_gui)/rviz/cpp.vcg"
-        required="true" output="screen" />
+        required="false" output="screen" />
 
     <!-- Survey markers -->
     <node pkg="fhwa2_survey" type="mapBridge.py" name="rviz_survey"
-        output="screen" args="$(find fhwa2_survey)/cfg/survey.yaml">
+        output="screen" args="$(find fhwa2_survey)/cfg/survey_NCAT.yaml">
         <param name="prefix" value="$(find fhwa2_survey)" />
     </node>
 
@@ -59,5 +59,6 @@
         <param name="tgt_topic" value="/moos/gps/odom"/>
         <param name="pub_topic" value="/error_mags/rtk_ref/gps_tgt"/>
     </node>
+    
     
 </launch>
