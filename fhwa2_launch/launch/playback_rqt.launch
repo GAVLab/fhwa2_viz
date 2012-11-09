@@ -49,13 +49,13 @@
 <!-- Error Node -->
     <node pkg="fhwa2_gui" type="poseError.py" name="gps_rtk_error"
         output="screen" required="true">
-        <param name="DEBUG" value="False"/>
+        <param name="DEBUG" value="True"/>
         <param name="ref_topic" value="/moos/rtk/odom"/>
         <param name="tgt_topic" value="/moos/gps/odom"/>
         <param name="pub_topic" value="/error_mags/rtk_ref/gps_tgt"/>
     </node>
 
-<!-- rQT -->
+<!-- rQt -->
     <node pkg="rqt_gui" type="rqt_gui" name="rqt" output="screen" required="true"
         args="-p $(find fhwa2_gui)/cfg/fhwa2.perspective"/>
 

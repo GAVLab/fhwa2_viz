@@ -149,6 +149,7 @@ class MOOS2RVIZ:
             skateboard = []
             for var in self.desired_variables: # FIXME order of desired variables crucial
                 skateboard.append(self.holder[time][var][0])
+            skateboard.append(time)
             self.convert_odom_var(skateboard)
             del self.holder[time]
 
@@ -169,7 +170,7 @@ class MOOS2RVIZ:
         Covariances - Lat/Lon Std Dev are output in meters already
         converts course to radians for ROS; Will orient odom arrows to velocity direction
 
-        skateboard = [X, Y, Z, XStdDev, YStdDev, ZStdDev, Course]
+        skateboard = [X, Y, Z, XStdDev, YStdDev, ZStdDev, Course, MOOStime]
         
         # ASSUME Y ECEF IS NEGATIVE
         """
@@ -193,7 +194,8 @@ class MOOS2RVIZ:
             UTMtoPub['E'] = E - self.UTMdatum['E']
             UTMtoPub['Nsd'] = abs(float(Nsd))
             UTMtoPub['Esd'] = abs(float(Esd))
-            UTMtoPub['crs'] = radians(float(skateboard[-1]))
+            UTMtoPub['crs'] = radians(float(skateboard[6]))
+            UTMtoPub['time'] = skateboard[7]
             self.package_odom_var(UTMtoPub)
             if self.DEBUG:
                 print('rvizBridge: '+self.myname+': convert_odom_var: UTMtoPub --')
@@ -216,7 +218,7 @@ class MOOS2RVIZ:
         ### Odometry Arrows ####################################################
         odom_msg = Odometry()
         # odom_msg.header.stamp = rospy.Time(UTMtoPub['time'])
-        odom_msg.header.stamp = rospy.Time.now()
+        odom_msg.header.stamp = rospy.Time(UTMtoPub['time'])
         odom_msg.header.frame_id = "odom" # may need to expand?
         odom_msg.pose.pose.position.x = UTMtoPub['E']
         odom_msg.pose.pose.position.y = UTMtoPub['N']
@@ -268,9 +270,9 @@ class MOOS2RVIZ:
         legend_marker.scale.x = .7
         legend_marker.scale.y = .7
         legend_marker.scale.z = .7
-        legend_marker.color.r = self.color['r'] +25
-        legend_marker.color.g = self.color['g'] +25
-        legend_marker.color.b = self.color['b'] +25
+        legend_marker.color.r = self.color['r']
+        legend_marker.color.g = self.color['g']
+        legend_marker.color.b = self.color['b']
         legend_marker.color.a = 1
         self.legend_publisher.publish(legend_marker)
 

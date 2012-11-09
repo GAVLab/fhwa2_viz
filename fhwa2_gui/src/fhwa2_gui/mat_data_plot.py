@@ -51,6 +51,8 @@ from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as Naviga
 from matplotlib.figure import Figure
 
 import numpy
+from pprint import pprint as pp
+from itertools import islice
 
 
 class MatDataPlot(QWidget):
@@ -69,14 +71,16 @@ class MatDataPlot(QWidget):
     def __init__(self, parent=None):
         super(MatDataPlot, self).__init__(parent)
         self._canvas = MatDataPlot.Canvas()
-        # self._toolbar = NavigationToolbar(self._canvas, self._canvas)
         vbox = QVBoxLayout()
-        # vbox.addWidget(self._toolbar)
         vbox.addWidget(self._canvas)
         self.setLayout(vbox)
 
         self._color_index = 0
         self._curves = {}
+
+        self.keep_steps = 100
+        self.ref_name = 'RTK'
+        self.tgt_name = 'GPS'
 
     def add_curve(self, curve_id, data_x, data_y):
         data_x = collections.deque(data_x)
@@ -89,10 +93,11 @@ class MatDataPlot(QWidget):
     def draw_plot(self):
         self._canvas.axes.grid(True, color='gray')
         self._canvas.axes.set_xlabel('Time (s)')
-        self._canvas.axes.set_ylabel('Error (m)')
-        self._canvas.axes.set_title('Error of Sensor: [GPS] for Reference: [RTK]')
+        self._canvas.axes.set_ylabel('Error Magnitude (m)')
+        self._canvas.axes.set_title(' '.join(['Error of Sensor:', self.tgt_name, 'for Reference:', self.ref_name]))
         # Set axis bounds
-        ymin = ymax = None
+        ymin = 0
+        ymax = None
         xmax = xmin = 0
         for curve in self._curves.values():
             data_x, data_y, plot = curve
@@ -100,14 +105,31 @@ class MatDataPlot(QWidget):
                 continue
 
             xmax = data_x[-1]
-            xmin = xmax - 5
+            # xmin = xmax - 5
+            xmin = xmax - self.keep_steps
 
-            if ymin is None:
-                ymin = min(data_y)
-                ymax = max(data_y)
+
+            # if ymin is None:
+            #     ymin = min(data_y)
+            #     ymax = max(data_y)
+            # else:
+            #     ymin = min(min(data_y), ymin)
+            #     ymax = max(max(data_y), ymax)
+            # print('mat_data_plot::data_x length: %i' % len(data_x))
+            # print('mat_data_plot::data_y length: %i' % len(data_y))
+
+            # Scale y axis to the number of steps desired
+            if len(data_y) < self.keep_steps:
+                lo_ind = 0
             else:
-                ymin = min(min(data_y), ymin)
-                ymax = max(max(data_y), ymax)
+                lo_ind = len(data_y) - self.keep_steps
+            hi_ind = len(data_y)
+
+            if ymax is None:
+                ymax = max(list(islice(data_y, lo_ind, hi_ind)))
+            else:
+                ymax = max(max(list(islice(data_y, lo_ind, hi_ind))), ymax)
+
 
             # pad the min/max
             delta = max(ymax - ymin, 0.1)

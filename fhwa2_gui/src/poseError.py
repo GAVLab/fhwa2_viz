@@ -8,6 +8,7 @@ from nav_msgs.msg import Odometry
 from std_msgs.msg import Float64
 from math import sqrt
 from pprint import pprint as pp
+from copy import deepcopy as dcp
 
 
 class ErrorNode(object):
@@ -37,32 +38,32 @@ class ErrorNode(object):
         self.tgt_pose = Odometry()
         self.output = PoseError()
 
-        self.time_sync_tol = 0.2
+        self.time_sync_tol = 0.05
 
-        if self.DEBUG: print 'ErrorNode output format:', pp(self.output)
+        # if self.DEBUG: print 'ErrorNode output format:', pp(self.output)
 
 
     def onRefUpdate(self, msg):
-        if self.DEBUG: print('In ErrorNode::onRefUpdate')
-        self.ref_pose = msg
+        # if self.DEBUG: print('In ErrorNode::onRefUpdate')
+        self.ref_pose = dcp(msg)
         self.time_sync()
 
 
     def onTgtUpdate(self, msg):
-        if self.DEBUG: print('In ErrorNode::onRefUpdate')
-        self.tgt_pose = msg
+        # if self.DEBUG: print('In ErrorNode::onRefUpdate')
+        self.tgt_pose = dcp(msg)
         self.time_sync()
 
 
     def time_sync(self):
-        time_diff = abs(self.tgt_pose.header.stamp.secs - self.ref_pose.header.stamp.secs)
-        if time_diff < self.time_sync_tol:
+        sec_diff = abs(self.tgt_pose.header.stamp.secs - self.ref_pose.header.stamp.secs)
+        nsec_diff = abs(self.tgt_pose.header.stamp.secs - self.ref_pose.header.stamp.secs)
+        if (sec_diff < 1) and (nsec_diff*1e-9 < self.time_sync_tol):
             self.crunch()
             self.spit()
 
 
     def crunch(self):
-        if self.DEBUG: print('In ErrorNode::onRefUpdate')
         x1 = self.ref_pose.pose.pose.position.x
         x2 = self.tgt_pose.pose.pose.position.x
         y1 = self.ref_pose.pose.pose.position.y
@@ -74,10 +75,10 @@ class ErrorNode(object):
         self.output.elev = self.tgt_pose.pose.pose.position.z - \
                                     self.ref_pose.pose.pose.position.z
 
-        test_msg = Float64()
-        test_msg.data = mag
-        self.pub_test.publish(test_msg)
-
+        if self.DEBUG:
+            print('\nError Magnitude: %f' % self.output.mag_horiz)
+            print('\tRef Time: %i secs,   %i nsecs' % (self.ref_pose.header.stamp.secs, self.ref_pose.header.stamp.nsecs))
+            print('\tTgt Time: %i secs,   %i nsecs' % (self.tgt_pose.header.stamp.secs, self.tgt_pose.header.stamp.nsecs))
 
     def spit(self):
         self.output.header.stamp = rospy.Time().now()
@@ -86,7 +87,7 @@ class ErrorNode(object):
         self.output.target_frame = self.tgt_pose.header.frame_id
         self.pub.publish(self.output)
 
-        if self.DEBUG: print("ErrorNode::publishing..."), pp(self.output)
+        # if self.DEBUG: print("ErrorNode::publishing..."), pp(self.output)
 
 if __name__ == '__main__':
     rospy.init_node('pose_error_node')

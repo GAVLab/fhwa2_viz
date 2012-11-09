@@ -50,7 +50,7 @@ from rqt_py_common.topic_helpers import is_slot_numeric
 
 
 class MatPlotWidget(QWidget):
-
+    """The actual Widget """
     def __init__(self):
         super(MatPlotWidget, self).__init__()
         self.setObjectName('MatPlotWidget')
@@ -74,6 +74,12 @@ class MatPlotWidget(QWidget):
         self._update_plot_timer = QTimer(self)
         self._update_plot_timer.timeout.connect(self.update_plot)
         self._update_plot_timer.start(40)
+
+        # start with subscription to gps
+        self.add_topic('/error_mags/rtk_ref/gps_tgt/mag_horiz')
+
+        # connect combobox
+        self.comboBox.currentIndexChanged.connect(self.on_combo_box_changed)
 
     def update_plot(self):
         for topic_name, rosdata in self._rosdata.items():
@@ -156,9 +162,17 @@ class MatPlotWidget(QWidget):
             self.data_plot.remove_curve(topic_name)
         self._rosdata = {}
 
+    @Slot(str)
+    def on_combo_box_changed(self, text):
+        print('In on_combo_box_changed')
+        self.on_clear_button_clicked()
+        self.data_plot.tgt_name = self.comboBox.currentText()
+        if self.comboBox.currentText() == 'GPS':
+            self.add_topic('/error_mags/rtk_ref/gps_tgt/mag_horiz')
+
 
 class MatPlot(Plugin):
-
+    """rQt wrapper for the widget that makes it a plugin"""
     def __init__(self, context):
         super(MatPlot, self).__init__(context)
         self.setObjectName('MatPlot')
