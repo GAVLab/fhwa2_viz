@@ -5,6 +5,7 @@ roslib.load_manifest('fhwa2_gui')
 import rospy
 from fhwa2_gui.msg import PoseError
 from nav_msgs.msg import Odometry
+from std_msgs.msg import Float64
 from math import sqrt
 from pprint import pprint as pp
 
@@ -26,6 +27,7 @@ class ErrorNode(object):
         # set pubs/subs
         self.pub_topic = rospy.get_param('~pub_topic')
         self.pub = rospy.Publisher(self.pub_topic, PoseError)
+        self.pub_test = rospy.Publisher('/test_error', Float64)
         self.ref_sub = rospy.Subscriber(self.ref_topic, Odometry, self.onRefUpdate)
         self.tgt_sub = rospy.Subscriber(self.tgt_topic, Odometry, self.onTgtUpdate)
         # Data holders
@@ -59,6 +61,10 @@ class ErrorNode(object):
         self.output.nrth = y2-y1
         self.output.elev = self.tgt_pose.pose.pose.position.z - \
                                     self.ref_pose.pose.pose.position.z
+
+        test_msg = Float64()
+        test_msg.data = mag
+        self.pub_test.publish(test_msg)
 
 
     def spit(self):

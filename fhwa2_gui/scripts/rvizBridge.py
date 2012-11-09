@@ -35,12 +35,9 @@ class MOOS2RVIZ:
         self.navpy_gps = GPS()
 
         self.holder = {}
-        self.make_holder_nones()
+        # self.make_holder_nones()
         self.time_pub_tol = 1.0
 
-    def make_holder_nones(self):
-        for var in self.desired_variables:
-            self.holder[var] = [None] * 3 # [time(float), var_type(string), value(float)] for now only double/float values supported
 
     ### Init-related Functions #################################################
     def get_config(self, config):
@@ -105,6 +102,7 @@ class MOOS2RVIZ:
         takes a MOOSrosmsg and passes usable info to gather_odom_var
         """
         # print("rvizBridge: " + self.myname + ": msg received "+msg.MOOStype)
+        # print msg
         if (msg.MOOSsource == self.sensor_name) and (msg.MOOSname in self.desired_variables):
             var_type = msg.MOOStype
             if var_type == "Double":
@@ -137,36 +135,30 @@ class MOOS2RVIZ:
         """
         This function will only invoke publishing when it can send off all
         necessary info for a single source at once
+        Only function that deals with self.holder
         """
-        # if self.DEBUG:
-        #     print('rvizBridge: '+self.myname+": In gather_odom_var for "+name)
-        #     print('rvizBridge: '+self.myname+": In gather_odom_var the preexisting state of self.holder is --")
-        #     pp(self.holder)
-
         time = int(time*1000.0)/1000.0 #rounding to 3 decimal places 
-        self.holder[name] = [time, var_type, value]
-
-        if self.DEBUG:
-            print('rvizBridge: '+self.myname+": In gather_odom_var after addition self.holder is --")
-            pp(self.holder)
-
-        shippable = [False]*len(self.desired_variables)
-        # print('len shippable: %i' % len(shippable))
-        # print('len desired_variables: %i' % len(self.desired_variables))
-        # print('holder'), pp(self.holder)
-
-        for des_var_ind in range(len(self.desired_variables)):
-            if all(self.holder[self.desired_variables[des_var_ind]]):
-                shippable[des_var_ind] = True
-        # print('shippable:'), pp(shippable)
-        if all(shippable):
+        
+        if time not in self.holder:
+            self.holder[time] = {}
+        
+        if name not in self.holder[time]:
+            self.holder[time][name] = [value, var_type]
+        
+        if len(self.holder[time]) == len(self.desired_variables):
             skateboard = []
-            for var in self.desired_variables:
-                skateboard.append( self.holder[var][2] )
+            for var in self.desired_variables: # FIXME order of desired variables crucial
+                skateboard.append(self.holder[time][var][0])
             self.convert_odom_var(skateboard)
-            self.make_holder_nones()
-            if self.DEBUG:
-                print('\nrvizBridge: '+self.myname+": gather_odom_var IS SHIPPING NOW\n")
+            del self.holder[time]
+
+            # delete messages that are too old
+            t_cull = []
+            for t in self.holder:
+                if float(time) - float(t) > 5:
+                    t_cull.append(t)
+            for t in t_cull:
+                del self.holder[t]
 
 
     def convert_odom_var(self, skateboard):
@@ -176,6 +168,8 @@ class MOOS2RVIZ:
         special UTM holder and sends it to the publishing function: mailroom.package_odom_var()
         Covariances - Lat/Lon Std Dev are output in meters already
         converts course to radians for ROS; Will orient odom arrows to velocity direction
+
+        skateboard = [X, Y, Z, XStdDev, YStdDev, ZStdDev, Course]
         
         # ASSUME Y ECEF IS NEGATIVE
         """
@@ -249,7 +243,7 @@ class MOOS2RVIZ:
         ell_marker.pose = odom_msg.pose.pose # put at same place as its odom arrow
         ell_marker.lifetime = rospy.Duration() # will last forever unless modified
         ell_marker.ns = ''.join(["Error_Ellipses", '__', self.sensor_name, '__', self.myname])
-        ell_marker.type = Marker.CYLINDER     
+        ell_marker.type = Marker.CYLINDER
         ell_marker.scale.x = abs(sqrt(odom_msg.pose.covariance[0])) # not visible unless scaled up
         ell_marker.scale.y = abs(sqrt(odom_msg.pose.covariance[7])) # not visible unless scaled up
         ell_marker.scale.z = 0.000001 # We just want a disk
