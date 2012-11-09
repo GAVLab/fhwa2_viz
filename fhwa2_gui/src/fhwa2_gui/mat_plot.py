@@ -39,7 +39,8 @@ from QtGui import QWidget
 import roslib
 roslib.load_manifest('fhwa2_gui')
 import rospy
-from rxtools.rosplot import ROSData
+# from rxtools.rosplot import ROSData
+from rosplot import ROSData
 from rostopic import get_topic_type
 
 from .mat_data_plot import MatDataPlot
