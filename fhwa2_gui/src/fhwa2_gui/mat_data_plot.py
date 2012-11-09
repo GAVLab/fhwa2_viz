@@ -69,9 +69,9 @@ class MatDataPlot(QWidget):
     def __init__(self, parent=None):
         super(MatDataPlot, self).__init__(parent)
         self._canvas = MatDataPlot.Canvas()
-        self._toolbar = NavigationToolbar(self._canvas, self._canvas)
+        # self._toolbar = NavigationToolbar(self._canvas, self._canvas)
         vbox = QVBoxLayout()
-        vbox.addWidget(self._toolbar)
+        # vbox.addWidget(self._toolbar)
         vbox.addWidget(self._canvas)
         self.setLayout(vbox)
 
