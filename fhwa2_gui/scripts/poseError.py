@@ -27,26 +27,38 @@ class ErrorNode(object):
         # set pubs/subs
         self.pub_topic = rospy.get_param('~pub_topic')
         self.pub = rospy.Publisher(self.pub_topic, PoseError)
+
         self.pub_test = rospy.Publisher('/test_error', Float64)
+
         self.ref_sub = rospy.Subscriber(self.ref_topic, Odometry, self.onRefUpdate)
         self.tgt_sub = rospy.Subscriber(self.tgt_topic, Odometry, self.onTgtUpdate)
         # Data holders
         self.ref_pose = Odometry()
         self.tgt_pose = Odometry()
         self.output = PoseError()
+
+        self.time_sync_tol = 0.2
+
         if self.DEBUG: print 'ErrorNode output format:', pp(self.output)
 
 
     def onRefUpdate(self, msg):
         if self.DEBUG: print('In ErrorNode::onRefUpdate')
         self.ref_pose = msg
+        self.time_sync()
 
 
     def onTgtUpdate(self, msg):
         if self.DEBUG: print('In ErrorNode::onRefUpdate')
         self.tgt_pose = msg
-        self.crunch()
-        self.spit()
+        self.time_sync()
+
+
+    def time_sync(self):
+        time_diff = abs(self.tgt_pose.header.stamp.secs - self.ref_pose.header.stamp.secs)
+        if time_diff < self.time_sync_tol:
+            self.crunch()
+            self.spit()
 
 
     def crunch(self):
