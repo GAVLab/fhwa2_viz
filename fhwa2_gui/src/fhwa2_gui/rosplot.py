@@ -48,7 +48,7 @@ import roslib.message
 import rosgraph
 import rospy
 
-import roslib.names
+import roslib.names # fix import error
 
 class RosPlotException(Exception): pass
 
