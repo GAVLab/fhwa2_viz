@@ -62,7 +62,7 @@ class MOOS2RVIZ:
         else:
             self.veh_mesh_resource = None
         if self.DEBUG:
-            print('rvizBridde '+self.moosapp_name+': desired variables are')
+            print('rvizBridge '+self.moosapp_name+': desired variables are')
             pp(self.desired_variables)
 
 
@@ -79,8 +79,8 @@ class MOOS2RVIZ:
             self.curpos_publisher = rospy.Publisher(curpos_topic, Marker) # even though this is at the same position as the novatel error ellipse, we want it to have a different name in case the integrated solution is different
             rospy.Subscriber(odom_topic, Odometry, self.pub_at_position) # put the vehicle model at the accepted position solution
 
-        combined_topic = '/'.join(['moos',self.myname, "the_3"])
-        self.combined_publisher = rospy.Publisher(combined_topic, MarkerArray)
+        # combined_topic = '/'.join(['moos',self.myname, "the_3"])
+        # self.combined_publisher = rospy.Publisher(combined_topic, MarkerArray)
         if self.DEBUG:
             print('rvizBridge '+self.myname+': Publishers and Subscribers set')
     ############################################################################
@@ -234,7 +234,7 @@ class MOOS2RVIZ:
         odom_msg.pose.covariance[14] = 0
         self.odom_publisher.publish(odom_msg)
 
-        combined_array.markers.append(odom_msg)
+        # combined_array.markers.append(odom_msg)
 
         ### Error Ellipses #####################################################
         ## pulls from the odom msg --
@@ -255,7 +255,7 @@ class MOOS2RVIZ:
         ell_marker.color.a = 0.95
         self.ell_publisher.publish(ell_marker)
 
-        combined_array.markers.append(ell_marker)
+        # combined_array.markers.append(ell_marker)
 
         ### Legend #############################################################
         legend_marker = Marker()
@@ -276,7 +276,7 @@ class MOOS2RVIZ:
         legend_marker.color.a = 1
         self.legend_publisher.publish(legend_marker)
 
-        combined_array.markers.append(legend_marker)
+        # combined_array.markers.append(legend_marker)
         # self.combined_publisher.publish(combined_array)
 
         # tell camera tf where the look if master ##############################

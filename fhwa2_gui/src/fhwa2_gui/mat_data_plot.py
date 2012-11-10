@@ -91,7 +91,7 @@ class MatDataPlot(QWidget):
         self._color_index = 0
         self._curves = {}
 
-        self.keep_steps = 100
+        self.keep_steps = 250
         self.ref_name = 'RTK'
         self.tgt_name = 'GPS'
 

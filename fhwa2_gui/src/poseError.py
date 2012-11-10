@@ -38,7 +38,7 @@ class ErrorNode(object):
         self.tgt_pose = Odometry()
         self.output = PoseError()
 
-        self.time_sync_tol = 0.05
+        self.sync_tol = rospy.get_param('~sync_tol')
 
         # if self.DEBUG: print 'ErrorNode output format:', pp(self.output)
 
@@ -57,8 +57,8 @@ class ErrorNode(object):
 
     def time_sync(self):
         sec_diff = abs(self.tgt_pose.header.stamp.secs - self.ref_pose.header.stamp.secs)
-        nsec_diff = abs(self.tgt_pose.header.stamp.secs - self.ref_pose.header.stamp.secs)
-        if (sec_diff < 1) and (nsec_diff*1e-9 < self.time_sync_tol):
+        nsec_diff = abs(self.tgt_pose.header.stamp.nsecs - self.ref_pose.header.stamp.nsecs)
+        if (sec_diff < 1) and (nsec_diff*1e-9 < self.sync_tol):
             self.crunch()
             self.spit()
 
