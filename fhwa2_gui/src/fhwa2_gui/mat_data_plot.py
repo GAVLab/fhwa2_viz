@@ -60,13 +60,26 @@ class MatDataPlot(QWidget):
         """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
         def __init__(self, parent=None):
             fig = Figure()
-            self.axes = fig.add_subplot(111)
+            rect = .025, .13, .97, .8
+            self.axes = fig.add_axes(rect)
             self.axes.grid(True, color='gray')
             super(MatDataPlot.Canvas, self).__init__(fig)
             self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
             self.updateGeometry()
 
-    _colors = ((1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 0, 1), (0, 1, 1), (0.5, 0.24, 0), (0, 0.5, 0.24), (1, 0.5, 0))
+            self.axes.tick_params(axis='both', which='major', labelsize=10)
+            self.axes.tick_params(axis='both', which='minor', labelsize=8)   
+
+            self.axes.set_axis_bgcolor('k')
+            self.axes.grid(True, color='gray', alpha=.7, lw=2, ls=':')
+            self.axes.set_xlabel('Time (s)', size=9)
+            self.axes.set_ylabel('Error Magnitude (m)', size=9)
+            
+
+            # size_in = fig.get_size_inches()
+            # fig.set_size_inches(size_in[0]*1.4, size_in[1])
+
+    _colors = ((1, 0, 1), (0, 1, 1), (0.5, 0.24, 0), (.24, 0.5, 0.24), (1, 0.5, 0))
 
     def __init__(self, parent=None):
         super(MatDataPlot, self).__init__(parent)
@@ -91,10 +104,8 @@ class MatDataPlot(QWidget):
         self._curves[curve_id] = (data_x, data_y, plot)
 
     def draw_plot(self):
-        self._canvas.axes.grid(True, color='gray')
-        self._canvas.axes.set_xlabel('Time (s)')
-        self._canvas.axes.set_ylabel('Error Magnitude (m)')
-        self._canvas.axes.set_title(' '.join(['Error of Sensor:', self.tgt_name, 'for Reference:', self.ref_name]))
+        self._canvas.axes.set_title(' '.join(['Error of Sensor:', self.tgt_name, 'for Reference:', self.ref_name]), size=9)
+
         # Set axis bounds
         ymin = 0
         ymax = None
