@@ -58,6 +58,7 @@ void MOOS2ROS::GetDesiredVaribles() {
     this->desired_variables.push_back("zpsrYStdDev");
     this->desired_variables.push_back("zpsrZStdDev");
     this->desired_variables.push_back("zCourse");
+    this->desired_variables.push_back("zpsrNumObs");
 
     return;
 }
