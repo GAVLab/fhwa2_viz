@@ -91,7 +91,8 @@ class MatDataPlot(QWidget):
         self._color_index = 0
         self._curves = {}
 
-        self.keep_steps = 250
+        self.keep_secs = 30
+        self.scale_steps = 150
         self.ref_name = 'RTK'
         self.tgt_name = 'GPS'
 
@@ -117,7 +118,7 @@ class MatDataPlot(QWidget):
 
             xmax = data_x[-1]
             # xmin = xmax - 5
-            xmin = xmax - self.keep_steps
+            xmin = xmax - self.keep_secs
 
 
             # if ymin is None:
@@ -130,10 +131,10 @@ class MatDataPlot(QWidget):
             # print('mat_data_plot::data_y length: %i' % len(data_y))
 
             # Scale y axis to the number of steps desired
-            if len(data_y) < self.keep_steps:
+            if len(data_y) < self.scale_steps:
                 lo_ind = 0
             else:
-                lo_ind = len(data_y) - self.keep_steps
+                lo_ind = len(data_y) - self.scale_steps
             hi_ind = len(data_y)
 
             if ymax is None:
