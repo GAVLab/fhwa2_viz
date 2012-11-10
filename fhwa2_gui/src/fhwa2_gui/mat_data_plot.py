@@ -60,7 +60,7 @@ class MatDataPlot(QWidget):
         """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
         def __init__(self, parent=None):
             fig = Figure()
-            rect = .025, .13, .97, .8
+            rect = .027, .13, .965, .8
             self.axes = fig.add_axes(rect)
             self.axes.grid(True, color='gray')
             super(MatDataPlot.Canvas, self).__init__(fig)
@@ -72,9 +72,10 @@ class MatDataPlot(QWidget):
 
             self.axes.set_axis_bgcolor('k')
             self.axes.grid(True, color='gray', alpha=.7, lw=2, ls=':')
-            self.axes.set_xlabel('Time (s)', size=9)
+            self.axes.set_xlabel('Time Since Initialization (s)', size=9)
             self.axes.set_ylabel('Error Magnitude (m)', size=9)
             
+            self.disp_text = None
 
             # size_in = fig.get_size_inches()
             # fig.set_size_inches(size_in[0]*1.4, size_in[1])
@@ -105,7 +106,7 @@ class MatDataPlot(QWidget):
         self._curves[curve_id] = (data_x, data_y, plot)
 
     def draw_plot(self):
-        self._canvas.axes.set_title(' '.join(['Error of Sensor:', self.tgt_name, 'for Reference:', self.ref_name]), size=9)
+        self._canvas.axes.set_title(' '.join(['Ground Plane Error Magnitude of Sensor:', self.tgt_name, 'for Reference:', self.ref_name]), size=9)
 
         # Set axis bounds
         ymin = 0
@@ -155,6 +156,20 @@ class MatDataPlot(QWidget):
         for curve in self._curves.values():
             data_x, data_y, plot = curve
             plot.set_data(numpy.array(data_x), numpy.array(data_y))
+
+        # overlay the current value in the middle
+        if 'data_y' in locals() and data_y:
+            print_val = ' '.join(['{0:.3f}'.format(data_y[-1]), 'm'])
+        else:
+            print_val = 'Horizontal Error is Undefined'
+
+        if self._canvas.disp_text:
+            self._canvas.disp_text.remove()
+        self._canvas.disp_text = self._canvas.axes.text(0.5, 0.5, print_val,
+                alpha=0.7, color='0.65', size=60, lod=True, family='Ubuntu Mono',
+                horizontalalignment='center',
+                verticalalignment='center',
+                transform=self._canvas.axes.transAxes)
 
         self._canvas.draw()
 
