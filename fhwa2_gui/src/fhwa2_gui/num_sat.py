@@ -4,6 +4,9 @@ import os
 from qt_gui.qt_binding_helper import loadUi
 from QtCore import Qt
 from QtGui import QWidget
+from palette.red import *
+from palette.yellow import *
+from palette.white import *
 
 import roslib
 roslib.load_manifest('fhwa2_gui')
@@ -23,10 +26,20 @@ class NumSatWidget(QWidget):
         ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'NumSat.ui')
         loadUi(ui_file, self)
         self.sub = rospy.Subscriber('/moos/gMOOS2ROS', MOOSrosmsg, self.onUpd)
+        self.palette_is_normal = True
 
     def onUpd(self, msg):
         if msg.MOOSname == 'zpsrNumObs':
-            self.NumLcd.display(int(msg.MOOSdouble))
+            val = int(msg.MOOSdouble)
+            self.NumLcd.display(val)
+
+            if val <=4:
+                self.NumLcd.setPalette(red_palette)
+            if val == 5:
+                self.NumLcd.setPalette(yellow_palette)
+            elif not self.palette_is_normal:
+                self.NumLcd.setPalette(palette)
+
 
 
 class NumSat(Plugin):
