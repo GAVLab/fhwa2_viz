@@ -82,17 +82,12 @@
          <widget class="QComboBox" name="comboBox">
           <item>
            <property name="text">
-            <string>Manual Subscribe</string>
+            <string>GPS</string>
            </property>
           </item>
           <item>
            <property name="text">
             <string>FHWA2 Combined</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>GPS</string>
            </property>
           </item>
           <item>
@@ -108,6 +103,11 @@
           <item>
            <property name="text">
             <string>Penn St.</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Manual Subscribe</string>
            </property>
           </item>
          </widget>

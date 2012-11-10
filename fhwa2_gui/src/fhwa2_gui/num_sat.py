@@ -4,6 +4,7 @@ import os
 from qt_gui.qt_binding_helper import loadUi
 from QtCore import Qt
 from QtGui import QWidget
+
 from palette.red import *
 from palette.yellow import *
 from palette.white import *
@@ -31,14 +32,19 @@ class NumSatWidget(QWidget):
     def onUpd(self, msg):
         if msg.MOOSname == 'zpsrNumObs':
             val = int(msg.MOOSdouble)
-            self.NumLcd.display(val)
 
+            # Colors when low
             if val <=4:
                 self.NumLcd.setPalette(red_palette)
+                self.palette_is_normal = False
             if val == 5:
                 self.NumLcd.setPalette(yellow_palette)
+                self.palette_is_normal = False
             elif not self.palette_is_normal:
                 self.NumLcd.setPalette(palette)
+
+            self.NumLcd.display(val)
+
 
 
 

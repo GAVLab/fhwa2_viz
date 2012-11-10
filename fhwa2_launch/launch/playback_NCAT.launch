@@ -60,4 +60,7 @@
     <node pkg="rqt_gui" type="rqt_gui" name="rqt" output="screen" required="true"
         args="-p $(find fhwa2_gui)/cfg/fhwa2.perspective"/>
 
+<!-- IMU Bridge -->
+    <node pkg="fhwa2_MOOS_to_ROS" type="imuBridge.py" name="xbow_bridge" output="screen"/>
+
 </launch>
