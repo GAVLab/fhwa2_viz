@@ -3,8 +3,8 @@
 # Survey Data ##################################################################
 # # Where the blender track mesh is zeroed
 UTMdatum: # 2 layer nested dictionary
-    E: 313617.45721616584 
-    N: 4314077.05485446
+    E: 313742.45721616584
+    N: 4314027.05485446
 #
 # # Locations of stripe lat/lon survey points
 survey_center_locs: 
@@ -16,7 +16,7 @@ survey_stripe_locs:
 #
 # # File location for mesh of track
 # # the syntax denotes a location in the ROS package
-track_mesh_resource: None
+track_mesh_resource: 'survey/mesh/TF_pavement_plane.stl'
 #
 # # File location for mesh of lane markings
 # # syntax denotes a location in the ROS package; None to turn off

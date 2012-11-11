@@ -68,12 +68,15 @@ class MOOS2RVIZ:
 
     def set_publishers(self):
         rospy.Subscriber("/moos/"+self.moosapp_name, MOOSrosmsg, self.handle_msg)
+        
         odom_topic = '/'.join(['moos', self.myname, 'odom'])
-        self.odom_publisher = rospy.Publisher(odom_topic, Odometry)
         ell_topic = '/'.join(['moos',self.myname, 'error_ellipse'])
-        self.ell_publisher = rospy.Publisher(ell_topic, Marker)
         legend_topic = '/'.join(['moos', self.myname, 'legend'])
+
+        self.odom_publisher = rospy.Publisher(odom_topic, Odometry)
+        self.ell_publisher = rospy.Publisher(ell_topic, Marker)
         self.legend_publisher = rospy.Publisher(legend_topic, Marker)
+        
         if self.ismaster: # this instance dictates accepted position (veh disp mesh)
             curpos_topic = '/'.join(['moos', self.myname, 'current_position'])
             self.curpos_publisher = rospy.Publisher(curpos_topic, Marker) # even though this is at the same position as the novatel error ellipse, we want it to have a different name in case the integrated solution is different

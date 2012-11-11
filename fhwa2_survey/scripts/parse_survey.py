@@ -19,6 +19,8 @@ in_locs = [
 out_loc = '/home/rgcofield/devel/fhwa2_ws/fhwa2_viz/fhwa2_survey/mesh/TF_points.ply'
 
 gps = GPS()
+datum_e = 313617.45721616584 +125
+datum_n = 4314077.05485446 -50
 
 
 def read_in(files):
@@ -33,7 +35,7 @@ def convert(pts):
     out = []
     for p in pts:
         (E, N, _), _ = gps.lla2utm(tuple(p))
-        out.append((E,N,0))
+        out.append((E-datum_e, N-datum_n, 0))
     return out
 
 
