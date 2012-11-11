@@ -7,11 +7,11 @@ UTMdatum: # 2 layer nested dictionary
     N: 4314077.05485446
 #
 # # Locations of stripe lat/lon survey points
-survey_stripe_locs: 
+survey_center_locs: 
 - 'survey/stripes/TurnerFairbanks_RoadEdge.txt'
 #
 # # Locations of lane center lat/lon survey points
-survey_center_locs:
+survey_stripe_locs:
 - 'survey/centers/TurnerFairbanks_Centerline.txt'
 #
 # # File location for mesh of track

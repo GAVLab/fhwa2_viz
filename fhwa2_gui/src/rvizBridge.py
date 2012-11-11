@@ -293,7 +293,7 @@ class MOOS2RVIZ:
         !!!this should only be invoked when the accepted (novatel) position 
         is updated
         """
-        ### G35 Mesh #############################################################
+        ### G35 Mesh ###########################################################
         marker = Marker()
         marker.header = odom_msg.header
         marker.id = 0 # enumerate subsequent markers here
