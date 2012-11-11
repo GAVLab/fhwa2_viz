@@ -98,8 +98,8 @@ class MAP2RVIZ(object):
             marker.color.g = 255
             marker.color.b = 0
             marker.color.a = 1.0
-            marker.scale.x = 0.2
-            marker.scale.y = 0.2
+            marker.scale.x = 0.1
+            marker.scale.y = 0.1
             marker.scale.z = 0.4
             marker.mesh_use_embedded_materials = False
             self.map_stripe_array.markers.append(marker)

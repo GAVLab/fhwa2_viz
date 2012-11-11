@@ -16,7 +16,7 @@ survey_stripe_locs:
 #
 # # File location for mesh of track
 # # the syntax denotes a location in the ROS package
-track_mesh_resource: 'survey/mesh/TF_pavement_plane.stl'
+track_mesh_resource: 'package://fhwa2_survey/mesh/TF_pavement_plane.stl'
 #
 # # File location for mesh of lane markings
 # # syntax denotes a location in the ROS package; None to turn off
