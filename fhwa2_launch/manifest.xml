@@ -13,8 +13,8 @@
   <depend package="fhwa2_survey"/>
   <depend package="fhwa2_description"/>
   <depend package="fhwa2_gui"/>
-  <depend package="rviz_plugin_tutorials"/>
-  <depend package="rviz_imu_plugin"/>
+  <!-- <depend package="rviz_plugin_tutorials"/> -->
+  <!-- <depend package="rviz_imu_plugin"/> -->
 
 </package>
 

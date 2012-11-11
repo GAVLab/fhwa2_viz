@@ -10,14 +10,14 @@
     uri: https://github.com/GAVLab/fhwa2_viz.git
     version: master
 
-# IMU toolkit (rViz plugin)
-- git:
-    local-name: imu_tools
-    uri: https://github.com/ccny-ros-pkg/imu_tools.git
-    version: master
+# # IMU toolkit (rViz plugin)
+# - git:
+#     local-name: imu_tools
+#     uri: https://github.com/ccny-ros-pkg/imu_tools.git
+#     version: master
 
-# common required by imu_tools
-- git:
-    local-name: common
-    uri: https://kforge.ros.org/common/common
-    version: default
+# # common required by imu_tools
+# - git:
+#     local-name: common
+#     uri: https://kforge.ros.org/common/common
+#     version: default
