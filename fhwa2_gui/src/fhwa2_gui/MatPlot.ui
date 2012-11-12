@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Error Plot</string>
+   <string>Ground Plane Error Magnitude of Sensor: GPS for Reference: RTK</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">

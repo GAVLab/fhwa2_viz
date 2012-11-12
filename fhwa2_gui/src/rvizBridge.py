@@ -249,8 +249,8 @@ class MOOS2RVIZ:
         ell_marker.lifetime = rospy.Duration() # will last forever unless modified
         ell_marker.ns = ''.join(["Error_Ellipses", '__', self.sensor_name, '__', self.myname])
         ell_marker.type = Marker.CYLINDER
-        ell_marker.scale.x = abs(sqrt(odom_msg.pose.covariance[0])) # not visible unless scaled up
-        ell_marker.scale.y = abs(sqrt(odom_msg.pose.covariance[7])) # not visible unless scaled up
+        ell_marker.scale.x = abs(odom_msg.pose.covariance[0]) # not visible unless scaled up
+        ell_marker.scale.y = abs(odom_msg.pose.covariance[7]) # not visible unless scaled up
         ell_marker.scale.z = 0.000001 # We just want a disk
         ell_marker.color.r = self.color['r']
         ell_marker.color.g = self.color['g']

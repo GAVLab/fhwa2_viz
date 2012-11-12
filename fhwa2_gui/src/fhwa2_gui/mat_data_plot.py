@@ -60,7 +60,7 @@ class MatDataPlot(QWidget):
         """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
         def __init__(self, parent=None):
             fig = Figure()
-            rect = .027, .13, .965, .8
+            rect = .031, .15, .965, .8
             self.axes = fig.add_axes(rect)
             self.axes.grid(True, color='gray')
             super(MatDataPlot.Canvas, self).__init__(fig)
@@ -106,7 +106,7 @@ class MatDataPlot(QWidget):
         self._curves[curve_id] = (data_x, data_y, plot)
 
     def draw_plot(self):
-        self._canvas.axes.set_title(' '.join(['Ground Plane Error Magnitude of Sensor:', self.tgt_name, 'for Reference:', self.ref_name]), size=9)
+        # self._canvas.axes.set_title(' '.join(['Ground Plane Error Magnitude of Sensor:', self.tgt_name, 'for Reference:', self.ref_name]), size=9)
 
         # Set axis bounds
         ymin = 0
