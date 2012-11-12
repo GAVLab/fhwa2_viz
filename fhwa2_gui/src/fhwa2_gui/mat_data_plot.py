@@ -60,7 +60,7 @@ class MatDataPlot(QWidget):
         """Ultimately, this is a QWidget (as well as a FigureCanvasAgg, etc.)."""
         def __init__(self, parent=None):
             fig = Figure()
-            rect = .031, .15, .965, .8
+            rect = .035, .15, .95, .8
             self.axes = fig.add_axes(rect)
             self.axes.grid(True, color='gray')
             super(MatDataPlot.Canvas, self).__init__(fig)
