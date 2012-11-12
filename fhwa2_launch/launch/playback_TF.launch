@@ -1,5 +1,9 @@
 <launch>
 
+<!-- UTMdatum:
+    E: 313742.45721616584
+    N: 4314027.05485446 -->
+
 <!-- rViz Nodes -->
     <!-- rViz -->
     <node pkg="rviz" type="rviz" name="rViz"

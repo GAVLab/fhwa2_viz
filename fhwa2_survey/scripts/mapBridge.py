@@ -11,37 +11,38 @@ import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
 import rospy
 from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest
 from math import pi, sin, cos, tan, sqrt
-# from mapping import ll2utm
 from util import GPS
+from pprint import pprint as pp
 
 
 class MAP2RVIZ(object):
-    def __init__(self, config):
+    def __init__(self):
         object.__init__(self)
         self.gps = GPS()
-        self.get_config(config)
+        self.get_config()
         self.set_publishers()
         self.create_map() # create marker arrays of the stripes and lane centers
         print('mapBridge: Map markers published - you should see the lane/stripe markers once running')
         self.create_map_mesh()
         print('mapBridge: Map mesh has been published - you should see it once running')
-        # rospy.shutdown('cuz i said so')
 
-
-    def get_config(self, config):
-        self.UTMdatum = config["UTMdatum"] # dict
+    def get_config(self):
+        """startup function"""
         self.prefix = rospy.get_param('~prefix')
-        self.survey_stripe_locs = config["survey_stripe_locs"]
-        self.survey_center_locs = config["survey_center_locs"]
-        self.track_mesh_resource = config["track_mesh_resource"]
-        self.marking_mesh_resource = config["marking_mesh_resource"]
-
+        self.UTMdatum = {'E': float(rospy.get_param("~UTMdatum_E")),
+                         'N': float(rospy.get_param("~UTMdatum_N"))}
+        self.survey_stripe_locs = rospy.get_param("~survey_stripe_locs").split(', ')
+        self.survey_center_locs = rospy.get_param("~survey_center_locs").split(', ')
+        self.track_mesh_resource = rospy.get_param("~track_mesh_resource")
+        print('\ntrack_mesh_resource: %s' % self.track_mesh_resource)
+        print('track_mesh_resource: %s' % str(bool(self.track_mesh_resource)))
+        self.marking_mesh_resource = rospy.get_param("~marking_mesh_resource")
 
     def set_publishers(self):
+        """startup function"""
         self.map_stripe_publisher = rospy.Publisher('/map/survey_stripes', MarkerArray, latch=True)
         self.map_lane_publisher = rospy.Publisher('/map/survey_lanes', MarkerArray, latch=True)
         self.track_mesh_publisher = rospy.Publisher('/map/mesh', MarkerArray, latch=True)
-
 
     def survey(self):
         """
@@ -66,7 +67,6 @@ class MAP2RVIZ(object):
                 centers.append(pt_list)
 
         return stripes, centers
-
 
     def create_map(self):
         """
@@ -139,7 +139,6 @@ class MAP2RVIZ(object):
         self.map_lane_publisher.publish(self.map_lane_array) # publish lane centers as markers
         print('mapBridge: Lane Center Markers have been printed')
 
-
     def create_map_mesh(self):
         """Puts a blender mesh of the paement and stripes (continuous) into rviz"""
         marker_array = MarkerArray()
@@ -154,7 +153,7 @@ class MAP2RVIZ(object):
             marker.ns = "track_mesh_pavement"
             marker.type = Marker.MESH_RESOURCE
             marker.mesh_use_embedded_materials = False
-            marker.mesh_resource = self.track_mesh_resource# wahoo
+            marker.mesh_resource = '//'.join(['file:', self.track_mesh_resource])
             marker.pose.position.x = 0# - self.UTMdatum['E']
             marker.pose.position.y = 0# - self.UTMdatum['N']
             marker.pose.position.z = 0
@@ -177,7 +176,7 @@ class MAP2RVIZ(object):
             marker.ns = "track_mesh_lane_markings"
             marker.type = Marker.MESH_RESOURCE
             marker.mesh_use_embedded_materials = False
-            marker.mesh_resource = self.marking_mesh_resource # wahoo
+            marker.mesh_resource = self.marking_mesh_resource
             marker.pose.position.x = 0# - self.UTMdatum['E']
             marker.pose.position.y = 0# - self.UTMdatum['N']
             marker.pose.position.z = 0
@@ -189,29 +188,15 @@ class MAP2RVIZ(object):
             marker.color.b = 0
             marker.color.a = 1.0
             marker_array.markers.append(marker)
-            self.track_mesh_publisher.publish(marker_array)
+        
+        self.track_mesh_publisher.publish(marker_array)
 
 
-################################################################################
 ################################################################################
 def main():
-    #setup ROS node
     rospy.init_node('moos2rviz_survey')
-
-    ## setup config file
-    config_file = rospy.myargv(argv=sys.argv)[1]
-    if config_file[-4:] != 'yaml': # check file format
-        print("Config file must be YAML format!!! That's how we do.")
-    stream = file(config_file,'r')
-    this_config = load(stream) # loads as a dictionary
-
-    #Setup Map App
-    app = MAP2RVIZ(this_config)
-    
-    #Setup ROS Stuff
-    #spin
+    app = MAP2RVIZ()
     rospy.spin()
-
 
 if __name__ == '__main__':
     main()

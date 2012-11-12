@@ -29,8 +29,8 @@ from fhwa2_MOOS_to_ROS.msg import MOOSrosmsg
 
 class MOOS2RVIZ:
     """Takes moos messages from an onboard moos db and displays the data in rViz"""
-    def __init__(self, config):
-        self.get_config(config)
+    def __init__(self):
+        self.get_config()
         self.set_publishers()
         self.navpy_gps = GPS()
 
@@ -40,25 +40,29 @@ class MOOS2RVIZ:
 
 
     ### Init-related Functions #################################################
-    def get_config(self, config):
+    def get_config(self):
         """saves the yaml config file info as instance attributes, utilizes
         values from the ROS parameter server
         """
-        self.DEBUG = rospy.get_param('~DEBUG')
-        self.moosapp_name = config['moosapp_name']
-        self.sensor_name = config["sensor_name"]
-        # self.myname = config["myname"]
+        self.DEBUG = bool(rospy.get_param('~DEBUG'))
+        self.moosapp_name = rospy.get_param('~moosapp_name')
+        self.sensor_name = rospy.get_param("~sensor_name")
         self.myname = rospy.get_param('~myname')
-        # self.freq_max = config["freq_max"]
-        self.UTMdatum = config["UTMdatum"]
-        self.coord_sys = config["coord_sys"]
-        self.desired_variables = config["desired_variables"]
-        self.color = config["color"]
-        self.legend_text_height = config["legend_text_height"]
-        self.legend_text = config["display_name"]
-        self.ismaster = config["dictate_pos"] # this instance will govern the current position
+
+        self.UTMdatum = {'E': float(rospy.get_param("~UTMdatum_E")),
+                         'N': float(rospy.get_param("~UTMdatum_N"))}
+        self.coord_sys = rospy.get_param("~coord_sys")
+        self.color = {'r': float(rospy.get_param("~color_r")),
+                      'g': float(rospy.get_param("~color_g")),
+                      'b': float(rospy.get_param("~color_b"))}
+        self.legend_text_height = rospy.get_param("~legend_text_height")
+        self.legend_text = rospy.get_param("~display_name")
+        self.ismaster = bool(rospy.get_param("~dictate_pos")) # this instance will govern the current ~positio)
+        
+        self.desired_variables = rospy.get_param("~desired_variables").split(', ')
+
         if self.ismaster:
-            self.veh_mesh_resource = config["veh_mesh_resource"]
+            self.veh_mesh_resource = rospy.get_param("~veh_mesh_resource")
         else:
             self.veh_mesh_resource = None
         if self.DEBUG:
@@ -94,10 +98,12 @@ class MOOS2RVIZ:
         """
         msg = odom_msg
         br = tf.TransformBroadcaster()
-        br.sendTransform((msg.pose.pose.position.x, msg.pose.pose.position.y, msg.pose.pose.position.z),\
+        br.sendTransform((msg.pose.pose.position.x,
+                          msg.pose.pose.position.y,
+                          msg.pose.pose.position.z),
                          (0, 0, 0, 1), # this is a unit quaternion\
-                         msg.header.stamp, ''.join([self.myname,"_base_link"]), "odom") 
-                            #time,    #child frame , #parent frame
+                         msg.header.stamp,
+                         ''.join([self.myname,"_base_link"]), "odom") 
 
     ##### Mailroom Functions ###################################################
     def handle_msg(self, msg):
@@ -276,7 +282,7 @@ class MOOS2RVIZ:
         legend_marker.color.r = self.color['r']/255
         legend_marker.color.g = self.color['g']/255
         legend_marker.color.b = self.color['b']/255
-        legend_marker.color.a = 1
+        legend_marker.color.a = .9
         self.legend_publisher.publish(legend_marker)
 
         # combined_array.markers.append(legend_marker)
@@ -313,7 +319,7 @@ class MOOS2RVIZ:
         marker.color.g = self.color['g']
         marker.color.b = self.color['b']
         marker.color.a = .1
-        marker.mesh_resource = self.veh_mesh_resource
+        marker.mesh_resource = '//'.join(['file:',self.veh_mesh_resource])
         marker.mesh_use_embedded_materials = False
         self.curpos_publisher.publish(marker)
 
@@ -321,19 +327,10 @@ class MOOS2RVIZ:
 ################################################################################
 
 def main():    
-    ## setup config file
-    config_file = sys.argv[1]
-    if config_file[-4:] != 'yaml':
-        raise Exception("Config file must be YAML format")
-    stream = file(config_file,'r')
-    this_config = load(stream) # loads as a dictionary
-
-    #setup ROS node
     rospy.init_node('fhwa2_rviz_bridge')
-
-    #Setup App
-    app = MOOS2RVIZ(this_config)
+    app = MOOS2RVIZ()
     rospy.spin()
+
     
 if __name__ == '__main__':
     main()

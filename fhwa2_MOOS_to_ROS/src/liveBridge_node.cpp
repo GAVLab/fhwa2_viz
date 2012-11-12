@@ -24,8 +24,8 @@ MOOS2ROS::MOOS2ROS() {
 }
 
 MOOS2ROS::~MOOS2ROS() {
-    ros::shutdown();
     this->RequestQuit();
+    ros::shutdown();
 }
 
 bool MOOS2ROS::OnConnectToServer() {
