@@ -27,3 +27,19 @@ rosbuild_genmsg()
 #rosbuild_link_boost(${PROJECT_NAME} thread)
 #rosbuild_add_executable(example examples/example.cpp)
 #target_link_libraries(example ${PROJECT_NAME})
+
+find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+include(${QT_USE_FILE})
+
+add_definitions(-DQT_NO_KEYWORDS)
+
+qt4_wrap_cpp(MOC_FILES
+  src/fhwa2_menu_panel.h
+  src/fhwa2_menu_widget.h
+)
+
+set(SOURCE_FILES
+  src/fhwa2_menu_panel.cpp
+  src/fhwa2_menu_widget.cpp
+  ${MOC_FILES}
+)

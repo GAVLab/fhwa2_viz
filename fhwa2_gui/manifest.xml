@@ -1,4 +1,4 @@
-<package>
+  <package>
   <description brief="fhwa2_gui">
 
      fhwa2_gui
@@ -32,6 +32,12 @@
 
   <!-- rQt Plugin -->
   <export>
-    <rqt_gui plugin="${prefix}/plugin.xml"/>
+    <rqt_gui plugin="${prefix}/rqt_plugin.xml"/>
   </export>
+
+  <!-- rViz Plugin -->
+  <export>
+    <rviz plugin="${prefix}/rviz_plugin.xml"/>
+  </export>
+  
 </package>

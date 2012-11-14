@@ -1,0 +1,9 @@
+<library path="lib/libfhwa2_gui">
+  <class name="rviz_plugin_tutorials/Teleop"
+         type="rviz_plugin_tutorials::TeleopPanel"
+         base_class_type="rviz::Panel">
+    <description>
+      A panel widget allowing selection of enabled markers
+    </description>
+  </class>
+</library>
