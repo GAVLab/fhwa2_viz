@@ -4,7 +4,6 @@
 #include <string>
 
 #include <ros/ros.h>
-
 #include <rviz/panel.h>
 #include <rviz/displays_panel.h>
 
@@ -17,7 +16,7 @@ Q_OBJECT
 
 public:
     FHWA2DisplaysPanel( QWidget* parent = 0);
-    virtual ~FHWA2DisplaysPanel();
+    // virtual ~FHWA2DisplaysPanel();
 
 protected Q_SLOTS:
     // receives from 
@@ -25,7 +24,7 @@ protected Q_SLOTS:
 
 
 protected:
-    rviz::DisplaysPanel displays_panel_;
+    // rviz::DisplaysPanel displays_panel_;
     std::string target_sensor_;
     QComboBox* target_selector_;
 };

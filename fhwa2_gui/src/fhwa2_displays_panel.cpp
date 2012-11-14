@@ -20,12 +20,8 @@ namespace fhwa2_gui {
         target_selector_->addItem("GPS");
         target_selector_->addItem("FHWA2 Combined");
 
-        displays_panel_ = new rviz::DisplaysPanel;
-
-        layout->addWidget(displays_panel_);
         layout->addWidget(new QLabel("Show Target Sensor:"));
         layout->addWidget(target_selector_);
-
         setLayout(layout);
 
         connect(target_selector_, SIGNAL( currentIndexChanged(QString) ),
