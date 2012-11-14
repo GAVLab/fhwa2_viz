@@ -6,16 +6,18 @@
 #include <ros/ros.h>
 
 #include <rviz/panel.h>
-
-class QComboBox;
+#include <rviz/displays_panel.h>
 
 namespace fhwa2_gui {
 
-class FHWA2MenuPanel : public rviz::Panel {
+class QComboBox;
+
+class FHWA2DisplaysPanel : public rviz::Panel {
 Q_OBJECT
 
 public:
-    FHWA2MenuPanel( QWidget* parent = 0);
+    FHWA2DisplaysPanel( QWidget* parent = 0);
+    virtual ~FHWA2DisplaysPanel();
 
 protected Q_SLOTS:
     // receives from 
@@ -23,8 +25,8 @@ protected Q_SLOTS:
 
 
 protected:
+    rviz::DisplaysPanel displays_panel_;
     std::string target_sensor_;
-
     QComboBox* target_selector_;
 };
 

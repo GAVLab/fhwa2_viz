@@ -35,11 +35,17 @@ add_definitions(-DQT_NO_KEYWORDS)
 
 qt4_wrap_cpp(MOC_FILES
   src/fhwa2_menu_panel.h
-  src/fhwa2_menu_widget.h
+  src/fhwa2_displays_panel.h
 )
 
 set(SOURCE_FILES
   src/fhwa2_menu_panel.cpp
-  src/fhwa2_menu_widget.cpp
+  src/fhwa2_displays_panel.cpp
   ${MOC_FILES}
 )
+
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+
+rosbuild_add_library(${PROJECT_NAME} ${SOURCE_FILES})
+
+target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES})
