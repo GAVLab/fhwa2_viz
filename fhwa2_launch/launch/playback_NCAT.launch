@@ -13,9 +13,6 @@
     <node pkg="MOOS" type="uPlayBack" name="uPlayBack" 
         required="true" output="screen" />
 
-<!--     <node pkg="MOOS" type="uMS" name="uMS"
-        required="true" output="screen"/> -->
-
     <!-- MOOS App -->
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="MOOSBridge"
         args="$(find fhwa2_launch)/mission/playback.moos gMOOS2ROS"

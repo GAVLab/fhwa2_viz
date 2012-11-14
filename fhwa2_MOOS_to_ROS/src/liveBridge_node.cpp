@@ -44,21 +44,19 @@ void MOOS2ROS::GetDesiredVaribles() {
     // Get pre-defined variables (MOOS params)
     bool got_ = m_MissionReader.GetConfigurationParam("min_upd", this->min_upd);
 
-    // Subscriptions
-    this->desired_variables.push_back("zX");
-    this->desired_variables.push_back("zY");
-    this->desired_variables.push_back("zZ");
-    this->desired_variables.push_back("zXStdDev");
-    this->desired_variables.push_back("zYStdDev");
-    this->desired_variables.push_back("zZStdDev");
-    this->desired_variables.push_back("zpsrX");
-    this->desired_variables.push_back("zpsrY");
-    this->desired_variables.push_back("zpsrZ");
-    this->desired_variables.push_back("zpsrXStdDev");
-    this->desired_variables.push_back("zpsrYStdDev");
-    this->desired_variables.push_back("zpsrZStdDev");
-    this->desired_variables.push_back("zCourse");
-    this->desired_variables.push_back("zpsrNumObs");
+    STRING_LIST Params;
+    if (m_MissionReader.GetConfiguration(m_sAppName, Params)) {
+        Params.reverse();
+
+        STRING_LIST::iterator p;
+        for (p=Params.begin(); p!=Params.end(); p++) {
+            std::string sParam = *p;
+            std::string sWhat = MOOSChomp(sParam, "=");
+            if (MOOSStrCmp(sWhat, "SUB")) {
+                this->desired_variables.push_back(sParam);
+            }
+        }
+    }
 
     return;
 }

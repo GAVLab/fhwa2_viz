@@ -1,4 +1,3 @@
-//name of the machine hosting the MOOSDB (G computer)
 //(can be an I.P address aswell as a FQDN)
 ServerHost = 127.0.0.1
 
@@ -12,4 +11,20 @@ ProcessConfig = gMOOS2ROS
 {
     // App params
     min_upd=0.1
+
+    //Subscribed Variables
+    SUB=zX
+    SUB=zY
+    SUB=zZ
+    SUB=zXStdDev
+    SUB=zYStdDev
+    SUB=zZStdDev
+    SUB=zpsrX
+    SUB=zpsrY
+    SUB=zpsrZ
+    SUB=zpsrXStdDev
+    SUB=zpsrYStdDev
+    SUB=zpsrZStdDev
+    SUB=zCourse
+    SUB=zpsrNumObs
 }
