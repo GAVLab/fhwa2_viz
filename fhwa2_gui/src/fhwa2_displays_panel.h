@@ -7,9 +7,9 @@
 #include <rviz/panel.h>
 #include <rviz/displays_panel.h>
 
-namespace fhwa2_gui {
-
 class QComboBox;
+
+namespace fhwa2_gui {
 
 class FHWA2DisplaysPanel : public rviz::Panel {
 Q_OBJECT
@@ -24,7 +24,7 @@ protected Q_SLOTS:
 
 
 protected:
-    // rviz::DisplaysPanel displays_panel_;
+    rviz::DisplaysPanel* displays_panel_;
     std::string target_sensor_;
     QComboBox* target_selector_;
 };
