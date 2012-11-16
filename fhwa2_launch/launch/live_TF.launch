@@ -1,0 +1,106 @@
+<launch>
+<!-- Master Args -->
+    <!-- Where the origin is in UTM zone 18S -->
+    <arg name="UTMdatum_E" default="313742.45721616584"/>
+    <arg name="UTMdatum_N" default="4314027.05485446"/>
+    <!-- G35 mesh that gets displayed in different sensor colors -->
+    <arg name="veh_mesh_resource" default="$(find fhwa2_description)/mesh/infiniti_03_novatel_centered.dae"/>
+
+<!-- MOOS Stuff -->
+    <node pkg="MOOS" type="MOOSDB" name="MOOSDB"
+        respawn="true" output="screen"/>
+    
+    <node pkg="MOOS" type="uMS" name="uMS"
+        required="true" output="screen"/>
+
+    <!-- MOOS App -->
+    <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="MOOSBridge"
+        args="$(find fhwa2_launch)/mission/live.moos gMOOS2ROS"
+        output="screen" required="true"/>
+
+
+<!-- rViz Nodes -->
+    <!-- Survey markers -->
+    <node pkg="fhwa2_survey" type="mapBridge.py" name="rviz_survey"
+        output="screen" args="$(find fhwa2_survey)/cfg/survey_NCAT.yaml">
+        <param name="UTMdatum_E" value="$(arg UTMdatum_E)"/>
+        <param name="UTMdatum_N" value="$(arg UTMdatum_N)"/>
+
+        <!-- File inputs -->
+        <param name="prefix" value="$(find fhwa2_survey)"/>
+        <param name="track_mesh_resource" value=""/>
+        <param name="marking_mesh_resource" value=""/> <!-- Leave empty string for None -->
+        <param name="survey_stripe_locs" 
+            value="survey/stripes/TurnerFairbanks_Centerline.txt"/>
+        <param name="survey_center_locs" 
+            value="survey/centers/TurnerFairbanks_Centerline.txt"/>
+    </node>
+
+    <!-- RTK (used as truth) -->
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_rtk"
+        args="$(find fhwa2_launch)/cfg/rtk.yaml" output="screen"
+        required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="moosapp_name" value="gMOOS2ROS"/> <!-- used to set subscriber -->
+        <param name="sensor_name" value="gNovatel"/>
+        <!-- Order of variables is critical here -->
+        <param name="desired_variables"
+            value="zX, zY, zZ, zXStdDev, zYStdDev, zZStdDev, zCourse"/>
+
+        <param name="myname" value="rtk"/> <!-- used to set publishers -->
+        <param name="coord_sys" value="ECEF"/>
+        <param name="UTMdatum_E" value="$(arg UTMdatum_E)"/>
+        <param name="UTMdatum_N" value="$(arg UTMdatum_N)"/>
+        
+        <!-- display parameters -->
+        <param name="dictate_pos" value="True"/> <!-- Leave empty string for false -->
+        <param name="display_name" value="RTK"/>
+        <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
+        <param name="color_r" value="0"/>
+        <param name="color_g" value="255"/>
+        <param name="color_b" value="0"/>
+        <param name="legend_text_height" value="4.0"/>
+    </node>
+
+    <!-- Standalone GPS -->
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_gps"
+        args="$(find fhwa2_launch)/cfg/gps.yaml" output="screen"
+        required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="moosapp_name" value="gMOOS2ROS"/> <!-- used to set subscriber -->
+        <param name="sensor_name" value="gNovatel"/>
+        <!-- Order of variables is critical here -->
+        <param name="desired_variables"
+            value="zpsrX, zpsrY, zpsrZ, zpsrXStdDev, zpsrYStdDev, zpsrZStdDev, zCourse"/>
+
+        <param name="myname" value="gps"/> <!-- used to set publishers -->
+        <param name="coord_sys" value="ECEF"/>
+        <param name="UTMdatum_E" value="$(arg UTMdatum_E)"/>
+        <param name="UTMdatum_N" value="$(arg UTMdatum_N)"/>
+        
+        <!-- display parameters -->
+        <param name="dictate_pos" value="True"/>
+        <param name="display_name" value="GPS"/>
+        <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
+        <param name="color_r" value="255"/>
+        <param name="color_g" value="0"/>
+        <param name="color_b" value="0"/>
+        <param name="legend_text_height" value="3.0"/>
+    </node>
+
+
+<!-- Error Node -->
+    <node pkg="fhwa2_gui" type="poseError.py" name="gps_rtk_error"
+        output="screen" required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="sync_tol" value=".05"/>
+        <param name="ref_topic" value="/moos/rtk/odom"/>
+        <param name="tgt_topic" value="/moos/gps/odom"/>
+        <param name="pub_topic" value="/error_mags/rtk_ref/gps_tgt"/>
+    </node>
+
+
+<!-- rQt -->
+    <node pkg="rqt_gui" type="rqt_gui" name="rqt" output="screen" required="true"/>
+
+</launch>
