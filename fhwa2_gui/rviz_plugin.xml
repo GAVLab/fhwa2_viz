@@ -1,0 +1,17 @@
+<library path="lib/libfhwa2_gui">
+  <class name="fhwa2_gui/FHWA2Menu"
+         type="fhwa2_gui::FHWA2MenuPanel"
+         base_class_type="rviz::Panel">
+    <description>
+      A panel widget allowing selection of enabled markers
+    </description>
+  </class>
+
+  <class name="fhwa2_gui/FHWA2Displays"
+         type="fhwa2_gui::FHWA2DisplaysPanel"
+         base_class_type="rviz::Panel">
+    <description>
+      Panel which includes standard displays panel with sensor selector to 
+      disable/enable groups of sensors easily
+    </description>
+</library>
