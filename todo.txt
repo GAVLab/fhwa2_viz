@@ -1,0 +1,3 @@
+todo - from testing 11/13/12
+
+- error check for remote MOOSDB cutoff

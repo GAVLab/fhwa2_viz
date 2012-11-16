@@ -146,8 +146,8 @@ class MatDataPlot(QWidget):
 
             # pad the min/max
             delta = max(ymax - ymin, 0.1)
-            ymin -= .05 * delta
-            ymax += .05 * delta
+            ymin -= .1 * delta
+            ymax += .1 * delta
 
             self._canvas.axes.set_xbound(lower=xmin, upper=xmax)
             self._canvas.axes.set_ybound(lower=ymin, upper=ymax)
