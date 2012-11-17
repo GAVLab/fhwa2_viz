@@ -14,4 +14,5 @@
       Panel which includes standard displays panel with sensor selector to 
       disable/enable groups of sensors easily
     </description>
+  </class>
 </library>
