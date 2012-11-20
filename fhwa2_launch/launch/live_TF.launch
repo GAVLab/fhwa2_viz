@@ -31,7 +31,7 @@
         <param name="track_mesh_resource" value=""/>
         <param name="marking_mesh_resource" value=""/> <!-- Leave empty string for None -->
         <param name="survey_stripe_locs" 
-            value="survey/stripes/TurnerFairbanks_Centerline.txt"/>
+            value="survey/stripes/TurnerFairbanks_RoadEdge.txt"/>
         <param name="survey_center_locs" 
             value="survey/centers/TurnerFairbanks_Centerline.txt"/>
     </node>
