@@ -166,7 +166,7 @@ class MatDataPlot(QWidget):
         if self._canvas.disp_text:
             self._canvas.disp_text.remove()
         self._canvas.disp_text = self._canvas.axes.text(0.5, 0.5, print_val,
-                alpha=0.7, color='0.65', size=60, lod=True, family='Ubuntu Mono',
+                alpha=0.7, color='0.65', size=50, lod=True, family='Ubuntu Mono',
                 horizontalalignment='center',
                 verticalalignment='center',
                 transform=self._canvas.axes.transAxes)
