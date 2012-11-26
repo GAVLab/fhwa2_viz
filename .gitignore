@@ -19,6 +19,7 @@ installed
 patched
 rospack*
 msg_gen
+srv_gen
 
 # sublime text 2
 *.sublime-workspace

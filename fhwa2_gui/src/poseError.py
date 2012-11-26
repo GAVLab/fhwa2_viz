@@ -29,7 +29,7 @@ class ErrorNode(object):
         self.pub_topic = rospy.get_param('~pub_topic')
         self.pub = rospy.Publisher(self.pub_topic, PoseError)
 
-        self.pub_test = rospy.Publisher('/test_error', Float64)
+        # self.pub_test = rospy.Publisher('/test_error', Float64)
 
         self.ref_sub = rospy.Subscriber(self.ref_topic, Odometry, self.onRefUpdate)
         self.tgt_sub = rospy.Subscriber(self.tgt_topic, Odometry, self.onTgtUpdate)

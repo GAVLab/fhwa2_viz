@@ -29,7 +29,6 @@
 # LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-
 import os
 
 from qt_gui.qt_binding_helper import loadUi
@@ -47,6 +46,8 @@ from .mat_data_plot import MatDataPlot
 from rqt_gui_py.plugin import Plugin
 from rqt_py_common.topic_completer import TopicCompleter
 from rqt_py_common.topic_helpers import is_slot_numeric
+
+from fhwa2_gui.srv import SolutionSelect, SolutionSelectRequest, SolutionSelectResponse
 
 
 class MatPlotWidget(QWidget):
@@ -80,6 +81,7 @@ class MatPlotWidget(QWidget):
 
         # connect combobox
         self.comboBox.currentIndexChanged.connect(self.on_combo_box_changed)
+        self.soln_sel = rospy.ServiceProxy('solution_selector_master', SolutionSelect)
 
     def update_plot(self):
         for topic_name, rosdata in self._rosdata.items():
@@ -167,15 +169,17 @@ class MatPlotWidget(QWidget):
         print('In on_combo_box_changed')
         self.on_clear_button_clicked()
         self.data_plot.tgt_name = self.comboBox.currentText()
+
         if self.comboBox.currentText() == 'GPS':
             self.add_topic('/error_mags/rtk_ref/gps_tgt/mag_horiz')
+            _ = self.soln_sel(target='gps')
+
         window_title = ' '.join(['Ground Plane Error Magnitude of Sensor:',
                                   self.data_plot.tgt_name,
                                   'for Reference:',
                                   self.data_plot.ref_name])
         self.setWindowTitle(QApplication.translate("MatPlotWidget", 
             window_title, None, QApplication.UnicodeUTF8))
-
 
 
 class MatPlot(Plugin):
