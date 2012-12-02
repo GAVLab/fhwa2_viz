@@ -1,39 +1,11 @@
-CPP
----
+remove the yaml args from rviz nodes
 
-setting callbacks necessary?
-=================
+checkbox to display multiple or single topics in error plot
 
-
-
-- in fpv: fix latching on view switch - in mapBridge.py
-
-
-- sensors:
-  -will have correct and errant positions to compare
-  -subsystems
-    -fix DSRC/Kapsch thing
-
--better/prettier stacking of odom/err_ell markers
-	-make the novatel/integrated solution dominate
-
--make colors look better
 
 - get track stripes/ lane marking mesh from blender working
-
--in mailroom.gather_odom_var(), use pop instead of a list then delete in a for loop
-    -deque?
-
-- interpolate log file to get ~100Hz
-	http://docs.scipy.org/doc/numpy/reference/generated/numpy.interp.html
-	http://docs.scipy.org/doc/scipy/reference/interpolate.html
-
-- mesh of lane markings visible from all angles (make non-planar)
+    - mesh of lane markings visible from all angles (make non-planar)
 
 0-all sensors into single marker array?
 
-unfinished positions will likely cause memory leaks
-
 keep an array of covariances?
-
-make lane marking meshes turnable offable whilst making them pretty

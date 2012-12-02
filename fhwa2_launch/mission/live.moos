@@ -14,18 +14,32 @@ ProcessConfig = gMOOS2ROS
     min_upd=0.1
 
     //Subscribed Variables
+    // RTK
     SUB=zX
     SUB=zY
     SUB=zZ
     SUB=zXStdDev
     SUB=zYStdDev
     SUB=zZStdDev
+
+    // GPS
     SUB=zpsrX
     SUB=zpsrY
     SUB=zpsrZ
     SUB=zpsrXStdDev
     SUB=zpsrYStdDev
     SUB=zpsrZStdDev
+
+    // FHWA2 Combined and Filtered Solution
+    SUB=zfhwa2_X
+    SUB=zfhwa2_Y
+    SUB=zfhwa2_Z
+    SUB=zfhwa2_XStdDev
+    SUB=zfhwa2_YStdDev
+    SUB=zfhwa2_ZStdDev
+
+    // Used by all solutions
     SUB=zCourse
+    
     SUB=zpsrNumObs
 }
