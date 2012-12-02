@@ -27,7 +27,4 @@ msg_gen
 *.pyc
 
 # single use scripts
-redo_survey.py
-redo_survey.pyc
-test_cl_args.py
-test_cl_args.pyc
+*.tmp
