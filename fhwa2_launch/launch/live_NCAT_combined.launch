@@ -16,7 +16,7 @@
     <!-- MOOS App -->
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="MOOSBridge"
         args="$(find fhwa2_launch)/mission/live.moos gMOOS2ROS"
-        output="screen" required="true"/>
+        output="screen" respawn="true"/>
 
 
 <!-- rViz Nodes -->
@@ -46,6 +46,7 @@
         <!-- Order of variables is critical here -->
         <param name="desired_variables"
             value="zX, zY, zZ, zXStdDev, zYStdDev, zZStdDev, zCourse"/>
+        <param name="hold_wait" value="1.5"/>
 
         <param name="myname" value="rtk"/> <!-- used to set publishers -->
         <param name="coord_sys" value="ECEF"/>
@@ -72,8 +73,9 @@
         <!-- Order of variables is critical here -->
         <param name="desired_variables"
             value="zpsrX, zpsrY, zpsrZ, zpsrXStdDev, zpsrYStdDev, zpsrZStdDev, zCourse"/>
+        <param name="hold_wait" value="1.5"/>
 
-        <param name="myname" value="gps"/> <!-- used to set publishers -->
+        <param name="myname" value="gps"/> <!-- used to sesync_tolt publishers -->
         <param name="coord_sys" value="ECEF"/>
         <param name="UTMdatum_E" value="$(arg UTMdatum_E)"/>
         <param name="UTMdatum_N" value="$(arg UTMdatum_N)"/>
@@ -89,15 +91,16 @@
     </node>
 
     <!-- FHWA2 Combined Filtered-->
-    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_gps"
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_fhwa2"
         args="$(find fhwa2_launch)/cfg/gps.yaml" output="screen"
         required="true">
         <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
         <param name="moosapp_name" value="gMOOS2ROS"/> <!-- used to set subscriber -->
-        <param name="sensor_name" value="gFHWA2"/>
+        <param name="sensor_name" value="gFHWA2, gNovatel"/>
         <!-- Order of variables is critical here -->
         <param name="desired_variables"
-            value="zfhwa2_X, zfhwa2_Y, zfhwa2_Z, zfhwa2_XStdDev, zfhwa2_YStdDev, zfhwa2_ZStdDev, zCourse"/>
+            value="zfhwa2X, zfhwa2Y, zfhwa2Z, zfhwa2StdX, zfhwa2StdY, zfhwa2StdZ, zCourse"/>
+        <param name="hold_wait" value="0.6"/>
 
         <param name="myname" value="fhwa2"/> <!-- used to set publishers -->
         <param name="coord_sys" value="ECEF"/>
@@ -127,10 +130,10 @@
     </node>
 
     <!-- FHWA2/RTK -->
-    <node pkg="fhwa2_gui" type="poseError.py" name="gps_rtk_error"
+    <node pkg="fhwa2_gui" type="poseError.py" name="fhwa2_rtk_error"
         output="screen" required="true">
         <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
-        <param name="sync_tol" value=".05"/>
+        <param name="sync_tol" value=".25"/>
         <param name="ref_topic" value="/moos/rtk/odom"/>
         <param name="tgt_topic" value="/moos/fhwa2/odom"/>
         <param name="pub_topic" value="/error_mags/rtk_ref/fhwa2_tgt"/>

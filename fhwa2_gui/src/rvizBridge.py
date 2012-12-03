@@ -60,6 +60,7 @@ class MOOS2RVIZ:
         self.ismaster = bool(rospy.get_param("~dictate_pos")) # this instance will govern the current ~positio)
         
         self.desired_variables = rospy.get_param("~desired_variables").split(', ')
+        self.hold_wait = rospy.get_param('~hold_wait')
 
         if self.ismaster:
             self.veh_mesh_resource = rospy.get_param("~veh_mesh_resource")
@@ -112,12 +113,13 @@ class MOOS2RVIZ:
         """
         # print("rvizBridge: " + self.myname + ": msg received "+msg.MOOStype)
         # print msg
-        if (msg.MOOSsource == self.sensor_name) and (msg.MOOSname in self.desired_variables):
+        # if (msg.MOOSsource == self.sensor_name) and (msg.MOOSname in self.desired_variables):
+        if msg.MOOSname in self.desired_variables:
             var_type = msg.MOOStype
             if var_type == "Double":
                 value = str(msg.MOOSdouble) #store all values as strings until handled specifically
             elif var_type == "String":
-                rospy.logwarn("Strings not yet supported %s" % msg.MOOSname)
+                # rospy.logwarn("Strings not yet supported %s" % msg.MOOSname)
                 value = msg.MOOSstring
             else:
                 rospy.logwarn('wtf? Unknown variable type')
@@ -154,6 +156,10 @@ class MOOS2RVIZ:
         if name not in self.holder[time]:
             self.holder[time][name] = [value, var_type]
         
+        if self.DEBUG:
+            print('rvizBridge - '+self.myname+' current state of holder:')
+            pp(self.holder)
+
         if len(self.holder[time]) == len(self.desired_variables):
             skateboard = []
             for var in self.desired_variables: # FIXME order of desired variables crucial
@@ -165,10 +171,13 @@ class MOOS2RVIZ:
             # delete messages that are too old
             t_cull = []
             for t in self.holder:
-                if float(time) - float(t) > 5:
+                if float(time) - float(t) > self.hold_wait:
                     t_cull.append(t)
             for t in t_cull:
                 del self.holder[t]
+        elif self.DEBUG:
+            print('rvizBridge - '+self.myname+' not able to ship from gather_odom_var yet')
+
 
 
     def convert_odom_var(self, skateboard):

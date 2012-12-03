@@ -1,6 +1,6 @@
 //name of the machine hosting the MOOSDB (G computer)
 //(can be an I.P address aswell as a FQDN)
-ServerHost = 192.168.1.44
+ServerHost = 192.168.200.111
 
 //port DB listens on (make sure you are blocking the port you request)
 ServerPort = 9000
@@ -31,12 +31,12 @@ ProcessConfig = gMOOS2ROS
     SUB=zpsrZStdDev
 
     // FHWA2 Combined and Filtered Solution
-    SUB=zfhwa2_X
-    SUB=zfhwa2_Y
-    SUB=zfhwa2_Z
-    SUB=zfhwa2_XStdDev
-    SUB=zfhwa2_YStdDev
-    SUB=zfhwa2_ZStdDev
+    SUB=zfhwa2X
+    SUB=zfhwa2Y
+    SUB=zfhwa2Z
+    SUB=zfhwa2StdX
+    SUB=zfhwa2StdY
+    SUB=zfhwa2StdZ
 
     // Used by all solutions
     SUB=zCourse

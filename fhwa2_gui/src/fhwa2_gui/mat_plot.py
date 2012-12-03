@@ -170,7 +170,7 @@ class MatPlotWidget(QWidget):
 
         if self.comboBox.currentText() == 'GPS':
             self.add_topic('/error_mags/rtk_ref/gps_tgt/mag_horiz')
-        elif self.comboBox.currentText() == 'FHWA2 Combined'
+        elif self.comboBox.currentText() == 'FHWA2 Combined':
             self.add_topic('/error_mags/rtk_ref/fhwa2_tgt/mag_horiz')
 
         window_title = ' '.join(['Ground Plane Error Magnitude of Sensor:',

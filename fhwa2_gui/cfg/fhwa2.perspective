@@ -9,40 +9,6 @@
         }
       }, 
       "groups": {
-        "plugin____DockWidgetContainer__1": {
-          "keys": {}, 
-          "groups": {
-            "dock_widget": {
-              "keys": {
-                "dockable": {
-                  "type": "repr", 
-                  "repr": "u'true'"
-                }, 
-                "parent": {
-                  "type": "repr", 
-                  "repr": "None"
-                }
-              }, 
-              "groups": {
-                "mainwindow": {
-                  "keys": {
-                    "geometry": {
-                      "type": "repr(QByteArray.hex)", 
-                      "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb0001000000000000000000150000007a000002270000000000000000ffffffffffffffff000000010000')", 
-                      "pretty-print": "         z '           "
-                    }, 
-                    "state": {
-                      "type": "repr(QByteArray.hex)", 
-                      "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd00000000000000000000000000000004000000040000000800000008fc00000000')", 
-                      "pretty-print": "                     "
-                    }
-                  }, 
-                  "groups": {}
-                }
-              }
-            }
-          }
-        }, 
         "plugin__rqt_rviz__RViz__1": {
           "keys": {}, 
           "groups": {
@@ -79,101 +45,6 @@
             }
           }
         }, 
-        "plugin__rqt_pose_view__PoseView__1": {
-          "keys": {}, 
-          "groups": {
-            "dock_widget__GLViewWidget": {
-              "keys": {
-                "dockable": {
-                  "type": "repr", 
-                  "repr": "u'true'"
-                }, 
-                "parent": {
-                  "type": "repr", 
-                  "repr": "None"
-                }
-              }, 
-              "groups": {}
-            }, 
-            "plugin": {
-              "keys": {
-                "view_matrix": {
-                  "type": "repr", 
-                  "repr": "u'[[-0.9978383183479309, -0.042176805436611176, 0.050402961671352386, 0.0], [0.04497600346803665, 0.12095650285482407, 0.9916394352912903, 0.0], [-0.047920405864715576, 0.9917634725570679, -0.11879858374595642, 0.0], [0.0, -3.0, -17.5, 1.0]]'"
-                }
-              }, 
-              "groups": {}
-            }
-          }
-        }, 
-        "plugin__rqt_plot__Plot__1": {
-          "keys": {}, 
-          "groups": {
-            "dock_widget__DataPlotWidget": {
-              "keys": {
-                "dockable": {
-                  "type": "repr", 
-                  "repr": "u'true'"
-                }, 
-                "parent": {
-                  "type": "repr", 
-                  "repr": "None"
-                }
-              }, 
-              "groups": {}
-            }
-          }
-        }, 
-        "plugin__rqt_matplot__MatPlot__1": {
-          "keys": {}, 
-          "groups": {
-            "dock_widget__DataPlotWidget": {
-              "keys": {
-                "dockable": {
-                  "type": "repr", 
-                  "repr": "u'true'"
-                }, 
-                "parent": {
-                  "type": "repr", 
-                  "repr": "None"
-                }
-              }, 
-              "groups": {}
-            }
-          }
-        }, 
-        "plugin__rqt_publisher__Publisher__1": {
-          "keys": {}, 
-          "groups": {
-            "plugin": {
-              "keys": {
-                "publishers": {
-                  "type": "repr", 
-                  "repr": "u\"[{'type_name': 'fhwa2_gui/PoseError', 'topic_name': '/error_mags/rtk_ref/gps_tgt', 'enabled': False, 'rate': 1.0, 'expressions': {}, 'publisher_id': 0, 'counter': 20}]\""
-                }
-              }, 
-              "groups": {}
-            }
-          }
-        }, 
-        "plugin__fhwa2_gui__FHWA2 Plugin__1": {
-          "keys": {}, 
-          "groups": {
-            "dock_widget__FHWA2PluginUi": {
-              "keys": {
-                "dockable": {
-                  "type": "repr", 
-                  "repr": "u'true'"
-                }, 
-                "parent": {
-                  "type": "repr", 
-                  "repr": "None"
-                }
-              }, 
-              "groups": {}
-            }
-          }
-        }, 
         "plugin__fhwa2_gui__ErrorPlugin__1": {
           "keys": {}, 
           "groups": {
@@ -191,99 +62,6 @@
               "groups": {}
             }
           }
-        }, 
-        "plugin__rqt_console__Console__1": {
-          "keys": {}, 
-          "groups": {
-            "plugin": {
-              "keys": {
-                "show_highlighted_only": {
-                  "type": "repr", 
-                  "repr": "u'false'"
-                }, 
-                "exclude_filters": {
-                  "type": "repr", 
-                  "repr": "[u'severity']"
-                }, 
-                "table_splitter": {
-                  "type": "repr(QByteArray.hex)", 
-                  "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff0000000000000002000001f4000001f401000000060100000002')", 
-                  "pretty-print": "               "
-                }, 
-                "highlight_filters": {
-                  "type": "repr", 
-                  "repr": "[u'message']"
-                }, 
-                "paused": {
-                  "type": "repr", 
-                  "repr": "u'false'"
-                }, 
-                "settings_exist": {
-                  "type": "repr", 
-                  "repr": "u'true'"
-                }, 
-                "filter_splitter": {
-                  "type": "repr(QByteArray.hex)", 
-                  "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff0000000000000002000000e4000000e401000000060100000002')", 
-                  "pretty-print": "               "
-                }
-              }, 
-              "groups": {
-                "exclude_filter_0": {
-                  "keys": {
-                    "enabled": {
-                      "type": "repr", 
-                      "repr": "u'true'"
-                    }, 
-                    "displist": {
-                      "type": "repr", 
-                      "repr": "[u'Debug', u'Info', u'Warning', u'Fatal', u'Error']"
-                    }, 
-                    "itemlist": {
-                      "type": "repr", 
-                      "repr": "u''"
-                    }
-                  }, 
-                  "groups": {}
-                }, 
-                "highlight_filter_0": {
-                  "keys": {
-                    "regex": {
-                      "type": "repr", 
-                      "repr": "u'false'"
-                    }, 
-                    "text": {
-                      "type": "repr", 
-                      "repr": "u''"
-                    }, 
-                    "enabled": {
-                      "type": "repr", 
-                      "repr": "u'true'"
-                    }
-                  }, 
-                  "groups": {}
-                }
-              }
-            }
-          }
-        }, 
-        "plugin__fhwa2_gui__ErrorPlugin__2": {
-          "keys": {}, 
-          "groups": {
-            "dock_widget__DataPlotWidget": {
-              "keys": {
-                "dockable": {
-                  "type": "repr", 
-                  "repr": "u'true'"
-                }, 
-                "parent": {
-                  "type": "repr", 
-                  "repr": "None"
-                }
-              }, 
-              "groups": {}
-            }
-          }
         }
       }
     }, 
@@ -291,13 +69,13 @@
       "keys": {
         "geometry": {
           "type": "repr(QByteArray.hex)", 
-          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb000100000000002afffffffc000007870000043f00000032000000180000077f00000437000000010000')", 
-          "pretty-print": "     *     ? 2     7   "
+          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb0001000000000036000000180000064f000003a80000003e0000003500000647000003a0000000000000')", 
+          "pretty-print": "     6   O   > 5 G     "
         }, 
         "state": {
           "type": "repr(QByteArray.hex)", 
-          "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd00000001000000030000074e000003f1fc0100000009fb00000030005f005f0044006f0063006b0057006900640067006500740043006f006e007400610069006e00650072005f005f003101000004a00000007b0000000000000000fb0000004e007200710074005f006d006100740070006c006f0074005f005f004d006100740050006c006f0074005f005f0032005f005f00440061007400610050006c006f00740057006900640067006500740100000363000001b80000000000000000fb0000004e00660068007700610032005f006700750069005f005f004d007900200050006c007500670069006e005f005f0031005f005f00440061007400610050006c006f007400570069006400670065007401000000000000051b0000000000000000fb0000004e00660068007700610032005f006700750069005f005f004d007900200050006c007500670069006e005f005f0032005f005f00440061007400610050006c006f00740057006900640067006500740100000363000001b80000000000000000fc000000000000074e0000017c00fffffffc0200000002fc00000019000002d20000013900fffffffa000000010100000002fb00000042007200710074005f0070006c006f0074005f005f0050006c006f0074005f005f0031005f005f00440061007400610050006c006f00740057006900640067006500740100000000ffffffff0000000000000000fb00000026007200710074005f007200760069007a005f005f005200560069007a005f005f0031005f005f01000000000000074e0000012300fffffffc000002f100000119000000ea00fffffffc0100000002fb0000005200660068007700610032005f006700750069005f005f004500720072006f00720050006c007500670069006e005f005f0031005f005f00440061007400610050006c006f00740057006900640067006500740100000000000006ac000000fb00fffffffb0000005000660068007700610032005f006700750069005f005f004e0075006d0053006100740050006c007500670069006e005f005f0031005f005f004e0075006d00450072007200570069006400670065007401000006b20000009c0000007b00fffffffb00000058007200710074005f007000750062006c00690073006800650072005f005f005000750062006c00690073006800650072005f005f0031005f005f005000750062006c00690073006800650072005700690064006700650074010000021f000002fa0000000000000000fb0000005200660068007700610032005f006700750069005f005f004500720072006f00720050006c007500670069006e005f005f0032005f005f00440061007400610050006c006f0074005700690064006700650074010000025c000002770000000000000000fb0000005200660068007700610032005f006700750069005f005f004500720072006f00720050006c007500670069006e005f005f0031005f005f00440061007400610050006c006f00740057006900640067006500740100000000000004d30000000000000000fb0000004e007200710074005f006d006100740070006c006f0074005f005f004d006100740050006c006f0074005f005f0031005f005f00440061007400610050006c006f007400570069006400670065007403000007c9000001d00000040a000001e00000074e0000000000000004000000040000000800000008fc00000000')", 
-          "pretty-print": "                 0__DockWidgetContainer__1          Nrqt_matplot__MatPlot__2__DataPlotWidget          Nfhwa2_gui__My Plugin__1__DataPlotWidget          Nfhwa2_gui__My Plugin__2__DataPlotWidget            N |                    Brqt_plot__Plot__1__DataPlotWidget          &rqt_rviz__RViz__1__                                                                                                                        {                                                                                                      \\ w                                                                                                           N            "
+          "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd00000001000000030000060a0000033dfc0100000001fc000000000000060a000002bf00fffffffc0200000002fb00000026007200710074005f007200760069007a005f005f005200560069007a005f005f0031005f005f01000000190000024d0000022400fffffffc0000026c000000ea000000ea00fffffffc0100000002fb0000005200660068007700610032005f006700750069005f005f004500720072006f00720050006c007500670069006e005f005f0031005f005f00440061007400610050006c006f00740057006900640067006500740100000000000005670000020a00fffffffb0000005000660068007700610032005f006700750069005f005f004e0075006d0053006100740050006c007500670069006e005f005f0031005f005f004e0075006d004500720072005700690064006700650074010000056d0000009d0000007b00ffffff0000060a0000000000000004000000040000000800000008fc00000000')", 
+          "pretty-print": "                                                    M $               Rfhwa2_gui__ErrorPlugin__1__DataPlotWidget          Pfhwa2_gui__NumSatPlugin__1__NumErrWidget                       "
         }
       }, 
       "groups": {}
