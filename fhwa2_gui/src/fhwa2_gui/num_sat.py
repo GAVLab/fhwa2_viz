@@ -26,24 +26,22 @@ class NumSatWidget(QWidget):
 
         ui_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'NumSat.ui')
         loadUi(ui_file, self)
-        self.sub = rospy.Subscriber('/moos/gMOOS2ROS', MOOSrosmsg, self.onUpd)
+        self.sub = rospy.Subscriber('/moos/numsat', Int8, self.onUpd)
         self.palette_is_normal = True
 
     def onUpd(self, msg):
-        if msg.MOOSname == 'zpsrNumObs':
-            val = int(msg.MOOSdouble)
+        val = msg.data
+        # Colors when low
+        if val <=4:
+            self.NumLcd.setPalette(red_palette)
+            self.palette_is_normal = False
+        if val == 5:
+            self.NumLcd.setPalette(yellow_palette)
+            self.palette_is_normal = False
+        elif not self.palette_is_normal:
+            self.NumLcd.setPalette(palette)
 
-            # Colors when low
-            if val <=4:
-                self.NumLcd.setPalette(red_palette)
-                self.palette_is_normal = False
-            if val == 5:
-                self.NumLcd.setPalette(yellow_palette)
-                self.palette_is_normal = False
-            elif not self.palette_is_normal:
-                self.NumLcd.setPalette(palette)
-
-            self.NumLcd.display(val)
+        self.NumLcd.display(val)
 
 
 

@@ -94,9 +94,10 @@ class MOOS2RVIZ:
         """
         message callback
         """
+        print('rvizBridge - '+self.tag + '  in handle_msg')
         skateboard = [msg.x, msg.y, msg.z, \
                       msg.x_covar, msg.y_covar, msg.z_covar, \
-                      msg.orient]
+                      msg.orient, msg.header.stamp]
         # Check for NaN
         if '-nan' in skateboard:
             print('rvizBridge - '+self.tag + ':  recieved nan')
@@ -159,7 +160,8 @@ class MOOS2RVIZ:
 
         ### Odometry Arrows ####################################################
         odom_msg = Odometry()
-        odom_msg.header.stamp = rospy.Time(UTMtoPub['time'])
+        # odom_msg.header.stamp = rospy.Time(UTMtoPub['time'])
+        odom_msg.header.stamp = rospy.Time.now()
         odom_msg.header.frame_id = "odom" # may need to expand?
         odom_msg.pose.pose.position.x = UTMtoPub['E']
         odom_msg.pose.pose.position.y = UTMtoPub['N']
@@ -182,7 +184,7 @@ class MOOS2RVIZ:
         ell_marker.action = Marker.MODIFY # can be ADD, REMOVE, or MODIFY
         ell_marker.pose = odom_msg.pose.pose # put at same place as its odom arrow
         ell_marker.lifetime = rospy.Duration() # will last forever unless modified
-        ell_marker.ns = ''.join(["Error_Ellipses", '__', self.sensor_name, '__', self.tag])
+        ell_marker.ns = "Error_Ellipses__"+ self.tag
         ell_marker.type = Marker.CYLINDER
         ell_marker.scale.x = abs(odom_msg.pose.covariance[0]) # not visible unless scaled up
         ell_marker.scale.y = abs(odom_msg.pose.covariance[7]) # not visible unless scaled up
@@ -197,7 +199,7 @@ class MOOS2RVIZ:
         legend_marker = Marker()
         legend_marker.header = odom_msg.header
         legend_marker.id = 0
-        legend_marker.ns = ''.join(["Error_Ellipses", '__', self.sensor_name, '__', self.tag])
+        legend_marker.ns = ''.join(["Error_Ellipses", '__', self.tag, '__', self.tag])
         legend_marker.type = Marker.TEXT_VIEW_FACING
         legend_marker.text = self.legend_text
         legend_marker.action = Marker.MODIFY
@@ -231,7 +233,7 @@ class MOOS2RVIZ:
         marker.pose = odom_msg.pose.pose
         marker.pose.position.z = 1.55
         marker.lifetime = rospy.Duration() # will last forever unless modified
-        marker.ns = ''.join(["vehicle_model", '__', self.sensor_name, '__', self.tag])
+        marker.ns = ''.join(["vehicle_model", '__', self.tag, '__', self.tag])
         marker.type = Marker.MESH_RESOURCE
         marker.scale.x = 0.0254 # artifact of sketchup export
         marker.scale.y = 0.0254 # artifact of sketchup export

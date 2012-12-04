@@ -1,53 +1,53 @@
 Background\ ColorB=0
 Background\ ColorG=0
 Background\ ColorR=0
-Camera\ Config=0.785398 0.785398 30.2708 0 0 0
+Camera\ Config=0.785398 0.785398 18.8319 0 0 0
 Camera\ Type=rviz::OrbitViewController
-FHWA2\ Err\ Ellipse.Enabled=1
-FHWA2\ Err\ Ellipse.Error_Ellipses__gFHWA2__fhwa2=1
-FHWA2\ Err\ Ellipse.Marker\ Topic=/moos/fhwa2/error_ellipse
-FHWA2\ Err\ Ellipse.Queue\ Size=100
-FHWA2\ G35.Enabled=1
-FHWA2\ G35.Marker\ Topic=/moos/fhwa2/current_position
-FHWA2\ G35.Queue\ Size=100
-FHWA2\ G35.vehicle_model__gFHWA2__fhwa2=1
-FHWA2\ Grid.Alpha=0.5
-FHWA2\ Grid.Cell\ Size=1
-FHWA2\ Grid.ColorB=0.5
-FHWA2\ Grid.ColorG=0.5
-FHWA2\ Grid.ColorR=0.5
-FHWA2\ Grid.Enabled=1
-FHWA2\ Grid.Line\ Style=0
-FHWA2\ Grid.Line\ Width=0.03
-FHWA2\ Grid.Normal\ Cell\ Count=0
-FHWA2\ Grid.OffsetX=0
-FHWA2\ Grid.OffsetY=0
-FHWA2\ Grid.OffsetZ=0
-FHWA2\ Grid.Plane=0
-FHWA2\ Grid.Plane\ Cell\ Count=10
-FHWA2\ Grid.Reference\ Frame=<Fixed Frame>
-FHWA2\ Legend.Enabled=1
-FHWA2\ Legend.Error_Ellipses__gFHWA2__fhwa2=1
-FHWA2\ Legend.Marker\ Topic=/moos/fhwa2/legend
-FHWA2\ Legend.Queue\ Size=100
-FHWA2\ Position.Angle\ Tolerance=0.1
-FHWA2\ Position.ColorB=1
-FHWA2\ Position.ColorG=0
-FHWA2\ Position.ColorR=0
-FHWA2\ Position.Enabled=1
-FHWA2\ Position.Keep=100
-FHWA2\ Position.Length=1
-FHWA2\ Position.Position\ Tolerance=0.1
-FHWA2\ Position.Topic=/moos/fhwa2/odom
+Filtered\ Err\ Ellipse.Enabled=1
+Filtered\ Err\ Ellipse.Error_Ellipses__gps=1
+Filtered\ Err\ Ellipse.Marker\ Topic=/moos/gps/error_ellipse
+Filtered\ Err\ Ellipse.Queue\ Size=100
+Filtered\ G35.Enabled=1
+Filtered\ G35.Marker\ Topic=/moos/flt/current_position
+Filtered\ G35.Queue\ Size=100
+Filtered\ G35.vehicle_model__flt__flt=1
+Filtered\ Grid.Alpha=0.5
+Filtered\ Grid.Cell\ Size=1
+Filtered\ Grid.ColorB=0.5
+Filtered\ Grid.ColorG=0.5
+Filtered\ Grid.ColorR=0.5
+Filtered\ Grid.Enabled=1
+Filtered\ Grid.Line\ Style=0
+Filtered\ Grid.Line\ Width=0.03
+Filtered\ Grid.Normal\ Cell\ Count=0
+Filtered\ Grid.OffsetX=0
+Filtered\ Grid.OffsetY=0
+Filtered\ Grid.OffsetZ=0
+Filtered\ Grid.Plane=0
+Filtered\ Grid.Plane\ Cell\ Count=10
+Filtered\ Grid.Reference\ Frame=<Fixed Frame>
+Filtered\ Legend.Enabled=1
+Filtered\ Legend.Error_Ellipses__flt__flt=1
+Filtered\ Legend.Marker\ Topic=/moos/flt/legend
+Filtered\ Legend.Queue\ Size=100
+Filtered\ Position.Angle\ Tolerance=0.1
+Filtered\ Position.ColorB=1
+Filtered\ Position.ColorG=0
+Filtered\ Position.ColorR=0
+Filtered\ Position.Enabled=1
+Filtered\ Position.Keep=100
+Filtered\ Position.Length=1
+Filtered\ Position.Position\ Tolerance=0.1
+Filtered\ Position.Topic=/moos/fhwa2/odom
 Fixed\ Frame=/odom
 GPS\ Err\ Ellipse.Enabled=1
-GPS\ Err\ Ellipse.Error_Ellipses__gNovatel__gps=1
+GPS\ Err\ Ellipse.Error_Ellipses__gps=1
 GPS\ Err\ Ellipse.Marker\ Topic=/moos/gps/error_ellipse
 GPS\ Err\ Ellipse.Queue\ Size=100
 GPS\ G35.Enabled=1
 GPS\ G35.Marker\ Topic=/moos/gps/current_position
 GPS\ G35.Queue\ Size=100
-GPS\ G35.vehicle_model__gNovatel__gps=1
+GPS\ G35.vehicle_model__gps__gps=1
 GPS\ Grid.Alpha=0.3
 GPS\ Grid.Cell\ Size=1
 GPS\ Grid.ColorB=0
@@ -64,7 +64,7 @@ GPS\ Grid.Plane=0
 GPS\ Grid.Plane\ Cell\ Count=10
 GPS\ Grid.Reference\ Frame=/gps_base_link
 GPS\ Legend.Enabled=1
-GPS\ Legend.Error_Ellipses__gNovatel__gps=1
+GPS\ Legend.Error_Ellipses__gps__gps=1
 GPS\ Legend.Marker\ Topic=/moos/gps/legend
 GPS\ Legend.Queue\ Size=100
 GPS\ Position.Angle\ Tolerance=0.1
@@ -80,17 +80,53 @@ Lane\ Centers.Enabled=1
 Lane\ Centers.Marker\ Array\ Topic=/map/survey_lanes
 Lane\ Centers.Queue\ Size=1000
 Lane\ Centers.lane_centers=1
+PennSt\ Err\ Ellipse.Enabled=1
+PennSt\ Err\ Ellipse.Error_Ellipses__psu=1
+PennSt\ Err\ Ellipse.Marker\ Topic=/moos/psu/error_ellipse
+PennSt\ Err\ Ellipse.Queue\ Size=100
+PennSt\ G35.Enabled=1
+PennSt\ G35.Marker\ Topic=/moos/psu/current_position
+PennSt\ G35.Queue\ Size=100
+PennSt\ G35.vehicle_model__psu__psu=1
+PennSt\ Grid.Alpha=0.5
+PennSt\ Grid.Cell\ Size=1
+PennSt\ Grid.ColorB=0.5
+PennSt\ Grid.ColorG=0.5
+PennSt\ Grid.ColorR=0.5
+PennSt\ Grid.Enabled=1
+PennSt\ Grid.Line\ Style=0
+PennSt\ Grid.Line\ Width=0.03
+PennSt\ Grid.Normal\ Cell\ Count=0
+PennSt\ Grid.OffsetX=0
+PennSt\ Grid.OffsetY=0
+PennSt\ Grid.OffsetZ=0
+PennSt\ Grid.Plane=0
+PennSt\ Grid.Plane\ Cell\ Count=10
+PennSt\ Grid.Reference\ Frame=<Fixed Frame>
+PennSt\ Legend.Enabled=1
+PennSt\ Legend.Error_Ellipses__psu__psu=1
+PennSt\ Legend.Marker\ Topic=/moos/psu/legend
+PennSt\ Legend.Queue\ Size=100
+PennSt\ Position.Angle\ Tolerance=0.1
+PennSt\ Position.ColorB=0
+PennSt\ Position.ColorG=0.1
+PennSt\ Position.ColorR=1
+PennSt\ Position.Enabled=1
+PennSt\ Position.Keep=100
+PennSt\ Position.Length=1
+PennSt\ Position.Position\ Tolerance=0.1
+PennSt\ Position.Topic=/moos/psu/odom
 Property\ Grid\ Splitter=252,0
 Property\ Grid\ State=expanded=.Global Options;splitterratio=0.577825
 QMainWindow=000000ff00000000fd00000003000000000000019b00000216fc0200000002fb000000100044006900730070006c00610079007301000000190000014e000000ee00fffffffb0000000a00560069006500770073010000016d000000c2000000bb00ffffff00000001000001310000032afc0200000003fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073000000001d0000018c0000006700fffffffb0000000c00430061006d00650072006100000000d50000013e0000000000000000fb0000001200530065006c0065006300740069006f006e000000028f000000670000006700ffffff000000030000074e0000003efc0100000001fb0000000800540069006d006500000000000000074e000002bf00ffffff000004690000021600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730000000000ffffffff0000000000000000
 RTK\ Err\ Ellipse.Enabled=1
-RTK\ Err\ Ellipse.Error_Ellipses__gNovatel__rtk=1
+RTK\ Err\ Ellipse.Error_Ellipses__rtk=1
 RTK\ Err\ Ellipse.Marker\ Topic=/moos/rtk/error_ellipse
 RTK\ Err\ Ellipse.Queue\ Size=100
 RTK\ G35.Enabled=1
 RTK\ G35.Marker\ Topic=/moos/rtk/current_position
 RTK\ G35.Queue\ Size=100
-RTK\ G35.vehicle_model__gNovatel__rtk=1
+RTK\ G35.vehicle_model__rtk__rtk=1
 RTK\ Grid.Alpha=0.3
 RTK\ Grid.Cell\ Size=1
 RTK\ Grid.ColorB=0
@@ -107,7 +143,7 @@ RTK\ Grid.Plane=0
 RTK\ Grid.Plane\ Cell\ Count=10
 RTK\ Grid.Reference\ Frame=/rtk_base_link
 RTK\ Legend.Enabled=1
-RTK\ Legend.Error_Ellipses__gNovatel__rtk=1
+RTK\ Legend.Error_Ellipses__rtk__rtk=1
 RTK\ Legend.Marker\ Topic=/moos/rtk/legend
 RTK\ Legend.Queue\ Size=100
 RTK\ Position.Angle\ Tolerance=0.1
@@ -142,7 +178,7 @@ Stripes.Enabled=1
 Stripes.Marker\ Array\ Topic=/map/survey_stripes
 Stripes.Queue\ Size=2000
 Stripes.stripes=1
-Target\ Frame=/fhwa2_base_link
+Target\ Frame=/flt_base_link
 Tool\ 2D\ Nav\ GoalTopic=/move_base_simple/goal
 Tool\ 2D\ Pose\ EstimateTopic=initialpose
 [Display0]
@@ -155,32 +191,47 @@ Name=RTK Grid
 ClassName=rviz::MarkerDisplay
 Name=GPS G35
 [Display11]
+ClassName=rviz::GridDisplay
+Name=Filtered Grid
+[Display12]
+ClassName=rviz::OdometryDisplay
+Name=Filtered Position
+[Display13]
+ClassName=rviz::MarkerDisplay
+Name=Filtered Err Ellipse
+[Display14]
+ClassName=rviz::MarkerDisplay
+Name=Filtered Legend
+[Display15]
+ClassName=rviz::MarkerDisplay
+Name=Filtered G35
+[Display16]
+ClassName=rviz::GridDisplay
+Name=PennSt Grid
+[Display17]
+ClassName=rviz::OdometryDisplay
+Name=PennSt Position
+[Display18]
 ClassName=rviz::MarkerArrayDisplay
 Name=Lane Centers
-[Display12]
+[Display19]
 ClassName=rviz::MarkerArrayDisplay
 Name=Stripes
-[Display13]
-ClassName=rviz::MarkerArrayDisplay
-Name=Road & Stripe Meshes
-[Display14]
-ClassName=rviz::GridDisplay
-Name=FHWA2 Grid
-[Display15]
-ClassName=rviz::OdometryDisplay
-Name=FHWA2 Position
-[Display16]
-ClassName=rviz::MarkerDisplay
-Name=FHWA2 Legend
-[Display17]
-ClassName=rviz::MarkerDisplay
-Name=FHWA2 Err Ellipse
-[Display18]
-ClassName=rviz::MarkerDisplay
-Name=FHWA2 G35
 [Display2]
 ClassName=rviz::OdometryDisplay
 Name=RTK Position
+[Display20]
+ClassName=rviz::MarkerArrayDisplay
+Name=Road & Stripe Meshes
+[Display21]
+ClassName=rviz::MarkerDisplay
+Name=PennSt Err Ellipse
+[Display22]
+ClassName=rviz::MarkerDisplay
+Name=PennSt Legend
+[Display23]
+ClassName=rviz::MarkerDisplay
+Name=PennSt G35
 [Display3]
 ClassName=rviz::MarkerDisplay
 Name=RTK Err Ellipse
@@ -205,7 +256,8 @@ Name=GPS Legend
 [Views]
 0Name=GPS Centered
 1Name=RTK Centered
-2Name=FHWA2 Centered
+2Name=PennSt Centered
+3Name=Filter Centered
 [Views/0]
 Config=0.605399 1.96903 10.5369 0 0 0
 Target=/gps_base_link
@@ -215,8 +267,12 @@ Config=0.785398 0.785398 10 0 0 0
 Target=/rtk_base_link
 Type=rviz::OrbitViewController
 [Views/2]
-Config=0.804797 1.88583 67.5567 -19.7891 259.607 0
-Target=/fhwa2_base_link
+Config=0.785398 0.785398 35.9053 0 0 0
+Target=/psu_base_link
+Type=rviz::OrbitViewController
+[Views/3]
+Config=0.785398 0.785398 18.8319 0 0 0
+Target=/flt_base_link
 Type=rviz::OrbitViewController
 [Window]
 Height=559

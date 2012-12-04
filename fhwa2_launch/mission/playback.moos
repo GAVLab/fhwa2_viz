@@ -12,19 +12,6 @@ ProcessConfig = gMOOS2ROS
     // App params
     min_upd=0.1
 
-    //Subscribed Variables
-    SUB=zX
-    SUB=zY
-    SUB=zZ
-    SUB=zXStdDev
-    SUB=zYStdDev
-    SUB=zZStdDev
-    SUB=zpsrX
-    SUB=zpsrY
-    SUB=zpsrZ
-    SUB=zpsrXStdDev
-    SUB=zpsrYStdDev
-    SUB=zpsrZStdDev
-    SUB=zCourse
-    SUB=zpsrNumObs
+    SUB=zFHWA_GUI
+
 }

@@ -1,4 +1,3 @@
-//name of the machine hosting the MOOSDB (G computer)
 //(can be an I.P address aswell as a FQDN)
 ServerHost = 192.168.200.111
 
@@ -13,33 +12,6 @@ ProcessConfig = gMOOS2ROS
     // App params
     min_upd=0.1
 
-    //Subscribed Variables
-    // RTK
-    SUB=zX
-    SUB=zY
-    SUB=zZ
-    SUB=zXStdDev
-    SUB=zYStdDev
-    SUB=zZStdDev
+    SUB=zFHWA_GUI
 
-    // GPS
-    SUB=zpsrX
-    SUB=zpsrY
-    SUB=zpsrZ
-    SUB=zpsrXStdDev
-    SUB=zpsrYStdDev
-    SUB=zpsrZStdDev
-
-    // FHWA2 Combined and Filtered Solution
-    SUB=zfhwa2X
-    SUB=zfhwa2Y
-    SUB=zfhwa2Z
-    SUB=zfhwa2StdX
-    SUB=zfhwa2StdY
-    SUB=zfhwa2StdZ
-
-    // Used by all solutions
-    SUB=zCourse
-    
-    SUB=zpsrNumObs
 }
