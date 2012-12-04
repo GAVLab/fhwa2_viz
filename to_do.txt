@@ -9,3 +9,4 @@ checkbox to display multiple or single topics in error plot
 0-all sensors into single marker array?
 
 keep an array of covariances?
+
