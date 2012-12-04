@@ -54,6 +54,7 @@ class MOOS2RVIZ:
         self.legend_text_height = rospy.get_param("~legend_text_height")
         self.legend_text = rospy.get_param("~display_name")      
         self.veh_mesh_resource = rospy.get_param("~veh_mesh_resource")
+        # self.err_ell_opacity = rospy.get_param('~err_ell_opacity')
 
 
     def set_publishers(self):
@@ -94,14 +95,13 @@ class MOOS2RVIZ:
         """
         message callback
         """
-        print('rvizBridge - '+self.tag + '  in handle_msg')
         skateboard = [msg.x, msg.y, msg.z, \
                       msg.x_covar, msg.y_covar, msg.z_covar, \
                       msg.orient, msg.header.stamp]
         # Check for NaN
         if '-nan' in skateboard:
             print('rvizBridge - '+self.tag + ':  recieved nan')
-            pass
+            return
 
         self.convert_odom_var(skateboard)
 
@@ -192,7 +192,8 @@ class MOOS2RVIZ:
         ell_marker.color.r = self.color['r']
         ell_marker.color.g = self.color['g']
         ell_marker.color.b = self.color['b']
-        ell_marker.color.a = 0.95
+        # ell_marker.color.a = self.err_ell_opacity
+        ell_marker.color.a = 0.5
         self.ell_publisher.publish(ell_marker)
 
         ### Legend #############################################################

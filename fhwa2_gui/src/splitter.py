@@ -41,10 +41,11 @@ class SPLITTER(object):
         self.orient_index = int(rospy.get_param('~orient_index'))        
         self.numsat_index = int(rospy.get_param('~numsat_index'))
         if self.DEBUG:
-            print('splitter -\n\t# of solutions: %i' % self.n_solns)
-            print('\torient_index: %i' % self.orient_index)
-            print('\tnumsat_index: %i' % self.numsat_index)
-
+            # print('splitter -\n\t# of solutions: %i' % self.n_solns)
+            # print('\torient_index: %i' % self.orient_index)
+            # print('\tnumsat_index: %i' % self.numsat_index)
+            pass
+            
         self.pubs['numsat'] = rospy.Publisher('/moos/numsat', Int8)
 
 
@@ -88,8 +89,9 @@ class SPLITTER(object):
         msg.data = msgs['numsat']
         try:
             self.pubs['numsat'].publish(msg)
-        except:
-            pass
+        except Exception, e:
+            print('\n\nslitter: cannot publish numsat msg -')
+            print e
 
 
 def main():

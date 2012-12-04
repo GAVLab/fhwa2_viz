@@ -76,7 +76,7 @@ class MatPlotWidget(QWidget):
         self._update_plot_timer.start(40)
 
         # start with subscription to gps
-        self.add_topic('/error_mags/rtk_ref/gps_tgt/mag_horiz')
+        self.add_topic('/error_mags/rtk_ref/flt_tgt/mag_horiz')
 
         # connect combobox
         self.comboBox.currentIndexChanged.connect(self.on_combo_box_changed)

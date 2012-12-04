@@ -5,6 +5,7 @@
     <arg name="UTMdatum_N" default="3607850"/>
     <!-- G35 mesh that gets displayed in different sensor colors -->
     <arg name="veh_mesh_resource" default="$(find fhwa2_description)/mesh/infiniti_03_novatel_centered.dae"/>
+    <arg name="err_ell_opacity" default="0.5"/>
 
 <!-- MOOS Stuff -->  
     <!-- <node pkg="MOOS" type="MOOSDB" name="MOOSDB" required="true" output="screen"/> -->
@@ -17,7 +18,7 @@
 
 <!-- Sends MOOSrosmsg to respective rvizBridge -->
     <node pkg="fhwa2_gui" type="splitter.py" name="splitter" output="screen" required="true">
-        <param name="DEBUG" value="y"/>
+        <param name="DEBUG" value=""/>
         <param name="moosapp_name" value="gMOOS2ROS"/>
         <!-- Each solution takes 6 indexes in the string -->
         <param name="soln1_tag" value="rtk"/>
@@ -61,6 +62,7 @@
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
         <param name="color_rgb" value="0,255,0"/>
         <param name="legend_text_height" value="4.0"/>
+        <param name="err_ell_opacity" value="0.5"/>
     </node>
 
     <!-- Standalone GPS -->
@@ -76,6 +78,7 @@
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
         <param name="color_rgb" value="255,0,0"/>
         <param name="legend_text_height" value="3.0"/>
+        <param name="err_ell_opacity" value="0.5"/>
     </node>
 
     <!-- FHWA2 Combined Filtered-->
@@ -106,6 +109,7 @@
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
         <param name="color_rgb" value="255,0,255"/>
         <param name="legend_text_height" value="2.5"/>
+        <param name="err_ell_opacity" value="0.5"/>
     </node>
 
     <!-- Sarnoff Visual Odometry-->
@@ -120,7 +124,8 @@
         <param name="display_name" value="Visodo"/>
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
         <param name="color_rgb" value="0,0,255"/>
-        <param name="legend_text_height" value="3.5"/>
+        <param name="legend_text_height" value="2.0"/>
+        <param name="err_ell_opacity" value="0.5"/>
     </node>
 
 

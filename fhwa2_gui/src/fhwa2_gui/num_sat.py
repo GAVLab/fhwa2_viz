@@ -14,6 +14,8 @@ roslib.load_manifest('fhwa2_gui')
 roslib.load_manifest('fhwa2_MOOS_to_ROS')
 from fhwa2_MOOS_to_ROS.msg import MOOSrosmsg
 import rospy
+from std_msgs.msg._Int8 import Int8
+
 
 from rqt_gui_py.plugin import Plugin
 
