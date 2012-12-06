@@ -7,9 +7,10 @@
     <arg name="veh_mesh_resource" default="$(find fhwa2_description)/mesh/infiniti_03_novatel_centered.dae"/>
     <arg name="err_ell_opacity" default="0.5"/>
 
+
 <!-- MOOS Stuff -->  
-    <!-- <node pkg="MOOS" type="MOOSDB" name="MOOSDB" required="true" output="screen"/> -->
     <node pkg="MOOS" type="uMS" name="uMS" required="true" output="screen"/>
+
 
     <!-- MOOS App -->
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="MOOSBridge" output="screen" respawn="true"

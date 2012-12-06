@@ -5,15 +5,16 @@
     <arg name="UTMdatum_N" default="3607850"/>
     <!-- G35 mesh that gets displayed in different sensor colors -->
     <arg name="veh_mesh_resource" default="$(find fhwa2_description)/mesh/infiniti_03_novatel_centered.dae"/>
+    <arg name="err_ell_opacity" default="0.5"/>
+
 
 <!-- MOOS Stuff -->
-    <node pkg="MOOS" type="MOOSDB" name="MOOSDB" respawn="true" output="screen"/>
-    
-    <node pkg="MOOS" type="uPlayBack" name="uPlayBack" required="true" output="screen"/>
+    <node pkg="MOOS" type="MOOSDB" name="MOOSDB" respawn="true" output="screen"/>    
+    <node pkg="MOOS" type="uPlayBackIndex" name="uPB" required="true" output="screen"/>
 
     <!-- MOOS App -->
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="MOOSBridge" output="screen" respawn="true"
-        args="$(find fhwa2_launch)/mission/live.moos gMOOS2ROS"/>
+        args="$(find fhwa2_launch)/mission/playback.moos gMOOS2ROS"/>
 
 
 <!-- Sends MOOSrosmsg to respective rvizBridge -->
