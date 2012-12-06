@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Ground Plane Error Magnitude of Sensor: GPS for Reference: RTK</string>
+   <string>Ground Plane Error Magnitude of Sensor:  FHWA2 Combined  for Reference: RTK</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -82,12 +82,12 @@
          <widget class="QComboBox" name="comboBox">
           <item>
            <property name="text">
-            <string>GPS</string>
+            <string>FHWA2 Combined</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>FHWA2 Combined</string>
+            <string>GPS</string>
            </property>
           </item>
           <item>

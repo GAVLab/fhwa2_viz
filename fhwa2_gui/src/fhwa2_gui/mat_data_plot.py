@@ -95,7 +95,7 @@ class MatDataPlot(QWidget):
         self.keep_secs = 30
         self.scale_steps = 150
         self.ref_name = 'RTK'
-        self.tgt_name = 'GPS'
+        self.tgt_name = 'FHWA2 Combined'
 
     def add_curve(self, curve_id, data_x, data_y):
         data_x = collections.deque(data_x)

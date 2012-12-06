@@ -168,22 +168,21 @@ class MatPlotWidget(QWidget):
         self.on_clear_button_clicked()
         self.data_plot.tgt_name = self.comboBox.currentText()
 
-        if self.comboBox.currentText() == 'GPS':
-            self.add_topic('/error_mags/rtk_ref/gps_tgt/mag_horiz')
-        elif self.comboBox.currentText() == 'FHWA2 Combined':
+        if self.comboBox.currentText() == 'FHWA2 Combined':
             self.add_topic('/error_mags/rtk_ref/flt_tgt/mag_horiz')
+        elif self.comboBox.currentText() == 'GPS':
+            self.add_topic('/error_mags/rtk_ref/gps_tgt/mag_horiz')
         elif self.comboBox.currentText() == 'Penn St.':
             self.add_topic('/error_mags/rtk_ref/psu_tgt/mag_horiz')
         elif self.comboBox.currentText() == 'SRI':
             self.add_topic('/error_mags/rtk_ref/sri_tgt/mag_horiz')
 
         window_title = ' '.join(['Ground Plane Error Magnitude of Sensor:',
-                                  self.data_plot.tgt_name,
+                                  self.comboBox.currentText(),
                                   'for Reference:',
                                   self.data_plot.ref_name])
         self.setWindowTitle(QApplication.translate("MatPlotWidget", 
             window_title, None, QApplication.UnicodeUTF8))
-
 
 
 class MatPlot(Plugin):
