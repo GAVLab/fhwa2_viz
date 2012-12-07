@@ -23,10 +23,16 @@ class ErrorNode(object):
         super(ErrorNode, self).__init__()
         self.DEBUG = bool(rospy.get_param('~DEBUG', 'False'))
         # set topics
-        self.ref_topic = rospy.get_param('~ref_topic')
-        self.tgt_topic = rospy.get_param('~tgt_topic')
+        # self.ref_topic = rospy.get_param('~ref_topic')
+        # self.tgt_topic = rospy.get_param('~tgt_topic')
+        self.ref_tag = rospy.get_param('~ref_tag')
+        self.tgt_tag = rospy.get_param('~tgt_tag')
+        self.ref_topic = '/moos/'+self.ref_tag+'/odom'
+        self.tgt_topic = '/moos/'+self.tgt_tag+'/odom'
+        # self.pub_topic = rospy.get_param('~pub_topic')
+        self.pub_topic = '/error_mags/'+self.ref_tag+'_ref/'+self.tgt_tag+'_tgt'
+
         # set pubs/subs
-        self.pub_topic = rospy.get_param('~pub_topic')
         self.pub = rospy.Publisher(self.pub_topic, PoseError)
 
         self.pub_test = rospy.Publisher('/test_error', Float64)
@@ -38,7 +44,10 @@ class ErrorNode(object):
         self.tgt_pose = Odometry()
         self.output = PoseError()
 
-        self.sync_tol = rospy.get_param('~sync_tol')
+        try:
+            self.sync_tol = rospy.get_param('~sync_tol')
+        except:
+            self.sync_tol = 0.15
 
         # if self.DEBUG: print 'ErrorNode output format:', pp(self.output)
 

@@ -87,8 +87,6 @@ class MatPlotWidget(QWidget):
             self.texts[tag] = rospy.get_param('/'+tag+'_text')
             color = [int(i) for i in list(rospy.get_param('/'+tag+'_color').split(','))]
             self.data_plot._colors[self.texts[tag]] = color
-            print('mat_plot texts:'); pp(self.texts)
-            print('\nmat_data_plot _colors:\n\t');pp(self.data_plot._colors) 
 
         # start with subscription to gps
         self.add_topic('/error_mags/rtk_ref/flt_tgt/mag_horiz')

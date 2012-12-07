@@ -45,14 +45,15 @@ class MOOS2RVIZ:
         self.DEBUG = bool(rospy.get_param('~DEBUG'))
         self.tag = rospy.get_param('~tag')
 
-        self.UTMdatum = {'E': float(rospy.get_param("~UTMdatum_E")),
-                         'N': float(rospy.get_param("~UTMdatum_N"))}
+        # self.UTMdatum = {'E': float(rospy.get_param("~UTMdatum_E")),
+        #                  'N': float(rospy.get_param("~UTMdatum_N"))}
+        self.UTMdatum = rospy.get_param('/UTMdatum')
         self.coord_sys = rospy.get_param("~coord_sys")
         self.color = {'r': int(rospy.get_param("/"+self.tag+"_color").split(',')[0])*255,
                       'g': int(rospy.get_param("/"+self.tag+"_color").split(',')[1])*255,
                       'b': int(rospy.get_param("/"+self.tag+"_color").split(',')[2])*255}
         self.legend_text_height = rospy.get_param("~legend_text_height")
-        self.legend_text = rospy.get_param("~display_name")      
+        self.legend_text = rospy.get_param("/"+self.tag+"_text")      
         self.veh_mesh_resource = rospy.get_param("~veh_mesh_resource")
         # self.err_ell_opacity = rospy.get_param('~err_ell_opacity')
 
@@ -128,8 +129,8 @@ class MOOS2RVIZ:
             Nsd = Nstray - N
 
             UTMtoPub = {}
-            UTMtoPub['N'] = N - self.UTMdatum['N']
-            UTMtoPub['E'] = E - self.UTMdatum['E']
+            UTMtoPub['N'] = N - float(self.UTMdatum['N'])
+            UTMtoPub['E'] = E - float(self.UTMdatum['E'])
             UTMtoPub['Nsd'] = abs(float(Nsd))
             UTMtoPub['Esd'] = abs(float(Esd))
             UTMtoPub['crs'] = radians(float(skateboard[6]))
@@ -140,7 +141,6 @@ class MOOS2RVIZ:
                 pp(UTMtoPub)
         else:
             raise Exception('Only ECEF implemented thus far')
-        # print("{} - {} = {}".format(Northing, self.UTMdatum['N'], Northing - self.UTMdatum['N']))
 
 
     def package_odom_var(self, UTMtoPub):

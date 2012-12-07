@@ -29,8 +29,9 @@ class MAP2RVIZ(object):
     def get_config(self):
         """startup function"""
         self.prefix = rospy.get_param('~prefix')
-        self.UTMdatum = {'E': float(rospy.get_param("~UTMdatum_E")),
-                         'N': float(rospy.get_param("~UTMdatum_N"))}
+        # self.UTMdatum = {'E': float(rospy.get_param("~UTMdatum_E")),
+        #                  'N': float(rospy.get_param("~UTMdatum_N"))}
+        self.UTMdatum = rospy.get_param('/UTMdatum')
         self.survey_stripe_locs = rospy.get_param("~survey_stripe_locs").split(', ')
         self.survey_center_locs = rospy.get_param("~survey_center_locs").split(', ')
         self.track_mesh_resource = rospy.get_param("~track_mesh_resource")
@@ -91,8 +92,8 @@ class MAP2RVIZ(object):
             marker.lifetime = rospy.Duration() # will last forever unless modified
             marker.ns = "stripes"
             marker.type = Marker.CUBE
-            marker.pose.position.x = east - self.UTMdatum['E']
-            marker.pose.position.y = nrth - self.UTMdatum['N']
+            marker.pose.position.x = east - float(self.UTMdatum['E']) 
+            marker.pose.position.y = nrth - float(self.UTMdatum['N']) 
             marker.pose.position.z = 0 # zero is a novatel mount level
             marker.color.r = 255
             marker.color.g = 255
@@ -122,8 +123,8 @@ class MAP2RVIZ(object):
             marker.lifetime = rospy.Duration() # will last forever unless modified
             marker.ns = "lane_centers"
             marker.type = Marker.SPHERE
-            marker.pose.position.x = east - self.UTMdatum['E']
-            marker.pose.position.y = nrth - self.UTMdatum['N']
+            marker.pose.position.x = east - float(self.UTMdatum['E']) 
+            marker.pose.position.y = nrth - float(self.UTMdatum['N']) 
             marker.pose.position.z = 0 # zero is a novatel mount level
             marker.color.r = 255
             marker.color.g = 255
@@ -154,8 +155,8 @@ class MAP2RVIZ(object):
             marker.type = Marker.MESH_RESOURCE
             marker.mesh_use_embedded_materials = False
             marker.mesh_resource = '//'.join(['file:', self.track_mesh_resource])
-            marker.pose.position.x = 0# - self.UTMdatum['E']
-            marker.pose.position.y = 0# - self.UTMdatum['N']
+            marker.pose.position.x = 0# - float(self.UTMdatum['E']) 
+            marker.pose.position.y = 0# - float(self.UTMdatum['N']) 
             marker.pose.position.z = 0
             marker.scale.x = 1
             marker.scale.y = 1
@@ -177,8 +178,8 @@ class MAP2RVIZ(object):
             marker.type = Marker.MESH_RESOURCE
             marker.mesh_use_embedded_materials = False
             marker.mesh_resource = self.marking_mesh_resource
-            marker.pose.position.x = 0# - self.UTMdatum['E']
-            marker.pose.position.y = 0# - self.UTMdatum['N']
+            marker.pose.position.x = 0# - float(self.UTMdatum['E']) 
+            marker.pose.position.y = 0# - float(self.UTMdatum['N']) 
             marker.pose.position.z = 0
             marker.scale.x = 1
             marker.scale.y = 1

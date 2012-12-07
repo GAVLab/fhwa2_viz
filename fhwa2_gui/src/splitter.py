@@ -15,31 +15,16 @@ class SPLITTER(object):
         
         self.sub_topic = '/moos/' + rospy.get_param('~moosapp_name')
         self.sub = rospy.Subscriber(self.sub_topic, MOOSrosmsg, self.callback)
+
         self.pubs = {}
+        self.tags = rospy.get_param('/tags')
+        self.n_solns = len(self.tags)
+        for tag in self.tags:
+            self.pubs[tag] = rospy.Publisher('/moos/solutions/'+tag, ECEFpos)
 
-        self.tags = []
-
-        # configs
-        def get_solution_(n):
-            s = '~soln' + str(n)
-            tag = rospy.get_param(s + '_tag')
-            self.tags.append(tag)
-
-            pub = rospy.Publisher('/moos/solutions/'+tag, ECEFpos)
-            self.pubs[tag] = pub 
-
-        n = 1
-        while True:
-            try:
-                get_solution_(n)
-                n += 1
-            except Exception, e:
-                print('\n\n\n splitter except:')
-                print e
-                break
-        self.n_solns = n - 1
         self.orient_index = int(rospy.get_param('~orient_index'))        
         self.numsat_index = int(rospy.get_param('~numsat_index'))
+
         if self.DEBUG:
             # print('splitter -\n\t# of solutions: %i' % self.n_solns)
             # print('\torient_index: %i' % self.orient_index)
