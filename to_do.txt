@@ -1,12 +1,11 @@
-remove the yaml args from rviz nodes
-
 checkbox to display multiple or single topics in error plot
 
+-survey
+    survey node more robust
+    sign positions and texts
 
 - get track stripes/ lane marking mesh from blender working
     - mesh of lane markings visible from all angles (make non-planar)
 
 0-all sensors into single marker array?
-
-keep an array of covariances?
 

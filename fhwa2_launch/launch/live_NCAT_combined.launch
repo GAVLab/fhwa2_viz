@@ -1,33 +1,53 @@
 <launch>
 <!-- Master Args -->
-    <!-- Where the origin is in UTM zone 16S -->
-    <arg name="UTMdatum_E" default="659300"/>
-    <arg name="UTMdatum_N" default="3607850"/>
     <!-- G35 mesh that gets displayed in different sensor colors -->
     <arg name="veh_mesh_resource" default="$(find fhwa2_description)/mesh/infiniti_03_novatel_centered.dae"/>
-    <arg name="err_ell_opacity" default="0.5"/>
+    <arg name="err_ell_opacity" default="0.4"/>
+
+    <!-- Colors and tags-->
+    <rosparam>
+        UTMdatum:
+            E: 659300
+            N: 3607850
+
+        <!-- tells parser what other rosparams to look for -
+                 PUT REFERENCE FIRST -->
+        tags: ["rtk","gps","flt","psu","sri"]
+
+        rtk_color: 0,1,0
+        rtk_text: RTK
+
+        gps_color: 1,0,0
+        gps_text: GPS
+
+        flt_color: 0,0,1
+        flt_text: Filtered
+
+        psu_color: 1,0,1
+        psu_text: Penn St
+
+        sri_color: 1,1,0
+        sri_text: SRI
+
+    </rosparam>
 
 
-<!-- MOOS Stuff -->  
+<!-- MOOS Stuff -->
+    
     <node pkg="MOOS" type="uMS" name="uMS" required="true" output="screen"/>
-
 
     <!-- MOOS App -->
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="MOOSBridge" output="screen" respawn="true"
-        args="$(find fhwa2_launch)/mission/live.moos gMOOS2ROS"/>
+        args="$(find fhwa2_launch)/mission/playback.moos gMOOS2ROS"/>
 
 
 <!-- Sends MOOSrosmsg to respective rvizBridge -->
     <node pkg="fhwa2_gui" type="splitter.py" name="splitter" output="screen" required="true">
         <param name="DEBUG" value=""/>
         <param name="moosapp_name" value="gMOOS2ROS"/>
-        <!-- Each solution takes 6 indexes in the string -->
-        <param name="soln1_tag" value="rtk"/>
-        <param name="soln2_tag" value="gps"/>
-        <param name="soln3_tag" value="flt"/>
-        <param name="soln4_tag" value="psu"/>
-        <param name="soln5_tag" value="sri"/>
-        <!-- Where stuff is in that MOOSrosmsg which isn't a position solution -->
+        <!-- Each position solution takes 6 indexes in the string -->
+        <!-- Where stuff is in that MOOSrosmsg which isn't a position solution 
+                begin with index 0 -->
         <param name="orient_index" value="30"/>
         <param name="numsat_index" value="31"/>
     </node>
@@ -37,9 +57,6 @@
     <!-- Survey markers -->
     <node pkg="fhwa2_survey" type="mapBridge.py" name="rviz_survey" output="screen"
         args="$(find fhwa2_survey)/cfg/survey_NCAT.yaml">
-        <param name="UTMdatum_E" value="$(arg UTMdatum_E)"/>
-        <param name="UTMdatum_N" value="$(arg UTMdatum_N)"/>
-
         <!-- File inputs -->
         <param name="prefix" value="$(find fhwa2_survey)"/>
         <param name="track_mesh_resource" value="$(find fhwa2_survey)/mesh/NCAT_pavement_plane.stl"/>
@@ -54,47 +71,30 @@
     <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_rtk" output="screen" required="true">
         <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
         <param name="tag" value="rtk"/> <!-- used to set publishers -->
-        <param name="coord_sys" value="ECEF"/>
-        <param name="UTMdatum_E" value="$(arg UTMdatum_E)"/>
-        <param name="UTMdatum_N" value="$(arg UTMdatum_N)"/>
-        
+        <param name="coord_sys" value="ECEF"/>      
         <!-- display parameters -->
-        <param name="display_name" value="RTK"/>
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="color_rgb" value="0,255,0"/>
         <param name="legend_text_height" value="4.0"/>
-        <param name="err_ell_opacity" value="0.5"/>
     </node>
 
     <!-- Standalone GPS -->
     <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_gps" output="screen" required="true">
         <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
-        <param name="tag" value="gps"/> <!-- used to sesync_tolt publishers -->
-        <param name="coord_sys" value="ECEF"/>
-        <param name="UTMdatum_E" value="$(arg UTMdatum_E)"/>
-        <param name="UTMdatum_N" value="$(arg UTMdatum_N)"/>
-        
+        <param name="tag" value="gps"/> 
+        <param name="coord_sys" value="ECEF"/>       
         <!-- display parameters -->
-        <param name="display_name" value="GPS"/>
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="color_rgb" value="255,0,0"/>
-        <param name="legend_text_height" value="3.0"/>
-        <param name="err_ell_opacity" value="0.5"/>
+        <param name="legend_text_height" value="3.5"/>
     </node>
 
-    <!-- FHWA2 Combined Filtered-->
+    <!-- Filtered-->
     <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_flt" output="screen" required="true">
         <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
         <param name="tag" value="flt"/> <!-- used to set publishers -->
-        <param name="coord_sys" value="ECEF"/>
-        <param name="UTMdatum_E" value="$(arg UTMdatum_E)"/>
-        <param name="UTMdatum_N" value="$(arg UTMdatum_N)"/>
-        
+        <param name="coord_sys" value="ECEF"/>       
         <!-- display parameters -->
-        <param name="display_name" value="Filtered"/>
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="color_rgb" value="0,0,255"/>
-        <param name="legend_text_height" value="3.5"/>
+        <param name="legend_text_height" value="3.0"/>
     </node>
 
     <!-- Penn St Road Fingerprinting-->
@@ -102,15 +102,9 @@
         <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
         <param name="tag" value="psu"/> <!-- used to set publishers -->
         <param name="coord_sys" value="ECEF"/>
-        <param name="UTMdatum_E" value="$(arg UTMdatum_E)"/>
-        <param name="UTMdatum_N" value="$(arg UTMdatum_N)"/>
-        
         <!-- display parameters -->
-        <param name="display_name" value="Penn St"/>
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="color_rgb" value="255,0,255"/>
         <param name="legend_text_height" value="2.5"/>
-        <param name="err_ell_opacity" value="0.5"/>
     </node>
 
     <!-- Sarnoff Visual Odometry-->
@@ -118,15 +112,9 @@
         <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
         <param name="tag" value="sri"/> <!-- used to set publishers -->
         <param name="coord_sys" value="ECEF"/>
-        <param name="UTMdatum_E" value="$(arg UTMdatum_E)"/>
-        <param name="UTMdatum_N" value="$(arg UTMdatum_N)"/>
-        
         <!-- display parameters -->
-        <param name="display_name" value="Visodo"/>
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="color_rgb" value="0,0,255"/>
         <param name="legend_text_height" value="2.0"/>
-        <param name="err_ell_opacity" value="0.5"/>
     </node>
 
 
@@ -135,29 +123,33 @@
     <node pkg="fhwa2_gui" type="poseError.py" name="gps_rtk_error" output="screen" required="true">
         <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
         <param name="sync_tol" value=".01"/>
-        <param name="ref_topic" value="/moos/rtk/odom"/>
-        <param name="tgt_topic" value="/moos/gps/odom"/>
-        <param name="pub_topic" value="/error_mags/rtk_ref/gps_tgt"/>
-    </node>
+        <param name="ref_tag" value="rtk"/>
+        <param name="tgt_tag" value="gps"/>
+   </node>
 
     <!-- FHWA2 / RTK -->
     <node pkg="fhwa2_gui" type="poseError.py" name="flt_rtk_error" output="screen" required="true">
         <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
         <param name="sync_tol" value=".01"/>
-        <param name="ref_topic" value="/moos/rtk/odom"/>
-        <param name="tgt_topic" value="/moos/flt/odom"/>
-        <param name="pub_topic" value="/error_mags/rtk_ref/flt_tgt"/>
+        <param name="ref_tag" value="rtk"/>
+        <param name="tgt_tag" value="flt"/>
     </node>
 
     <!-- Penn St / RTK -->
     <node pkg="fhwa2_gui" type="poseError.py" name="psu_rtk_error" output="screen" required="true">
         <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
         <param name="sync_tol" value=".01"/>
-        <param name="ref_topic" value="/moos/rtk/odom"/>
-        <param name="tgt_topic" value="/moos/psu/odom"/>
-        <param name="pub_topic" value="/error_mags/rtk_ref/psu_tgt"/>
+        <param name="ref_tag" value="rtk"/>
+        <param name="tgt_tag" value="psu"/>
     </node>
 
+    <!-- Sarnoff / RTK -->
+    <node pkg="fhwa2_gui" type="poseError.py" name="sri_rtk_error" output="screen" required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="sync_tol" value=".01"/>
+        <param name="ref_tag" value="rtk"/>
+        <param name="tgt_tag" value="sri"/>
+    </node>
 
 
 <!-- rQt -->

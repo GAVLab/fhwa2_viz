@@ -26,7 +26,6 @@ class SPLITTER(object):
         self.numsat_index = int(rospy.get_param('~numsat_index'))
 
         if self.DEBUG:
-            # print('splitter -\n\t# of solutions: %i' % self.n_solns)
             # print('\torient_index: %i' % self.orient_index)
             # print('\tnumsat_index: %i' % self.numsat_index)
             pass
