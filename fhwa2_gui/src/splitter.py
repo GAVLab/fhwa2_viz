@@ -73,6 +73,8 @@ class SPLITTER(object):
 
     def disseminate(self, msgs):
         for tag in self.tags:
+            if '-nan' in msgs[tag]:
+                continue
             msg = ECEFpos()
             msg.x = float(msgs[tag][0])
             msg.y = float(msgs[tag][1])

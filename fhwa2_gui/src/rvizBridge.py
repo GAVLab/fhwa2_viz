@@ -48,9 +48,9 @@ class MOOS2RVIZ:
         self.UTMdatum = {'E': float(rospy.get_param("~UTMdatum_E")),
                          'N': float(rospy.get_param("~UTMdatum_N"))}
         self.coord_sys = rospy.get_param("~coord_sys")
-        self.color = {'r': int(rospy.get_param("~color_rgb").split(',')[0]),
-                      'g': int(rospy.get_param("~color_rgb").split(',')[1]),
-                      'b': int(rospy.get_param("~color_rgb").split(',')[2])}
+        self.color = {'r': int(rospy.get_param("/"+self.tag+"_color").split(',')[0])*255,
+                      'g': int(rospy.get_param("/"+self.tag+"_color").split(',')[1])*255,
+                      'b': int(rospy.get_param("/"+self.tag+"_color").split(',')[2])*255}
         self.legend_text_height = rospy.get_param("~legend_text_height")
         self.legend_text = rospy.get_param("~display_name")      
         self.veh_mesh_resource = rospy.get_param("~veh_mesh_resource")
@@ -98,11 +98,6 @@ class MOOS2RVIZ:
         skateboard = [msg.x, msg.y, msg.z, \
                       msg.x_covar, msg.y_covar, msg.z_covar, \
                       msg.orient, msg.header.stamp]
-        # Check for NaN
-        if '-nan' in skateboard:
-            print('rvizBridge - '+self.tag + ':  recieved nan')
-            return
-
         self.convert_odom_var(skateboard)
 
     def convert_odom_var(self, skateboard):

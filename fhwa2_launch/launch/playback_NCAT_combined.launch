@@ -7,6 +7,28 @@
     <arg name="veh_mesh_resource" default="$(find fhwa2_description)/mesh/infiniti_03_novatel_centered.dae"/>
     <arg name="err_ell_opacity" default="0.5"/>
 
+    <!-- Colors and tags-->
+    <rosparam>
+        <!-- tells parser what other rosparams to look for -->
+        tags: ["rtk","gps","flt","psu","sri"]
+
+        rtk_color: 0,1,0
+        rtk_text: RTK
+
+        gps_color: 1,0,0
+        gps_text: GPS
+
+        flt_color: 0,0,1
+        flt_text: Filtered
+
+        psu_color: 1,0,1
+        psu_text: Penn St
+
+        sri_color: 1,1,0
+        sri_text: SRI
+
+    </rosparam>
+
 
 <!-- MOOS Stuff -->
     <node pkg="MOOS" type="MOOSDB" name="MOOSDB" respawn="true" output="screen"/>    
@@ -61,7 +83,6 @@
         <!-- display parameters -->
         <param name="display_name" value="RTK"/>
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="color_rgb" value="0,255,0"/>
         <param name="legend_text_height" value="4.0"/>
     </node>
 
@@ -76,11 +97,10 @@
         <!-- display parameters -->
         <param name="display_name" value="GPS"/>
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="color_rgb" value="255,0,0"/>
-        <param name="legend_text_height" value="3.0"/>
+        <param name="legend_text_height" value="3.5"/>
     </node>
 
-    <!-- FHWA2 Combined Filtered-->
+    <!-- Filtered-->
     <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_flt" output="screen" required="true">
         <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
         <param name="tag" value="flt"/> <!-- used to set publishers -->
@@ -91,8 +111,7 @@
         <!-- display parameters -->
         <param name="display_name" value="Filtered"/>
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="color_rgb" value="0,0,255"/>
-        <param name="legend_text_height" value="3.5"/>
+        <param name="legend_text_height" value="3.0"/>
     </node>
 
     <!-- Penn St Road Fingerprinting-->
@@ -106,7 +125,6 @@
         <!-- display parameters -->
         <param name="display_name" value="Penn St"/>
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="color_rgb" value="255,0,255"/>
         <param name="legend_text_height" value="2.5"/>
     </node>
 
@@ -121,8 +139,7 @@
         <!-- display parameters -->
         <param name="display_name" value="Visodo"/>
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="color_rgb" value="0,0,255"/>
-        <param name="legend_text_height" value="3.5"/>
+        <param name="legend_text_height" value="2.0"/>
     </node>
 
 
@@ -154,6 +171,14 @@
         <param name="pub_topic" value="/error_mags/rtk_ref/psu_tgt"/>
     </node>
 
+    <!-- Sarnoff / RTK -->
+    <node pkg="fhwa2_gui" type="poseError.py" name="sri_rtk_error" output="screen" required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="sync_tol" value=".01"/>
+        <param name="ref_topic" value="/moos/rtk/odom"/>
+        <param name="tgt_topic" value="/moos/sri/odom"/>
+        <param name="pub_topic" value="/error_mags/rtk_ref/sri_tgt"/>
+    </node>
 
 
 <!-- rQt -->

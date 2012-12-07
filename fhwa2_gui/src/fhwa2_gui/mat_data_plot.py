@@ -80,7 +80,11 @@ class MatDataPlot(QWidget):
             # size_in = fig.get_size_inches()
             # fig.set_size_inches(size_in[0]*1.4, size_in[1])
 
-    _colors = ((1, 0, 1), (0, 1, 1), (0.5, 0.24, 0), (.24, 0.5, 0.24), (1, 0.5, 0))
+            # param stuff
+
+
+    _colors = [(1, 0, 1), (0, 1, 1), (0.5, 0.24, 0), (.24, 0.5, 0.24), (1, 0.5, 0)]
+    # _colors = []
 
     def __init__(self, parent=None):
         super(MatDataPlot, self).__init__(parent)
@@ -97,11 +101,11 @@ class MatDataPlot(QWidget):
         self.ref_name = 'RTK'
         self.tgt_name = 'FHWA2 Combined'
 
-    def add_curve(self, curve_id, data_x, data_y):
+    def add_curve(self, curve_id, data_x, data_y, color):
         data_x = collections.deque(data_x)
         data_y = collections.deque(data_y)
-        color = self._colors[self._color_index % len(self._colors)]
-        self._color_index += 1
+        # color = self._colors[self._color_index % len(self._colors)]
+        # self._color_index += 1
         plot = self._canvas.axes.plot(data_x, data_y, linewidth=1, picker=5, color=color)[0]
         self._curves[curve_id] = (data_x, data_y, plot)
 

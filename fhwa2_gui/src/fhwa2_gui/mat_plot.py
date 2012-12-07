@@ -48,6 +48,8 @@ from rqt_gui_py.plugin import Plugin
 from rqt_py_common.topic_completer import TopicCompleter
 from rqt_py_common.topic_helpers import is_slot_numeric
 
+from pprint import pprint as pp
+
 
 class MatPlotWidget(QWidget):
     """The actual Widget """
@@ -75,11 +77,22 @@ class MatPlotWidget(QWidget):
         self._update_plot_timer.timeout.connect(self.update_plot)
         self._update_plot_timer.start(40)
 
-        # start with subscription to gps
-        self.add_topic('/error_mags/rtk_ref/flt_tgt/mag_horiz')
-
         # connect combobox
         self.comboBox.currentIndexChanged.connect(self.on_combo_box_changed)
+
+        # params (colors)
+        self.texts = {}
+        self.data_plot._colors = {}
+        for tag in rospy.get_param('/tags'):
+            self.texts[tag] = rospy.get_param('/'+tag+'_text')
+            color = [int(i) for i in list(rospy.get_param('/'+tag+'_color').split(','))]
+            self.data_plot._colors[self.texts[tag]] = color
+            print('mat_plot texts:'); pp(self.texts)
+            print('\nmat_data_plot _colors:\n\t');pp(self.data_plot._colors) 
+
+        # start with subscription to gps
+        self.add_topic('/error_mags/rtk_ref/flt_tgt/mag_horiz')
+           
 
     def update_plot(self):
         for topic_name, rosdata in self._rosdata.items():
@@ -143,7 +156,8 @@ class MatPlotWidget(QWidget):
 
         self._rosdata[topic_name] = ROSData(topic_name, self._start_time)
         data_x, data_y = self._rosdata[topic_name].next()
-        self.data_plot.add_curve(topic_name, data_x, data_y)
+        color = self.data_plot._colors[self.comboBox.currentText()]
+        self.data_plot.add_curve(topic_name, data_x, data_y, color)
 
     @Slot()
     def on_clear_button_clicked(self):
@@ -168,11 +182,11 @@ class MatPlotWidget(QWidget):
         self.on_clear_button_clicked()
         self.data_plot.tgt_name = self.comboBox.currentText()
 
-        if self.comboBox.currentText() == 'FHWA2 Combined':
+        if self.comboBox.currentText() == 'Filtered':
             self.add_topic('/error_mags/rtk_ref/flt_tgt/mag_horiz')
         elif self.comboBox.currentText() == 'GPS':
             self.add_topic('/error_mags/rtk_ref/gps_tgt/mag_horiz')
-        elif self.comboBox.currentText() == 'Penn St.':
+        elif self.comboBox.currentText() == 'Penn St':
             self.add_topic('/error_mags/rtk_ref/psu_tgt/mag_horiz')
         elif self.comboBox.currentText() == 'SRI':
             self.add_topic('/error_mags/rtk_ref/sri_tgt/mag_horiz')

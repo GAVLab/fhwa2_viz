@@ -34,14 +34,14 @@ class NumSatWidget(QWidget):
     def onUpd(self, msg):
         val = msg.data
         # Colors when low
-        if val <=4:
-            self.NumLcd.setPalette(red_palette)
-            self.palette_is_normal = False
-        if val == 5:
-            self.NumLcd.setPalette(yellow_palette)
-            self.palette_is_normal = False
-        elif not self.palette_is_normal:
-            self.NumLcd.setPalette(palette)
+        # if val <=4:
+        #     self.NumLcd.setPalette(red_palette)
+        #     self.palette_is_normal = False
+        # if val == 5:
+        #     self.NumLcd.setPalette(yellow_palette)
+        #     self.palette_is_normal = False
+        # elif not self.palette_is_normal:
+        #     self.NumLcd.setPalette(palette)
 
         self.NumLcd.display(val)
 
