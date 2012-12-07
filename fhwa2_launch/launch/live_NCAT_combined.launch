@@ -38,7 +38,7 @@
 
     <!-- MOOS App -->
     <node pkg="fhwa2_MOOS_to_ROS" type="liveBridge_node" name="MOOSBridge" output="screen" respawn="true"
-        args="$(find fhwa2_launch)/mission/playback.moos gMOOS2ROS"/>
+        args="$(find fhwa2_launch)/mission/live.moos gMOOS2ROS"/>
 
 
 <!-- Sends MOOSrosmsg to respective rvizBridge -->
@@ -105,6 +105,7 @@
         <!-- display parameters -->
         <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
         <param name="legend_text_height" value="2.5"/>
+        <param name="err_ell_opacity" value="0.5"/>
     </node>
 
     <!-- Sarnoff Visual Odometry-->
