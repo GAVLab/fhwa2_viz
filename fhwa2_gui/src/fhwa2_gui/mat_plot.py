@@ -83,12 +83,18 @@ class MatPlotWidget(QWidget):
         # params (colors)
         self.texts = {}
         self.data_plot._colors = {}
+        self.sub_topics = {}
+        n = 0
         for tag in rospy.get_param('/tags'):
             self.texts[tag] = rospy.get_param('/'+tag+'_text')
             color = [int(i) for i in list(rospy.get_param('/'+tag+'_color').split(','))]
             self.data_plot._colors[self.texts[tag]] = color
+            if n != 0: # dont have a topic for the reference
+                self.sub_topics[tag] = '/error_mags/'+rospy.get_param('/tags')[0]+'_ref/'+tag+'_tgt/mag_horiz'
+            else:
+                n+=1
 
-        # start with subscription to gps
+        # start with subscription to filtered
         self.add_topic('/error_mags/rtk_ref/flt_tgt/mag_horiz')
            
 
@@ -176,18 +182,12 @@ class MatPlotWidget(QWidget):
 
     @Slot(str)
     def on_combo_box_changed(self, text):
-        print('In on_combo_box_changed')
+        # print('In on_combo_box_changed')
         self.on_clear_button_clicked()
         self.data_plot.tgt_name = self.comboBox.currentText()
 
-        if self.comboBox.currentText() == 'Filtered':
-            self.add_topic('/error_mags/rtk_ref/flt_tgt/mag_horiz')
-        elif self.comboBox.currentText() == 'GPS':
-            self.add_topic('/error_mags/rtk_ref/gps_tgt/mag_horiz')
-        elif self.comboBox.currentText() == 'Penn St':
-            self.add_topic('/error_mags/rtk_ref/psu_tgt/mag_horiz')
-        elif self.comboBox.currentText() == 'SRI':
-            self.add_topic('/error_mags/rtk_ref/sri_tgt/mag_horiz')
+        tag = [tg for tg, txt in self.texts.iteritems() if txt == self.comboBox.currentText()][0]
+        self.add_topic(self.sub_topics[tag])
 
         window_title = ' '.join(['Ground Plane Error Magnitude of Sensor:',
                                   self.comboBox.currentText(),
