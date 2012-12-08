@@ -1,9 +1,5 @@
 <launch>
 <!-- Master Args -->
-    <!-- G35 mesh that gets displayed in different sensor colors -->
-    <arg name="veh_mesh_resource" default="$(find fhwa2_description)/mesh/infiniti_03_novatel_centered.dae"/>
-
-    <!-- Colors and tags-->
     <rosparam>
         UTMdatum:
             E: 659300
@@ -56,104 +52,28 @@
 
 <!-- Survey -->
     <!-- old monolithic node -->
-    <!-- <node pkg="fhwa2_survey" type="mapBridge.py" name="survey" output="screen"> -->
-        <!-- File inputs -->
-        <!-- <param name="prefix" value="$(find fhwa2_survey)"/> -->
-        <!-- <param name="track_mesh_resource" value="$(find fhwa2_survey)/mesh/NCAT_pavement_plane.stl"/> -->
-        <!-- <param name="marking_mesh_resource" value=""/> -->
-        <!-- <param name="survey_stripe_locs"  -->
-            <!-- value="survey/stripes/inner.txt, survey/stripes/middle.txt, survey/stripes/outer.txt"/> -->
-        <!-- <param name="survey_center_locs"  -->
-            <!-- value="survey/centers/inner.txt, survey/centers/outer.txt"/> -->
-    <!-- </node> -->
+    <node pkg="fhwa2_survey" type="mapBridge.py" name="survey" output="screen">
+        <param name="prefix" value="$(find fhwa2_survey)"/>
 
-    <include file="$(find fhwa2_survey)/launch/NCAT.launch"/>
+        <param name="track_mesh_resource" value="$(find fhwa2_survey)/mesh/NCAT_pavement_plane.stl"/>
+        <param name="marking_mesh_resource" value=""/>
+
+        <param name="sign_mesh_resource" value="$(find fhwa2_survey)/mesh/sign.stl"/>
+        <param name="survey_sign_locs" value="survey/signs/sections.txt"/>
+
+        <param name="survey_stripe_locs"
+            value="survey/stripes/inner.txt, survey/stripes/middle.txt, survey/stripes/outer.txt"/>
+        <param name="survey_center_locs" 
+            value="survey/centers/inner.txt, survey/centers/outer.txt"/>
+    </node>
+
+    <!-- <include file="$(find fhwa2_survey)/launch/NCAT.launch"/> -->
 
 <!-- Solutions -->
-<!-- RTK -->
-    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_rtk" output="screen" required="true">
-        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
-        <param name="tag" value="rtk"/> <!-- used to set publishers -->
-        <param name="coord_sys" value="ECEF"/>      
-        <!-- display parameters -->
-        <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="legend_text_height" value="4.0"/>
-    </node>
-
-    <!-- Standalone GPS -->
-    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_gps" output="screen" required="true">
-        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
-        <param name="tag" value="gps"/> 
-        <param name="coord_sys" value="ECEF"/>       
-        <!-- display parameters -->
-        <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="legend_text_height" value="3.5"/>
-    </node>
-
-    <!-- Filtered-->
-    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_flt" output="screen" required="true">
-        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
-        <param name="tag" value="flt"/> <!-- used to set publishers -->
-        <param name="coord_sys" value="ECEF"/>       
-        <!-- display parameters -->
-        <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="legend_text_height" value="3.0"/>
-    </node>
-
-    <!-- Penn St Road Fingerprinting-->
-    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_psu" output="screen" required="true">
-        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
-        <param name="tag" value="psu"/> <!-- used to set publishers -->
-        <param name="coord_sys" value="ECEF"/>
-        <!-- display parameters -->
-        <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="legend_text_height" value="2.5"/>
-    </node>
-
-    <!-- Sarnoff Visual Odometry-->
-    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_sri" output="screen" required="true">
-        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
-        <param name="tag" value="sri"/> <!-- used to set publishers -->
-        <param name="coord_sys" value="ECEF"/>
-        <!-- display parameters -->
-        <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
-        <param name="legend_text_height" value="2.0"/>
-    </node>
-
+    <include file="$(find fhwa2_launch)/launch/solutions.launch"/>
 
 <!-- Error Nodes -->
-    <!-- GPS / RTK -->
-    <node pkg="fhwa2_gui" type="poseError.py" name="gps_rtk_error" output="screen" required="true">
-        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
-        <param name="sync_tol" value=".01"/>
-        <param name="ref_tag" value="rtk"/>
-        <param name="tgt_tag" value="gps"/>
-   </node>
-
-    <!-- FHWA2 / RTK -->
-    <node pkg="fhwa2_gui" type="poseError.py" name="flt_rtk_error" output="screen" required="true">
-        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
-        <param name="sync_tol" value=".01"/>
-        <param name="ref_tag" value="rtk"/>
-        <param name="tgt_tag" value="flt"/>
-    </node>
-
-    <!-- Penn St / RTK -->
-    <node pkg="fhwa2_gui" type="poseError.py" name="psu_rtk_error" output="screen" required="true">
-        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
-        <param name="sync_tol" value=".01"/>
-        <param name="ref_tag" value="rtk"/>
-        <param name="tgt_tag" value="psu"/>
-    </node>
-
-    <!-- Sarnoff / RTK -->
-    <node pkg="fhwa2_gui" type="poseError.py" name="sri_rtk_error" output="screen" required="true">
-        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
-        <param name="sync_tol" value=".01"/>
-        <param name="ref_tag" value="rtk"/>
-        <param name="tgt_tag" value="sri"/>
-    </node>
-
+    <include file="$(find fhwa2_launch)/launch/errors.launch"/>
 
 <!-- rQt -->
     <node pkg="rqt_gui" type="rqt_gui" name="rqt" output="screen" required="true"/>

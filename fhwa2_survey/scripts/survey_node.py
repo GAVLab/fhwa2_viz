@@ -25,7 +25,6 @@ def read_survey(file_locs, default, delimiter=', '):
         delimiter is self explanatory
         default is the position value to set when 2D instead of 3D (outputs 3D regardless)
     """
-    print('\n\ndelimiter: __|%s|__\n\n' % delimiter)
     out = []
     files = [open(f, 'rU') for f in file_locs]
     for f in files:
@@ -34,19 +33,13 @@ def read_survey(file_locs, default, delimiter=', '):
             line = line[0:-2] # remove the '\n' at the end
             pt_list = line.split(' ')
             pt_list = [float(i) for i in pt_list]
-            out.append(pt_list)
 
             if len(pt_list) == 2:
                 pt_list.append(default) 
             elif len(pt_list) != 3:
                 print('read_survey: Warning: incorrect number of elements. skipping line.')
                 continue
-
-            # point = (default, default, default)
-            # for n in range(len(pt_list)):
-            #     point[n] = pt_list[n]
-            # out.append(point)
-
+            out.append(pt_list)
     return out
 
 
@@ -84,13 +77,13 @@ class SURVEY(object):
             self.marker.type = Marker.CUBE
         elif m_type == 'SPHERE':
             self.marker.type = Marker.SPHERE
-        elif m_type[0:4] == 'file':
+        else: #m_type[0:4] == 'file':
             self.marker.type = Marker.MESH_RESOURCE
             self.marker.mesh_use_embedded_materials = False
             self.marker.mesh_resource = m_type
-        else:
-            print('invalid type for marker given')
-            return
+        # else:
+            # print('\ninvalid type for marker given\n')
+            # return
 
         try: # see if the positions are in a file
             self.files = rospy.get_param('~file_locs').split(', ')
@@ -109,7 +102,7 @@ class SURVEY(object):
         if self.coord_sys_input == 'LLA':
             convert = self.gps.lla2utm
         else:
-            print('survey_node: Unknown or invalid input coordinate system')
+            print('\nsurvey_node: Unknown or invalid input coordinate system')
             return
 
         if mult:
@@ -140,8 +133,8 @@ class SURVEY(object):
         pub = rospy.Publisher('survey', Marker, latch=True)
         m = dcp(self.marker)
         m.id = 0
-        m.pose.position.x = self.position[0] - float(self.UTMdatum['E'])
-        m.pose.position.y = self.position[1] - float(self.UTMdatum['N'])
+        m.pose.position.x = self.position[0]# - float(self.UTMdatum['E'])
+        m.pose.position.y = self.position[1]# - float(self.UTMdatum['N'])
         m.pose.position.z = self.position[2]
         pub.publish(m)
 

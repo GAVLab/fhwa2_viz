@@ -1,0 +1,56 @@
+<launch>
+    <!-- G35 mesh that gets displayed in different sensor colors -->
+    <arg name="veh_mesh_resource" default="$(find fhwa2_description)/mesh/infiniti_03_novatel_centered.dae"/>
+
+<!-- RTK -->
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_rtk" output="screen" required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="tag" value="rtk"/> <!-- used to set publishers -->
+        <param name="coord_sys" value="ECEF"/>      
+        <!-- display parameters -->
+        <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
+        <param name="legend_text_height" value="4.0"/>
+    </node>
+
+    <!-- Standalone GPS -->
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_gps" output="screen" required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="tag" value="gps"/> 
+        <param name="coord_sys" value="ECEF"/>       
+        <!-- display parameters -->
+        <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
+        <param name="legend_text_height" value="3.5"/>
+    </node>
+
+    <!-- Filtered-->
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_flt" output="screen" required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="tag" value="flt"/> <!-- used to set publishers -->
+        <param name="coord_sys" value="ECEF"/>       
+        <!-- display parameters -->
+        <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
+        <param name="legend_text_height" value="3.0"/>
+    </node>
+
+    <!-- Penn St Road Fingerprinting-->
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_psu" output="screen" required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="tag" value="psu"/> <!-- used to set publishers -->
+        <param name="coord_sys" value="ECEF"/>
+        <!-- display parameters -->
+        <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
+        <param name="legend_text_height" value="2.5"/>
+    </node>
+
+    <!-- Sarnoff Visual Odometry-->
+    <node pkg="fhwa2_gui" type="rvizBridge.py" name="rvizBridge_sri" output="screen" required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="tag" value="sri"/> <!-- used to set publishers -->
+        <param name="coord_sys" value="ECEF"/>
+        <!-- display parameters -->
+        <param name="veh_mesh_resource" value="$(arg veh_mesh_resource)"/>
+        <param name="legend_text_height" value="2.0"/>
+    </node>
+
+
+</launch>

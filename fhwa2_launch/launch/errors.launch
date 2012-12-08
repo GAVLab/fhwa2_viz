@@ -1,0 +1,35 @@
+<launch>
+
+    <!-- GPS / RTK -->
+    <node pkg="fhwa2_gui" type="poseError.py" name="gps_rtk_error" output="screen" required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="sync_tol" value=".01"/>
+        <param name="ref_tag" value="rtk"/>
+        <param name="tgt_tag" value="gps"/>
+   </node>
+
+    <!-- FHWA2 / RTK -->
+    <node pkg="fhwa2_gui" type="poseError.py" name="flt_rtk_error" output="screen" required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="sync_tol" value=".01"/>
+        <param name="ref_tag" value="rtk"/>
+        <param name="tgt_tag" value="flt"/>
+    </node>
+
+    <!-- Penn St / RTK -->
+    <node pkg="fhwa2_gui" type="poseError.py" name="psu_rtk_error" output="screen" required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="sync_tol" value=".01"/>
+        <param name="ref_tag" value="rtk"/>
+        <param name="tgt_tag" value="psu"/>
+    </node>
+
+    <!-- Sarnoff / RTK -->
+    <node pkg="fhwa2_gui" type="poseError.py" name="sri_rtk_error" output="screen" required="true">
+        <param name="DEBUG" value=""/> <!-- Leave empty string for false -->
+        <param name="sync_tol" value=".01"/>
+        <param name="ref_tag" value="rtk"/>
+        <param name="tgt_tag" value="sri"/>
+    </node>
+
+</launch>

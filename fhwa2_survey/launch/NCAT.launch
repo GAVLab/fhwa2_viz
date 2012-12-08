@@ -2,7 +2,6 @@
 <!-- Currently only 2d positions are supported as ouput (UTM) -->
     <!-- lane markers -->
     <node pkg="fhwa2_survey" type="survey_node.py" name="survey_lanes" output="screen">
-        <!-- <param name="prefix" value="$(find fhwa2_survey)"/> -->
         <param name="file_locs" value="$(find fhwa2_survey)/survey/stripes/inner.txt, $(find fhwa2_survey)/survey/stripes/middle.txt, $(find fhwa2_survey)/survey/stripes/outer.txt"/>
         <param name="delimiter" value=" "/>
         <remap from="survey" to="survey/stripes"/>
@@ -14,6 +13,19 @@
         <param name="rgba" value="255, 255, 0, 1"/>
     </node>
 
+    <!-- lane centers -->
+    <node pkg="fhwa2_survey" type="survey_node.py" name="survey_centers" output="screen">
+        <param name="file_locs" value="$(find fhwa2_survey)/survey/centers/inner.txt, $(find fhwa2_survey)/survey/centers/outer.txt"/>
+        <param name="delimiter" value=" "/>
+        <remap from="survey" to="survey/centers"/>
+        <param name="frame_id" value="odom"/>
+        <param name="coord_sys_input" value="LLA"/>
+        <!-- display -->
+        <param name="scale" value="0.2, 0.2, 0.2"/>
+        <param name="marker" value="SPHERE"/>
+        <param name="rgba" value="255, 255, 255, 0.75"/>
+    </node>
+
     <!-- track mesh -->
     <node pkg="fhwa2_survey" type="survey_node.py" name="track_mesh" output="screen">
         <!-- <param name="prefix" value="$(find fhwa2_survey)"/> -->
@@ -23,10 +35,7 @@
         <param name="coord_sys_input" value="LLA"/>
         <!-- display -->
         <param name="marker" value="file://$(find fhwa2_survey)/mesh/NCAT_pavement_plane.stl"/>
-        <param name="rgba" value="0.3, 0.3, 0.3, 1"/>
-
+        <param name="rgba" value="100, 100, 100, 1"/>
     </node>
-
-
 
 </launch>
