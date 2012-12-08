@@ -36,7 +36,9 @@ def read_survey(file_locs, default, delimiter=', '):
             pt_list = [float(i) for i in pt_list]
             out.append(pt_list)
 
-            if len(pt_list) not in [2,3]:
+            if len(pt_list) == 2:
+                pt_list.append(default) 
+            elif len(pt_list) != 3:
                 print('read_survey: Warning: incorrect number of elements. skipping line.')
                 continue
 
@@ -126,10 +128,10 @@ class SURVEY(object):
         for p in self.position:
             m = dcp(self.marker)
             m.id = m_id
-            m.pose.position.x = p[0]
-            m.pose.position.y = p[1]
+            m.pose.position.x = p[0] - float(self.UTMdatum['E'])
+            m.pose.position.y = p[1] - float(self.UTMdatum['N'])
             m.pose.position.z = p[2]
-            array.append(m)
+            array.markers.append(m)
             m_id += 1
         pub.publish(array)
 
@@ -138,8 +140,8 @@ class SURVEY(object):
         pub = rospy.Publisher('survey', Marker, latch=True)
         m = dcp(self.marker)
         m.id = 0
-        m.pose.position.x = self.position[0]
-        m.pose.position.y = self.position[1]
+        m.pose.position.x = self.position[0] - float(self.UTMdatum['E'])
+        m.pose.position.y = self.position[1] - float(self.UTMdatum['N'])
         m.pose.position.z = self.position[2]
         pub.publish(m)
 
