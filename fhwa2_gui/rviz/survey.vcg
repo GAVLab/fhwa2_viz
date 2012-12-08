@@ -1,0 +1,273 @@
+Background\ ColorB=0
+Background\ ColorG=0
+Background\ ColorR=0
+Camera\ Config=0.6248 1.9304 473.811 0 0 0
+Camera\ Type=rviz::OrbitViewController
+Filtered\ Err\ Ellipse.Enabled=1
+Filtered\ Err\ Ellipse.Marker\ Topic=/moos/gps/error_ellipse
+Filtered\ Err\ Ellipse.Queue\ Size=100
+Filtered\ G35.Enabled=1
+Filtered\ G35.Marker\ Topic=/moos/flt/current_position
+Filtered\ G35.Queue\ Size=100
+Filtered\ Grid.Alpha=0.5
+Filtered\ Grid.Cell\ Size=1
+Filtered\ Grid.ColorB=0.5
+Filtered\ Grid.ColorG=0.5
+Filtered\ Grid.ColorR=0.5
+Filtered\ Grid.Enabled=0
+Filtered\ Grid.Line\ Style=0
+Filtered\ Grid.Line\ Width=0.03
+Filtered\ Grid.Normal\ Cell\ Count=0
+Filtered\ Grid.OffsetX=0
+Filtered\ Grid.OffsetY=0
+Filtered\ Grid.OffsetZ=0
+Filtered\ Grid.Plane=0
+Filtered\ Grid.Plane\ Cell\ Count=10
+Filtered\ Grid.Reference\ Frame=/flt_base_link
+Filtered\ Legend.Enabled=1
+Filtered\ Legend.Marker\ Topic=/moos/flt/legend
+Filtered\ Legend.Queue\ Size=100
+Filtered\ Position.Angle\ Tolerance=0.1
+Filtered\ Position.ColorB=1
+Filtered\ Position.ColorG=0
+Filtered\ Position.ColorR=0
+Filtered\ Position.Enabled=1
+Filtered\ Position.Keep=100
+Filtered\ Position.Length=2
+Filtered\ Position.Position\ Tolerance=0.1
+Filtered\ Position.Topic=/moos/flt/odom
+Fixed\ Frame=/odom
+GPS\ Err\ Ellipse.Enabled=1
+GPS\ Err\ Ellipse.Marker\ Topic=/moos/gps/error_ellipse
+GPS\ Err\ Ellipse.Queue\ Size=100
+GPS\ G35.Enabled=1
+GPS\ G35.Marker\ Topic=/moos/gps/current_position
+GPS\ G35.Queue\ Size=100
+GPS\ Grid.Alpha=0.3
+GPS\ Grid.Cell\ Size=1
+GPS\ Grid.ColorB=0
+GPS\ Grid.ColorG=0
+GPS\ Grid.ColorR=1
+GPS\ Grid.Enabled=0
+GPS\ Grid.Line\ Style=0
+GPS\ Grid.Line\ Width=0.02
+GPS\ Grid.Normal\ Cell\ Count=0
+GPS\ Grid.OffsetX=0
+GPS\ Grid.OffsetY=0
+GPS\ Grid.OffsetZ=-1.55
+GPS\ Grid.Plane=0
+GPS\ Grid.Plane\ Cell\ Count=10
+GPS\ Grid.Reference\ Frame=/gps_base_link
+GPS\ Legend.Enabled=1
+GPS\ Legend.Marker\ Topic=/moos/gps/legend
+GPS\ Legend.Queue\ Size=100
+GPS\ Position.Angle\ Tolerance=0.1
+GPS\ Position.ColorB=0
+GPS\ Position.ColorG=0.1
+GPS\ Position.ColorR=1
+GPS\ Position.Enabled=1
+GPS\ Position.Keep=100
+GPS\ Position.Length=2
+GPS\ Position.Position\ Tolerance=0.1
+GPS\ Position.Topic=/moos/gps/odom
+Lane\ Centers.Enabled=1
+Lane\ Centers.Marker\ Array\ Topic=/map/survey_lanes
+Lane\ Centers.Queue\ Size=1000
+Marker.Enabled=1
+Marker.Marker\ Topic=/survey/track_mesh
+Marker.Queue\ Size=100
+Marker.fhwa2_survey=1
+PennSt\ Err\ Ellipse.Enabled=1
+PennSt\ Err\ Ellipse.Marker\ Topic=/moos/psu/error_ellipse
+PennSt\ Err\ Ellipse.Queue\ Size=100
+PennSt\ G35.Enabled=1
+PennSt\ G35.Marker\ Topic=/moos/psu/current_position
+PennSt\ G35.Queue\ Size=100
+PennSt\ Grid.Alpha=0.5
+PennSt\ Grid.Cell\ Size=1
+PennSt\ Grid.ColorB=0.5
+PennSt\ Grid.ColorG=0.5
+PennSt\ Grid.ColorR=0.5
+PennSt\ Grid.Enabled=0
+PennSt\ Grid.Line\ Style=0
+PennSt\ Grid.Line\ Width=0.03
+PennSt\ Grid.Normal\ Cell\ Count=0
+PennSt\ Grid.OffsetX=0
+PennSt\ Grid.OffsetY=0
+PennSt\ Grid.OffsetZ=0
+PennSt\ Grid.Plane=0
+PennSt\ Grid.Plane\ Cell\ Count=10
+PennSt\ Grid.Reference\ Frame=/psu_base_link
+PennSt\ Legend.Enabled=1
+PennSt\ Legend.Marker\ Topic=/moos/psu/legend
+PennSt\ Legend.Queue\ Size=100
+PennSt\ Position.Angle\ Tolerance=0.1
+PennSt\ Position.ColorB=1
+PennSt\ Position.ColorG=0
+PennSt\ Position.ColorR=1
+PennSt\ Position.Enabled=1
+PennSt\ Position.Keep=100
+PennSt\ Position.Length=2
+PennSt\ Position.Position\ Tolerance=0.1
+PennSt\ Position.Topic=/moos/psu/odom
+Property\ Grid\ Splitter=258,0
+Property\ Grid\ State=expanded=.Global Options,RTK Grid.Enabled,Road & Stripe Meshes.Enabled;splitterratio=0.577825
+QMainWindow=000000ff00000000fd00000003000000000000019b0000021ffc0200000002fb000000100044006900730070006c006100790073010000001900000154000000ee00fffffffb0000000a005600690065007700730100000173000000c5000000bb00ffffff00000001000001310000032afc0200000003fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073000000001d0000018c0000006700fffffffb0000000c00430061006d00650072006100000000d50000013e0000000000000000fb0000001200530065006c0065006300740069006f006e000000028f000000670000006700ffffff000000030000074e0000003efc0100000001fb0000000800540069006d006500000000000000074e000002bf00ffffff000004690000021f00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730000000000ffffffff0000000000000000
+RTK\ Err\ Ellipse.Enabled=1
+RTK\ Err\ Ellipse.Marker\ Topic=/moos/rtk/error_ellipse
+RTK\ Err\ Ellipse.Queue\ Size=100
+RTK\ G35.Enabled=1
+RTK\ G35.Marker\ Topic=/moos/rtk/current_position
+RTK\ G35.Queue\ Size=100
+RTK\ Grid.Alpha=0.3
+RTK\ Grid.Cell\ Size=1
+RTK\ Grid.ColorB=0
+RTK\ Grid.ColorG=1
+RTK\ Grid.ColorR=0
+RTK\ Grid.Enabled=1
+RTK\ Grid.Line\ Style=0
+RTK\ Grid.Line\ Width=0.03
+RTK\ Grid.Normal\ Cell\ Count=0
+RTK\ Grid.OffsetX=0
+RTK\ Grid.OffsetY=0
+RTK\ Grid.OffsetZ=-4
+RTK\ Grid.Plane=0
+RTK\ Grid.Plane\ Cell\ Count=10
+RTK\ Grid.Reference\ Frame=/rtk_base_link
+RTK\ Legend.Enabled=1
+RTK\ Legend.Marker\ Topic=/moos/rtk/legend
+RTK\ Legend.Queue\ Size=100
+RTK\ Position.Angle\ Tolerance=0.1
+RTK\ Position.ColorB=0
+RTK\ Position.ColorG=1
+RTK\ Position.ColorR=0
+RTK\ Position.Enabled=1
+RTK\ Position.Keep=100
+RTK\ Position.Length=2
+RTK\ Position.Position\ Tolerance=0.1
+RTK\ Position.Topic=/moos/rtk/odom
+Road\ &\ Stripe\ Meshes.Enabled=1
+Road\ &\ Stripe\ Meshes.Marker\ Array\ Topic=/map/mesh
+Road\ &\ Stripe\ Meshes.Queue\ Size=100
+Static\ Grid.Alpha=0.75
+Static\ Grid.Cell\ Size=10
+Static\ Grid.ColorB=0.313726
+Static\ Grid.ColorG=0.313726
+Static\ Grid.ColorR=0.313726
+Static\ Grid.Enabled=1
+Static\ Grid.Line\ Style=0
+Static\ Grid.Line\ Width=0.03
+Static\ Grid.Normal\ Cell\ Count=0
+Static\ Grid.OffsetX=0
+Static\ Grid.OffsetY=0
+Static\ Grid.OffsetZ=0
+Static\ Grid.Plane=0
+Static\ Grid.Plane\ Cell\ Count=125
+Static\ Grid.Reference\ Frame=<Fixed Frame>
+Stripes.Enabled=1
+Stripes.Marker\ Array\ Topic=/map/survey_stripes
+Stripes.Queue\ Size=2000
+Target\ Frame=/flt_base_link
+Tool\ 2D\ Nav\ GoalTopic=/move_base_simple/goal
+Tool\ 2D\ Pose\ EstimateTopic=initialpose
+[Display0]
+ClassName=rviz::GridDisplay
+Name=Static Grid
+[Display1]
+ClassName=rviz::GridDisplay
+Name=RTK Grid
+[Display10]
+ClassName=rviz::MarkerDisplay
+Name=GPS G35
+[Display11]
+ClassName=rviz::GridDisplay
+Name=Filtered Grid
+[Display12]
+ClassName=rviz::OdometryDisplay
+Name=Filtered Position
+[Display13]
+ClassName=rviz::MarkerDisplay
+Name=Filtered Err Ellipse
+[Display14]
+ClassName=rviz::MarkerDisplay
+Name=Filtered Legend
+[Display15]
+ClassName=rviz::MarkerDisplay
+Name=Filtered G35
+[Display16]
+ClassName=rviz::GridDisplay
+Name=PennSt Grid
+[Display17]
+ClassName=rviz::OdometryDisplay
+Name=PennSt Position
+[Display18]
+ClassName=rviz::MarkerDisplay
+Name=PennSt Err Ellipse
+[Display19]
+ClassName=rviz::MarkerDisplay
+Name=PennSt Legend
+[Display2]
+ClassName=rviz::OdometryDisplay
+Name=RTK Position
+[Display20]
+ClassName=rviz::MarkerDisplay
+Name=PennSt G35
+[Display21]
+ClassName=rviz::MarkerArrayDisplay
+Name=Lane Centers
+[Display22]
+ClassName=rviz::MarkerArrayDisplay
+Name=Stripes
+[Display23]
+ClassName=rviz::MarkerArrayDisplay
+Name=Road & Stripe Meshes
+[Display24]
+ClassName=rviz::MarkerDisplay
+Name=Marker
+[Display3]
+ClassName=rviz::MarkerDisplay
+Name=RTK Err Ellipse
+[Display4]
+ClassName=rviz::MarkerDisplay
+Name=RTK Legend
+[Display5]
+ClassName=rviz::MarkerDisplay
+Name=RTK G35
+[Display6]
+ClassName=rviz::GridDisplay
+Name=GPS Grid
+[Display7]
+ClassName=rviz::OdometryDisplay
+Name=GPS Position
+[Display8]
+ClassName=rviz::MarkerDisplay
+Name=GPS Err Ellipse
+[Display9]
+ClassName=rviz::MarkerDisplay
+Name=GPS Legend
+[Views]
+0Name=GPS Centered
+1Name=RTK Centered
+2Name=PennSt Centered
+3Name=Filter Centered
+[Views/0]
+Config=0.605399 1.96903 10.5369 0 0 0
+Target=/gps_base_link
+Type=rviz::OrbitViewController
+[Views/1]
+Config=0.785398 0.785398 10 0 0 0
+Target=/rtk_base_link
+Type=rviz::OrbitViewController
+[Views/2]
+Config=0.785398 0.785398 35.9053 0 0 0
+Target=/psu_base_link
+Type=rviz::OrbitViewController
+[Views/3]
+Config=0.785398 0.785398 18.8319 0 0 0
+Target=/flt_base_link
+Type=rviz::OrbitViewController
+[Window]
+Height=568
+Width=1546
+X=4
+Y=25

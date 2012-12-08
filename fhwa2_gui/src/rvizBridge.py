@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 # Robert Cofield, GAVLab
 # Python v2.7.3
-# from pymoos.MOOSCommClient import MOOSCommClient # used this when pymoos wouldn't build on hp under ros
 from pprint import pprint as pp
 import sys, os
 from time import sleep, time
-from yaml import load
+# from yaml import load
 from math import radians, sqrt, pi, degrees
-# from mapping import ll2utm
 
 #ROS Imports
 import roslib
@@ -19,12 +17,6 @@ import tf
 from tf.transformations import quaternion_from_euler as qfe
 from util import GPS
 
-#MOOS Imports
-# sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/python') # location of one file named MOOSCommClient.py (other located in bin)
-
-# sys.path.append('../../../MOOS-ros-pkg/MOOS/pymoos/lib')
-from pymoos.MOOSCommClient import MOOSCommClient
-# from fhwa2_MOOS_to_ROS.msg import MOOSrosmsg
 from fhwa2_gui.msg import ECEFpos
 
 
@@ -45,8 +37,6 @@ class MOOS2RVIZ:
         self.DEBUG = bool(rospy.get_param('~DEBUG'))
         self.tag = rospy.get_param('~tag')
 
-        # self.UTMdatum = {'E': float(rospy.get_param("~UTMdatum_E")),
-        #                  'N': float(rospy.get_param("~UTMdatum_N"))}
         self.UTMdatum = rospy.get_param('/UTMdatum')
         self.coord_sys = rospy.get_param("~coord_sys")
         self.color = {'r': int(rospy.get_param("/"+self.tag+"_color").split(',')[0])*255,
@@ -55,7 +45,7 @@ class MOOS2RVIZ:
         self.legend_text_height = rospy.get_param("~legend_text_height")
         self.legend_text = rospy.get_param("/"+self.tag+"_text")      
         self.veh_mesh_resource = rospy.get_param("~veh_mesh_resource")
-        # self.err_ell_opacity = rospy.get_param('~err_ell_opacity')
+        self.err_ell_opacity = float(rospy.get_param('/err_ell_opacity'))
 
 
     def set_publishers(self):
@@ -73,8 +63,6 @@ class MOOS2RVIZ:
         self.curpos_publisher = rospy.Publisher(curpos_topic, Marker) # even though this is at the same position as the novatel error ellipse, we want it to have a different name in case the integrated solution is different
         rospy.Subscriber(odom_topic, Odometry, self.pub_at_position) # put the vehicle model at the accepted position solution
 
-        # combined_topic = '/'.join(['moos',self.tag, "the_3"])
-        # self.combined_publisher = rospy.Publisher(combined_topic, MarkerArray)
         if self.DEBUG:
             print('rvizBridge '+self.tag+': Publishers and Subscribers set')
     ############################################################################
@@ -187,7 +175,7 @@ class MOOS2RVIZ:
         ell_marker.color.r = self.color['r']
         ell_marker.color.g = self.color['g']
         ell_marker.color.b = self.color['b']
-        # ell_marker.color.a = self.err_ell_opacity
+        ell_marker.color.a = self.err_ell_opacity
         ell_marker.color.a = 0.5
         self.ell_publisher.publish(ell_marker)
 

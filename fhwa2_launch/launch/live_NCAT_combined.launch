@@ -2,7 +2,6 @@
 <!-- Master Args -->
     <!-- G35 mesh that gets displayed in different sensor colors -->
     <arg name="veh_mesh_resource" default="$(find fhwa2_description)/mesh/infiniti_03_novatel_centered.dae"/>
-    <arg name="err_ell_opacity" default="0.4"/>
 
     <!-- Colors and tags-->
     <rosparam>
@@ -28,6 +27,8 @@
 
         sri_color: 1,1,0
         sri_text: SRI
+
+        err_ell_opacity: 0.4
 
     </rosparam>
 
