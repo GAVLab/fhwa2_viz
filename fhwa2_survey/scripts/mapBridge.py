@@ -10,7 +10,9 @@ from yaml import load
 import roslib; roslib.load_manifest('fhwa2_MOOS_to_ROS')
 import rospy
 from visualization_msgs.msg import Marker, MarkerArray # had to add module to manifest
-from math import pi, sin, cos, tan, sqrt
+from tf.transformations import quaternion_from_euler as qfe
+
+from math import pi, sin, cos, tan, sqrt, atan2
 from util import GPS
 from pprint import pprint as pp
 
@@ -166,9 +168,6 @@ class MAP2RVIZ(object):
             marker.ns = "signs"
             marker.type = Marker.MESH_RESOURCE
             marker.mesh_use_embedded_materials = False
-            marker.pose.position.x = east - float(self.UTMdatum['E']) 
-            marker.pose.position.y = nrth - float(self.UTMdatum['N']) 
-            marker.pose.position.z = 0 # zero is a novatel mount level
             marker.mesh_resource = '//'.join(['file:', self.sign_mesh_resource])
             marker.color.r = 1
             marker.color.g = 255
@@ -177,6 +176,18 @@ class MAP2RVIZ(object):
             marker.scale.x = .0254
             marker.scale.y = .0254
             marker.scale.z = .0254
+            marker.pose.position.x = east - float(self.UTMdatum['E']) 
+            marker.pose.position.y = nrth - float(self.UTMdatum['N']) 
+            marker.pose.position.z = 0 # zero is a novatel mount level
+
+            pos_angle = atan2(marker.pose.position.y, marker.pose.position.x)
+            face = pos_angle + pi
+            orient = qfe(0, 0, face)
+            marker.pose.orientation.x = orient[0]
+            marker.pose.orientation.y = orient[1]
+            marker.pose.orientation.z = orient[2]
+            marker.pose.orientation.w = orient[3]
+
             self.sign_array.markers.append(marker)
 
             NCAT_id += 1
