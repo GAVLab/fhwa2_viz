@@ -170,13 +170,13 @@ class MAP2RVIZ(object):
             marker.pose.position.y = nrth - float(self.UTMdatum['N']) 
             marker.pose.position.z = 0 # zero is a novatel mount level
             marker.mesh_resource = '//'.join(['file:', self.sign_mesh_resource])
-            marker.color.r = 0
-            marker.color.g = 200
-            marker.color.b = 0
+            marker.color.r = 1
+            marker.color.g = 255
+            marker.color.b = 1
             marker.color.a = 1
-            marker.scale.x = .1
-            marker.scale.y = .1
-            marker.scale.z = .1
+            marker.scale.x = .0254
+            marker.scale.y = .0254
+            marker.scale.z = .0254
             self.sign_array.markers.append(marker)
 
             NCAT_id += 1
