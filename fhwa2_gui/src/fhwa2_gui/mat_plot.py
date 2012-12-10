@@ -87,7 +87,7 @@ class MatPlotWidget(QWidget):
         n = 0
         for tag in rospy.get_param('/tags'):
             self.texts[tag] = rospy.get_param('/'+tag+'_text')
-            color = [int(i) for i in list(rospy.get_param('/'+tag+'_color').split(','))]
+            color = [float(i) for i in list(rospy.get_param('/'+tag+'_color').split(','))]
             self.data_plot._colors[self.texts[tag]] = color
             if n != 0: # dont have a topic for the reference
                 self.sub_topics[tag] = '/error_mags/'+rospy.get_param('/tags')[0]+'_ref/'+tag+'_tgt/mag_horiz'

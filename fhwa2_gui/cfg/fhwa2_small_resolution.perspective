@@ -1,0 +1,84 @@
+{
+  "keys": {}, 
+  "groups": {
+    "pluginmanager": {
+      "keys": {
+        "running-plugins": {
+          "type": "repr", 
+          "repr": "{u'rqt_rviz/RViz': [1], u'fhwa2_gui/ErrorPlugin': [1], u'fhwa2_gui/NumSatPlugin': [1]}"
+        }
+      }, 
+      "groups": {
+        "plugin__rqt_rviz__RViz__1": {
+          "keys": {}, 
+          "groups": {
+            "dock_widget__": {
+              "keys": {
+                "dockable": {
+                  "type": "repr", 
+                  "repr": "True"
+                }, 
+                "parent": {
+                  "type": "repr", 
+                  "repr": "None"
+                }
+              }, 
+              "groups": {}
+            }
+          }
+        }, 
+        "plugin__fhwa2_gui__NumSatPlugin__1": {
+          "keys": {}, 
+          "groups": {
+            "dock_widget__NumErrWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr", 
+                  "repr": "False"
+                }, 
+                "parent": {
+                  "type": "repr", 
+                  "repr": "None"
+                }
+              }, 
+              "groups": {}
+            }
+          }
+        }, 
+        "plugin__fhwa2_gui__ErrorPlugin__1": {
+          "keys": {}, 
+          "groups": {
+            "dock_widget__DataPlotWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr", 
+                  "repr": "False"
+                }, 
+                "parent": {
+                  "type": "repr", 
+                  "repr": "None"
+                }
+              }, 
+              "groups": {}
+            }
+          }
+        }
+      }
+    }, 
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "type": "repr(QByteArray.hex)", 
+          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb0001000000000144000001ab0000049d000003da0000014c000001c700000495000003d2000000010000')", 
+          "pretty-print": "     D       L         "
+        }, 
+        "state": {
+          "type": "repr(QByteArray.hex)", 
+          "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd00000001000000030000034a000001ddfc0100000003fb00000026007200710074005f007200760069007a005f005f005200560069007a005f005f0031005f005f01000000000000034a0000013700fffffffb0000005200660068007700610032005f006700750069005f005f004500720072006f00720050006c007500670069006e005f005f0031005f005f00440061007400610050006c006f0074005700690064006700650074030000012a000001e600000233000000f2fb0000005000660068007700610032005f006700750069005f005f004e0075006d0053006100740050006c007500670069006e005f005f0031005f005f004e0075006d004500720072005700690064006700650074030000019a000002f7000000aa000000a80000034a0000000000000004000000040000000800000008fc00000000')", 
+          "pretty-print": "                 &rqt_rviz__RViz__1__          Rfhwa2_gui__ErrorPlugin__1__DataPlotWidget          Pfhwa2_gui__NumSatPlugin__1__NumErrWidget                       "
+        }
+      }, 
+      "groups": {}
+    }
+  }
+}

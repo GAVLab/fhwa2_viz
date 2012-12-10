@@ -39,9 +39,9 @@ class MOOS2RVIZ:
 
         self.UTMdatum = rospy.get_param('/UTMdatum')
         self.coord_sys = rospy.get_param("~coord_sys")
-        self.color = {'r': int(rospy.get_param("/"+self.tag+"_color").split(',')[0])*255,
-                      'g': int(rospy.get_param("/"+self.tag+"_color").split(',')[1])*255,
-                      'b': int(rospy.get_param("/"+self.tag+"_color").split(',')[2])*255}
+        self.color = {'r': float(rospy.get_param("/"+self.tag+"_color").split(',')[0]),
+                      'g': float(rospy.get_param("/"+self.tag+"_color").split(',')[1]),
+                      'b': float(rospy.get_param("/"+self.tag+"_color").split(',')[2])}
         self.legend_text_height = rospy.get_param("~legend_text_height")
         self.legend_text = rospy.get_param("/"+self.tag+"_text")      
         self.veh_mesh_resource = rospy.get_param("~veh_mesh_resource")

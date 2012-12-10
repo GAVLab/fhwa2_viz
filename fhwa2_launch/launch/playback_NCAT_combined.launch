@@ -12,7 +12,7 @@
         rtk_color: 0,1,0
         rtk_text: RTK
 
-        gps_color: 1,0,0
+        gps_color: 1,0.5,0.5
         gps_text: GPS
 
         flt_color: 0,0,1
