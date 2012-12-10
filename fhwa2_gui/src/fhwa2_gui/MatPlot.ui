@@ -61,7 +61,7 @@
      </property>
      <property name="maximumSize">
       <size>
-       <width>200</width>
+       <width>110</width>
        <height>16777215</height>
       </size>
      </property>
@@ -124,7 +124,7 @@
            <enum>Qt::DefaultContextMenu</enum>
           </property>
           <property name="text">
-           <string>Subscribe Topic</string>
+           <string>Subscribe</string>
           </property>
           <property name="checkable">
            <bool>false</bool>

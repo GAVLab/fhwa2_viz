@@ -42,14 +42,14 @@ class MAP2RVIZ(object):
         self.marking_mesh_resource = rospy.get_param("~marking_mesh_resource")
 
         self.sign_mesh_resource = rospy.get_param('~sign_mesh_resource')
-        self.sign_file_loc = rospy.get_param('~survey_sign_locs')
+        # self.sign_file_loc = rospy.get_param('~survey_sign_locs')
 
     def set_publishers(self):
         """startup function"""
         self.map_stripe_publisher = rospy.Publisher('/map/survey_stripes', MarkerArray, latch=True)
         self.map_lane_publisher = rospy.Publisher('/map/survey_lanes', MarkerArray, latch=True)
         self.track_mesh_publisher = rospy.Publisher('/map/mesh', MarkerArray, latch=True)
-        self.sign_publisher = rospy.Publisher('/map/signs', MarkerArray, latch=True)
+        # self.sign_publisher = rospy.Publisher('/map/signs', MarkerArray, latch=True)
 
     def survey(self):
         """
@@ -58,7 +58,6 @@ class MAP2RVIZ(object):
         """
         stripes = []
         centers = []
-        signs = []
 
         for stripe_file_loc in self.survey_stripe_locs:
             stripe_file = open(os.path.join(self.prefix, stripe_file_loc), 'rU')
@@ -74,23 +73,16 @@ class MAP2RVIZ(object):
                 pt_list = line.split(' ')
                 centers.append(pt_list)
 
-        sign_file = open(os.path.join(self.prefix, self.sign_file_loc), 'rU')
-        for line in sign_file:
-            line = line[0:-2]
-            pt_list = line.split(' ')
-            signs.append(pt_list)
-
-        return stripes, centers, signs
+        return stripes, centers
 
     def create_map(self):
         """
         This function collects the survey data and puts it into marker arrays ready to be published in rviz
         """
-        (stripes, centers, signs) = self.survey()
+        stripes, centers = self.survey()
         
         self.map_stripe_array = MarkerArray()
         self.map_lane_array = MarkerArray()
-        self.sign_array = MarkerArray()
         
         NCAT_id = 0
         
@@ -154,45 +146,6 @@ class MAP2RVIZ(object):
         self.map_lane_publisher.publish(self.map_lane_array) # publish lane centers as markers
         print('mapBridge: Lane Center Markers have been printed')
 
-        ### Signs ##############################################################
-        for pt in signs:
-            lat = float(pt[0])
-            lon = float(pt[1])
-            (east, nrth, _), _ = self.gps.lla2utm((lat, lon, 0))
-
-            marker = Marker()
-            marker.header.frame_id = 'odom'
-            marker.id = NCAT_id
-            marker.action = Marker.ADD
-            marker.lifetime = rospy.Duration()
-            marker.ns = "signs"
-            marker.type = Marker.MESH_RESOURCE
-            marker.mesh_use_embedded_materials = False
-            marker.mesh_resource = '//'.join(['file:', self.sign_mesh_resource])
-            marker.color.r = 1
-            marker.color.g = 255
-            marker.color.b = 1
-            marker.color.a = 1
-            marker.scale.x = .0254
-            marker.scale.y = .0254
-            marker.scale.z = .0254
-            marker.pose.position.x = east - float(self.UTMdatum['E']) 
-            marker.pose.position.y = nrth - float(self.UTMdatum['N']) 
-            marker.pose.position.z = 0 # zero is a novatel mount level
-
-            pos_angle = atan2(marker.pose.position.y, marker.pose.position.x)
-            face = pos_angle + pi
-            orient = qfe(0, 0, face)
-            marker.pose.orientation.x = orient[0]
-            marker.pose.orientation.y = orient[1]
-            marker.pose.orientation.z = orient[2]
-            marker.pose.orientation.w = orient[3]
-
-            self.sign_array.markers.append(marker)
-
-            NCAT_id += 1
-        self.sign_publisher.publish(self.sign_array)
-
 
     def create_map_mesh(self):
         """Puts a blender mesh of the paement and stripes (continuous) into rviz"""
@@ -243,6 +196,29 @@ class MAP2RVIZ(object):
             marker.color.b = 0
             marker.color.a = 1.0
             marker_array.markers.append(marker)
+
+        if self.sign_mesh_resource:
+            marker = Marker()
+            marker.header.frame_id = 'odom' # publish in static frame
+            marker.id = 1
+            marker.action = Marker.ADD
+            marker.lifetime = rospy.Duration() # immortal unless changed
+            marker.ns = "track_mesh_section_signs"
+            marker.type = Marker.MESH_RESOURCE
+            marker.mesh_use_embedded_materials = False
+            marker.mesh_resource = '//'.join(['file:',self.sign_mesh_resource])
+            marker.pose.position.x = 0# - float(self.UTMdatum['E']) 
+            marker.pose.position.y = 0# - float(self.UTMdatum['N']) 
+            marker.pose.position.z = 0
+            marker.scale.x = 1
+            marker.scale.y = 1
+            marker.scale.z = 1
+            marker.color.r = 0.1
+            marker.color.g = 0.6
+            marker.color.b = 0.1
+            marker.color.a = 1.0
+            marker_array.markers.append(marker)
+
         
         self.track_mesh_publisher.publish(marker_array)
 

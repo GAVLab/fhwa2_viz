@@ -58,8 +58,8 @@
         <param name="track_mesh_resource" value="$(find fhwa2_survey)/mesh/NCAT_pavement_plane.stl"/>
         <param name="marking_mesh_resource" value=""/>
 
-        <param name="sign_mesh_resource" value="$(find fhwa2_survey)/mesh/sign.stl"/>
-        <param name="survey_sign_locs" value="survey/signs/sections.txt"/>
+        <param name="sign_mesh_resource" value="$(find fhwa2_survey)/mesh/NCAT_section_signs.stl"/>
+        <!-- <param name="survey_sign_locs" value="survey/signs/sections.txt"/> -->
 
         <param name="survey_stripe_locs"
             value="survey/stripes/inner.txt, survey/stripes/middle.txt, survey/stripes/outer.txt"/>
