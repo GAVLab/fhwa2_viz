@@ -9,10 +9,10 @@
                  PUT REFERENCE FIRST -->
         tags: ["rtk","gps","flt","psu","sri"]
 
-        rtk_color: 0,1,0
+        rtk_color: 1,0.55,0
         rtk_text: RTK
 
-        gps_color: 1,0,0
+        gps_color: 0,1,1
         gps_text: GPS
 
         flt_color: 0,0,1
@@ -60,6 +60,7 @@
 
         <param name="sign_mesh_resource" value="$(find fhwa2_survey)/mesh/NCAT_section_signs.stl"/>
         <!-- <param name="survey_sign_locs" value="survey/signs/sections.txt"/> -->
+        <param name="stop_mesh_resource" value="$(find fhwa2_survey)/mesh/NCAT_stop_sign_oneway.stl"/>
 
         <param name="survey_stripe_locs"
             value="survey/stripes/inner.txt, survey/stripes/middle.txt, survey/stripes/outer.txt"/>
